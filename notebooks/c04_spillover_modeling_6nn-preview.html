@@ -349,7 +349,10 @@
   <li><a href="#background-context" id="toc-background-context" class="nav-link" data-scroll-target="#background-context">1. Background &amp; Context</a></li>
   <li><a href="#setup" id="toc-setup" class="nav-link" data-scroll-target="#setup">2. Setup</a></li>
   <li><a href="#main-analysis" id="toc-main-analysis" class="nav-link" data-scroll-target="#main-analysis">3. Main Analysis</a></li>
-  <li><a href="#results-table" id="toc-results-table" class="nav-link" data-scroll-target="#results-table">4. Results Table</a></li>
+  <li><a href="#results-table" id="toc-results-table" class="nav-link" data-scroll-target="#results-table">4. Results Table</a>
+  <ul class="collapse">
+  <li><a href="#implied-speed-of-convergence" id="toc-implied-speed-of-convergence" class="nav-link" data-scroll-target="#implied-speed-of-convergence">4.1 Implied speed of convergence</a></li>
+  </ul></li>
   <li><a href="#robustness-alternative-spatial-impact-methods" id="toc-robustness-alternative-spatial-impact-methods" class="nav-link" data-scroll-target="#robustness-alternative-spatial-impact-methods">5. Robustness: alternative spatial-impact methods</a></li>
   </ul>
 </nav>
@@ -360,7 +363,7 @@
 <p>This notebook estimates <strong>8 econometric models</strong> to analyze convergence in nighttime light intensity across 520 Indian districts (1996–2010). It compares standard OLS regressions with <strong>Spatial Durbin Models (SDM)</strong> that account for spatial spillovers between neighboring districts. The models follow a 2×2×2 design: OLS vs SDM, unconditional vs conditional, without vs with state fixed effects. Results are presented as four model columns, each estimated by OLS and by SDM. For details on the model design and spatial weights, see the Background &amp; Context section below.</p>
 <section id="running-the-analysis-in-python" class="level2">
 <h2 class="anchored" data-anchor-id="running-the-analysis-in-python">Running the analysis in Python</h2>
-<p>This notebook runs on the <code>project2025s</code> Python kernel managed by <a href="https://docs.astral.sh/uv/">uv</a>. The spatial econometrics rely on the open-source <a href="https://pysal.org/">PySAL</a> ecosystem:</p>
+<p>This notebook runs on the project’s Python environment managed by <a href="https://docs.astral.sh/uv/">uv</a> (the repo-local <code>python3</code> kernel). The spatial econometrics rely on the open-source <a href="https://pysal.org/">PySAL</a> ecosystem:</p>
 <ul>
 <li><strong><code>geopandas</code></strong> — reads the district geometries (<code>india520.geojson</code>) used to build the spatial weights.</li>
 <li><strong><code>libpysal</code></strong> — constructs the row-standardized 6-nearest-neighbor (6NN) spatial weights matrix from district centroids.</li>
@@ -630,23 +633,24 @@
 <span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Model 4"</span>: <span class="bu">dict</span>(cols<span class="op">=</span>[XKEY] <span class="op">+</span> CONTROLS, fe<span class="op">=</span><span class="va">True</span>),   <span class="co"># conditional, + state FE</span></span>
 <span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a>}</span>
 <span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-9"><a href="#cb6-9" aria-hidden="true" tabindex="-1"></a>results <span class="op">=</span> {}</span>
-<span id="cb6-10"><a href="#cb6-10" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> tag, sp <span class="kw">in</span> specs.items():</span>
-<span id="cb6-11"><a href="#cb6-11" aria-hidden="true" tabindex="-1"></a>    Xdf <span class="op">=</span> m[sp[<span class="st">"cols"</span>]].copy()</span>
-<span id="cb6-12"><a href="#cb6-12" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> sp[<span class="st">"fe"</span>]:</span>
-<span id="cb6-13"><a href="#cb6-13" aria-hidden="true" tabindex="-1"></a>        Xdf <span class="op">=</span> pd.concat([Xdf, fe], axis<span class="op">=</span><span class="dv">1</span>)</span>
-<span id="cb6-14"><a href="#cb6-14" aria-hidden="true" tabindex="-1"></a>    results[tag] <span class="op">=</span> {</span>
-<span id="cb6-15"><a href="#cb6-15" aria-hidden="true" tabindex="-1"></a>        <span class="st">"ols"</span>: run_ols(y, Xdf),</span>
-<span id="cb6-16"><a href="#cb6-16" aria-hidden="true" tabindex="-1"></a>        <span class="st">"sdm"</span>: run_sdm(y, Xdf, w, Wd),</span>
-<span id="cb6-17"><a href="#cb6-17" aria-hidden="true" tabindex="-1"></a>        <span class="st">"controls"</span>: <span class="st">"Yes"</span> <span class="cf">if</span> <span class="bu">len</span>(sp[<span class="st">"cols"</span>]) <span class="op">&gt;</span> <span class="dv">1</span> <span class="cf">else</span> <span class="st">"No"</span>,</span>
-<span id="cb6-18"><a href="#cb6-18" aria-hidden="true" tabindex="-1"></a>        <span class="st">"fe"</span>: <span class="st">"Yes"</span> <span class="cf">if</span> sp[<span class="st">"fe"</span>] <span class="cf">else</span> <span class="st">"No"</span>,</span>
-<span id="cb6-19"><a href="#cb6-19" aria-hidden="true" tabindex="-1"></a>    }</span>
-<span id="cb6-20"><a href="#cb6-20" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="st">"</span><span class="sc">{}</span><span class="st">: estimated (OLS + SDM)"</span>.<span class="bu">format</span>(tag))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb6-9"><a href="#cb6-9" aria-hidden="true" tabindex="-1"></a>np.random.seed(<span class="dv">20250620</span>)   <span class="co"># re-seed so Table 1 Monte-Carlo SEs reproduce regardless of upstream RNG use</span></span>
+<span id="cb6-10"><a href="#cb6-10" aria-hidden="true" tabindex="-1"></a>results <span class="op">=</span> {}</span>
+<span id="cb6-11"><a href="#cb6-11" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> tag, sp <span class="kw">in</span> specs.items():</span>
+<span id="cb6-12"><a href="#cb6-12" aria-hidden="true" tabindex="-1"></a>    Xdf <span class="op">=</span> m[sp[<span class="st">"cols"</span>]].copy()</span>
+<span id="cb6-13"><a href="#cb6-13" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> sp[<span class="st">"fe"</span>]:</span>
+<span id="cb6-14"><a href="#cb6-14" aria-hidden="true" tabindex="-1"></a>        Xdf <span class="op">=</span> pd.concat([Xdf, fe], axis<span class="op">=</span><span class="dv">1</span>)</span>
+<span id="cb6-15"><a href="#cb6-15" aria-hidden="true" tabindex="-1"></a>    results[tag] <span class="op">=</span> {</span>
+<span id="cb6-16"><a href="#cb6-16" aria-hidden="true" tabindex="-1"></a>        <span class="st">"ols"</span>: run_ols(y, Xdf),</span>
+<span id="cb6-17"><a href="#cb6-17" aria-hidden="true" tabindex="-1"></a>        <span class="st">"sdm"</span>: run_sdm(y, Xdf, w, Wd),</span>
+<span id="cb6-18"><a href="#cb6-18" aria-hidden="true" tabindex="-1"></a>        <span class="st">"controls"</span>: <span class="st">"Yes"</span> <span class="cf">if</span> <span class="bu">len</span>(sp[<span class="st">"cols"</span>]) <span class="op">&gt;</span> <span class="dv">1</span> <span class="cf">else</span> <span class="st">"No"</span>,</span>
+<span id="cb6-19"><a href="#cb6-19" aria-hidden="true" tabindex="-1"></a>        <span class="st">"fe"</span>: <span class="st">"Yes"</span> <span class="cf">if</span> sp[<span class="st">"fe"</span>] <span class="cf">else</span> <span class="st">"No"</span>,</span>
+<span id="cb6-20"><a href="#cb6-20" aria-hidden="true" tabindex="-1"></a>    }</span>
+<span id="cb6-21"><a href="#cb6-21" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="st">"</span><span class="sc">{}</span><span class="st">: estimated (OLS + SDM), rho=</span><span class="sc">{:.3f}</span><span class="st">"</span>.<span class="bu">format</span>(tag, results[tag][<span class="st">"sdm"</span>][<span class="st">"rho"</span>]))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>Model 1: estimated (OLS + SDM)
-Model 2: estimated (OLS + SDM)
-Model 3: estimated (OLS + SDM)
-Model 4: estimated (OLS + SDM)</code></pre>
+<pre><code>Model 1: estimated (OLS + SDM), rho=0.797
+Model 2: estimated (OLS + SDM), rho=0.369
+Model 3: estimated (OLS + SDM), rho=0.497
+Model 4: estimated (OLS + SDM), rho=0.199</code></pre>
 </div>
 </div></div>
 </section>
@@ -856,6 +860,85 @@ Table&nbsp;1: Unconditional and conditional convergence across districts.
 </figure>
 </div></div>
 </div></div>
+<section id="implied-speed-of-convergence" class="level3">
+<h3 class="anchored" data-anchor-id="implied-speed-of-convergence">4.1 Implied speed of convergence</h3>
+<p>The convergence coefficients above translate into an annual <strong>speed of convergence</strong> <span class="math inline">\(\lambda = -\ln(1 + \beta T)/T\)</span> (Barro &amp; Sala-i-Martin), with <span class="math inline">\(T = 14\)</span> years (1996–2010), the dependent variable being the average annual growth rate, and <span class="math inline">\(\beta\)</span> the total effect of initial luminosity; the <strong>half-life</strong> is <span class="math inline">\(\ln(2)/\lambda\)</span>. Comparing the OLS and SDM total effects shows directly how spatial spillovers raise the implied speed and shorten the half-life.</p>
+<div class="cell-container"><div class="cell-decorator"><pre>In [8]:</pre></div><div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>T <span class="op">=</span> <span class="dv">14</span>  <span class="co"># 1996-2010; dependent variable is the average annual growth rate</span></span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> _speed(beta):</span>
+<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a>    arg <span class="op">=</span> <span class="dv">1</span> <span class="op">+</span> beta <span class="op">*</span> T</span>
+<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> arg <span class="op">&lt;=</span> <span class="dv">0</span>:</span>
+<span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> <span class="bu">float</span>(<span class="st">"nan"</span>), <span class="bu">float</span>(<span class="st">"nan"</span>)</span>
+<span id="cb9-8"><a href="#cb9-8" aria-hidden="true" tabindex="-1"></a>    lam <span class="op">=</span> <span class="op">-</span>np.log(arg) <span class="op">/</span> T</span>
+<span id="cb9-9"><a href="#cb9-9" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> lam, np.log(<span class="dv">2</span>) <span class="op">/</span> lam</span>
+<span id="cb9-10"><a href="#cb9-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-11"><a href="#cb9-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-12"><a href="#cb9-12" aria-hidden="true" tabindex="-1"></a>srows <span class="op">=</span> [</span>
+<span id="cb9-13"><a href="#cb9-13" aria-hidden="true" tabindex="-1"></a>    <span class="st">"| Model | OLS speed | SDM speed | OLS half-life | SDM half-life |"</span>,</span>
+<span id="cb9-14"><a href="#cb9-14" aria-hidden="true" tabindex="-1"></a>    <span class="st">"|-------|-----------|-----------|---------------|---------------|"</span>,</span>
+<span id="cb9-15"><a href="#cb9-15" aria-hidden="true" tabindex="-1"></a>]</span>
+<span id="cb9-16"><a href="#cb9-16" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> c <span class="kw">in</span> [<span class="st">"Model 1"</span>, <span class="st">"Model 2"</span>, <span class="st">"Model 3"</span>, <span class="st">"Model 4"</span>]:</span>
+<span id="cb9-17"><a href="#cb9-17" aria-hidden="true" tabindex="-1"></a>    lo, hlo <span class="op">=</span> _speed(results[c][<span class="st">"ols"</span>][<span class="st">"total"</span>])</span>
+<span id="cb9-18"><a href="#cb9-18" aria-hidden="true" tabindex="-1"></a>    ls, hls <span class="op">=</span> _speed(results[c][<span class="st">"sdm"</span>][<span class="st">"total"</span>])</span>
+<span id="cb9-19"><a href="#cb9-19" aria-hidden="true" tabindex="-1"></a>    srows.append(<span class="st">"| </span><span class="sc">{}</span><span class="st"> | </span><span class="sc">{:.1%}</span><span class="st"> | </span><span class="sc">{:.1%}</span><span class="st"> | </span><span class="sc">{:.0f}</span><span class="st"> yr | </span><span class="sc">{:.0f}</span><span class="st"> yr |"</span>.<span class="bu">format</span>(c, lo, ls, hlo, hls))</span>
+<span id="cb9-20"><a href="#cb9-20" aria-hidden="true" tabindex="-1"></a>Markdown(<span class="st">"</span><span class="ch">\n</span><span class="st">"</span>.join(srows))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-container"><div class="cell-decorator"><pre>In [9]:</pre></div><div id="tbl-speed" class="cell quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-tbl figure">
+<figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-speed-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Table&nbsp;2: Implied annual speed of convergence and half-life by model, from the OLS and SDM total effects of initial luminosity.
+</figcaption>
+<div aria-describedby="tbl-speed-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<div class="cell-output cell-output-display cell-output-markdown" data-execution_count="7">
+<table class="cell caption-top table table-sm table-striped small">
+<thead>
+<tr class="header">
+<th>Model</th>
+<th>OLS speed</th>
+<th>SDM speed</th>
+<th>OLS half-life</th>
+<th>SDM half-life</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Model 1</td>
+<td>2.3%</td>
+<td>2.6%</td>
+<td>30 yr</td>
+<td>27 yr</td>
+</tr>
+<tr class="even">
+<td>Model 2</td>
+<td>2.6%</td>
+<td>2.7%</td>
+<td>27 yr</td>
+<td>26 yr</td>
+</tr>
+<tr class="odd">
+<td>Model 3</td>
+<td>3.0%</td>
+<td>6.2%</td>
+<td>23 yr</td>
+<td>11 yr</td>
+</tr>
+<tr class="even">
+<td>Model 4</td>
+<td>3.0%</td>
+<td>5.2%</td>
+<td>23 yr</td>
+<td>13 yr</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</figure>
+</div></div>
+</div></div>
+<p>In the preferred Model 4 the implied annual speed of convergence rises from the OLS estimate to the SDM estimate, shortening the half-life accordingly — a direct, quantitative statement of how spatial spillovers accelerate the convergence process.</p>
+</section>
 </section>
 <section id="robustness-alternative-spatial-impact-methods" class="level2">
 <h2 class="anchored" data-anchor-id="robustness-alternative-spatial-impact-methods">5. Robustness: alternative spatial-impact methods</h2>
@@ -866,52 +949,52 @@ Table&nbsp;1: Unconditional and conditional convergence across districts.
 <li><strong>power</strong> — a power-series approximation of <span class="math inline">\((I-\rho W)^{-1}\)</span>.</li>
 </ul>
 <p>Because the weights are row-standardised, the <strong>Total</strong> impact is invariant to the method (<span class="math inline">\(\text{ATI}=1/(1-\rho)\)</span>); only the split between Direct and Indirect can move.</p>
-<div class="cell-container"><div class="cell-decorator"><pre>In [8]:</pre></div><div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Re-estimate the preferred Model 4 (conditional + state FE) and compare the</span></span>
-<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a><span class="co"># three spreg impact methods for the key regressor (log_light96_rcr_cap).</span></span>
-<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>Xdf4 <span class="op">=</span> pd.concat([m[[XKEY] <span class="op">+</span> CONTROLS], fe], axis<span class="op">=</span><span class="dv">1</span>)</span>
-<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a>Xv4 <span class="op">=</span> Xdf4.astype(<span class="bu">float</span>).values</span>
-<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a>mask4 <span class="op">=</span> full_rank_lag_mask(Xv4, Wd)</span>
-<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a>slx4 <span class="op">=</span> <span class="st">"All"</span> <span class="cf">if</span> <span class="bu">all</span>(mask4) <span class="cf">else</span> mask4</span>
-<span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a><span class="cf">with</span> redirect_stdout(<span class="bu">open</span>(os.devnull, <span class="st">"w"</span>)):</span>
-<span id="cb9-8"><a href="#cb9-8" aria-hidden="true" tabindex="-1"></a>    mod4 <span class="op">=</span> ML_Lag(y<span class="op">=</span>y, x<span class="op">=</span>Xv4, w<span class="op">=</span>w, slx_lags<span class="op">=</span><span class="dv">1</span>, slx_vars<span class="op">=</span>slx4,</span>
-<span id="cb9-9"><a href="#cb9-9" aria-hidden="true" tabindex="-1"></a>                  spat_impacts<span class="op">=</span>[<span class="st">"simple"</span>, <span class="st">"full"</span>, <span class="st">"power"</span>])</span>
-<span id="cb9-10"><a href="#cb9-10" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb9-11"><a href="#cb9-11" aria-hidden="true" tabindex="-1"></a>b4 <span class="op">=</span> mod4.betas.flatten()</span>
-<span id="cb9-12"><a href="#cb9-12" aria-hidden="true" tabindex="-1"></a>k4 <span class="op">=</span> Xv4.shape[<span class="dv">1</span>]</span>
-<span id="cb9-13"><a href="#cb9-13" aria-hidden="true" tabindex="-1"></a>i_b, i_g, i_r <span class="op">=</span> <span class="dv">1</span>, <span class="dv">1</span> <span class="op">+</span> k4, <span class="bu">len</span>(b4) <span class="op">-</span> <span class="dv">1</span></span>
-<span id="cb9-14"><a href="#cb9-14" aria-hidden="true" tabindex="-1"></a>rho4 <span class="op">=</span> b4[i_r]</span>
-<span id="cb9-15"><a href="#cb9-15" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb9-16"><a href="#cb9-16" aria-hidden="true" tabindex="-1"></a>np.random.seed(<span class="dv">20250620</span>)</span>
-<span id="cb9-17"><a href="#cb9-17" aria-hidden="true" tabindex="-1"></a>draws4 <span class="op">=</span> np.random.multivariate_normal(b4, mod4.vm, size<span class="op">=</span>N_MC)</span>
-<span id="cb9-18"><a href="#cb9-18" aria-hidden="true" tabindex="-1"></a>D4, G4, R4 <span class="op">=</span> draws4[:, i_b], draws4[:, i_g], draws4[:, i_r]</span>
-<span id="cb9-19"><a href="#cb9-19" aria-hidden="true" tabindex="-1"></a>T4 <span class="op">=</span> (D4 <span class="op">+</span> G4) <span class="op">/</span> (<span class="dv">1</span> <span class="op">-</span> R4)            <span class="co"># Total is identical across methods</span></span>
-<span id="cb9-20"><a href="#cb9-20" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb9-21"><a href="#cb9-21" aria-hidden="true" tabindex="-1"></a>rob <span class="op">=</span> [</span>
-<span id="cb9-22"><a href="#cb9-22" aria-hidden="true" tabindex="-1"></a>    <span class="st">"| Method | Direct | Indirect | Total |"</span>,</span>
-<span id="cb9-23"><a href="#cb9-23" aria-hidden="true" tabindex="-1"></a>    <span class="st">"|--------|--------|----------|-------|"</span>,</span>
-<span id="cb9-24"><a href="#cb9-24" aria-hidden="true" tabindex="-1"></a>]</span>
-<span id="cb9-25"><a href="#cb9-25" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> method <span class="kw">in</span> [<span class="st">"full"</span>, <span class="st">"simple"</span>, <span class="st">"power"</span>]:</span>
-<span id="cb9-26"><a href="#cb9-26" aria-hidden="true" tabindex="-1"></a>    direct <span class="op">=</span> _adi(method, rho4)[<span class="dv">0</span>] <span class="op">*</span> b4[i_b]</span>
-<span id="cb9-27"><a href="#cb9-27" aria-hidden="true" tabindex="-1"></a>    total <span class="op">=</span> (b4[i_b] <span class="op">+</span> b4[i_g]) <span class="op">/</span> (<span class="dv">1</span> <span class="op">-</span> rho4)</span>
-<span id="cb9-28"><a href="#cb9-28" aria-hidden="true" tabindex="-1"></a>    indirect <span class="op">=</span> total <span class="op">-</span> direct</span>
-<span id="cb9-29"><a href="#cb9-29" aria-hidden="true" tabindex="-1"></a>    Deff <span class="op">=</span> _adi(method, R4) <span class="op">*</span> D4</span>
-<span id="cb9-30"><a href="#cb9-30" aria-hidden="true" tabindex="-1"></a>    Ieff <span class="op">=</span> T4 <span class="op">-</span> Deff</span>
-<span id="cb9-31"><a href="#cb9-31" aria-hidden="true" tabindex="-1"></a>    label <span class="op">=</span> method <span class="op">+</span> (<span class="st">" (main)"</span> <span class="cf">if</span> method <span class="op">==</span> <span class="st">"full"</span> <span class="cf">else</span> <span class="st">""</span>)</span>
-<span id="cb9-32"><a href="#cb9-32" aria-hidden="true" tabindex="-1"></a>    rob.append(<span class="st">"| </span><span class="sc">{}</span><span class="st"> | </span><span class="sc">{}</span><span class="st">&lt;br&gt;</span><span class="sc">{}</span><span class="st"> | </span><span class="sc">{}</span><span class="st">&lt;br&gt;</span><span class="sc">{}</span><span class="st"> | </span><span class="sc">{}</span><span class="st">&lt;br&gt;</span><span class="sc">{}</span><span class="st"> |"</span>.<span class="bu">format</span>(</span>
-<span id="cb9-33"><a href="#cb9-33" aria-hidden="true" tabindex="-1"></a>        label,</span>
-<span id="cb9-34"><a href="#cb9-34" aria-hidden="true" tabindex="-1"></a>        _est(direct, Deff.std()), _se(Deff.std()),</span>
-<span id="cb9-35"><a href="#cb9-35" aria-hidden="true" tabindex="-1"></a>        _est(indirect, Ieff.std()), _se(Ieff.std()),</span>
-<span id="cb9-36"><a href="#cb9-36" aria-hidden="true" tabindex="-1"></a>        _est(total, T4.std()), _se(T4.std()),</span>
-<span id="cb9-37"><a href="#cb9-37" aria-hidden="true" tabindex="-1"></a>    ))</span>
-<span id="cb9-38"><a href="#cb9-38" aria-hidden="true" tabindex="-1"></a>Markdown(<span class="st">"</span><span class="ch">\n</span><span class="st">"</span>.join(rob))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<div class="cell-container"><div class="cell-decorator"><pre>In [9]:</pre></div><div id="tbl-impacts-robustness" class="cell quarto-float quarto-figure quarto-figure-center anchored">
+<div class="cell-container"><div class="cell-decorator"><pre>In [10]:</pre></div><div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb10"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Re-estimate the preferred Model 4 (conditional + state FE) and compare the</span></span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a><span class="co"># three spreg impact methods for the key regressor (log_light96_rcr_cap).</span></span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>Xdf4 <span class="op">=</span> pd.concat([m[[XKEY] <span class="op">+</span> CONTROLS], fe], axis<span class="op">=</span><span class="dv">1</span>)</span>
+<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a>Xv4 <span class="op">=</span> Xdf4.astype(<span class="bu">float</span>).values</span>
+<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a>mask4 <span class="op">=</span> full_rank_lag_mask(Xv4, Wd)</span>
+<span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a>slx4 <span class="op">=</span> <span class="st">"All"</span> <span class="cf">if</span> <span class="bu">all</span>(mask4) <span class="cf">else</span> mask4</span>
+<span id="cb10-7"><a href="#cb10-7" aria-hidden="true" tabindex="-1"></a><span class="cf">with</span> redirect_stdout(<span class="bu">open</span>(os.devnull, <span class="st">"w"</span>)):</span>
+<span id="cb10-8"><a href="#cb10-8" aria-hidden="true" tabindex="-1"></a>    mod4 <span class="op">=</span> ML_Lag(y<span class="op">=</span>y, x<span class="op">=</span>Xv4, w<span class="op">=</span>w, slx_lags<span class="op">=</span><span class="dv">1</span>, slx_vars<span class="op">=</span>slx4,</span>
+<span id="cb10-9"><a href="#cb10-9" aria-hidden="true" tabindex="-1"></a>                  spat_impacts<span class="op">=</span>[<span class="st">"simple"</span>, <span class="st">"full"</span>, <span class="st">"power"</span>])</span>
+<span id="cb10-10"><a href="#cb10-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-11"><a href="#cb10-11" aria-hidden="true" tabindex="-1"></a>b4 <span class="op">=</span> mod4.betas.flatten()</span>
+<span id="cb10-12"><a href="#cb10-12" aria-hidden="true" tabindex="-1"></a>k4 <span class="op">=</span> Xv4.shape[<span class="dv">1</span>]</span>
+<span id="cb10-13"><a href="#cb10-13" aria-hidden="true" tabindex="-1"></a>i_b, i_g, i_r <span class="op">=</span> <span class="dv">1</span>, <span class="dv">1</span> <span class="op">+</span> k4, <span class="bu">len</span>(b4) <span class="op">-</span> <span class="dv">1</span></span>
+<span id="cb10-14"><a href="#cb10-14" aria-hidden="true" tabindex="-1"></a>rho4 <span class="op">=</span> b4[i_r]</span>
+<span id="cb10-15"><a href="#cb10-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-16"><a href="#cb10-16" aria-hidden="true" tabindex="-1"></a>np.random.seed(<span class="dv">20250620</span>)</span>
+<span id="cb10-17"><a href="#cb10-17" aria-hidden="true" tabindex="-1"></a>draws4 <span class="op">=</span> np.random.multivariate_normal(b4, mod4.vm, size<span class="op">=</span>N_MC)</span>
+<span id="cb10-18"><a href="#cb10-18" aria-hidden="true" tabindex="-1"></a>D4, G4, R4 <span class="op">=</span> draws4[:, i_b], draws4[:, i_g], draws4[:, i_r]</span>
+<span id="cb10-19"><a href="#cb10-19" aria-hidden="true" tabindex="-1"></a>T4 <span class="op">=</span> (D4 <span class="op">+</span> G4) <span class="op">/</span> (<span class="dv">1</span> <span class="op">-</span> R4)            <span class="co"># Total is identical across methods</span></span>
+<span id="cb10-20"><a href="#cb10-20" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-21"><a href="#cb10-21" aria-hidden="true" tabindex="-1"></a>rob <span class="op">=</span> [</span>
+<span id="cb10-22"><a href="#cb10-22" aria-hidden="true" tabindex="-1"></a>    <span class="st">"| Method | Direct | Indirect | Total |"</span>,</span>
+<span id="cb10-23"><a href="#cb10-23" aria-hidden="true" tabindex="-1"></a>    <span class="st">"|--------|--------|----------|-------|"</span>,</span>
+<span id="cb10-24"><a href="#cb10-24" aria-hidden="true" tabindex="-1"></a>]</span>
+<span id="cb10-25"><a href="#cb10-25" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> method <span class="kw">in</span> [<span class="st">"full"</span>, <span class="st">"simple"</span>, <span class="st">"power"</span>]:</span>
+<span id="cb10-26"><a href="#cb10-26" aria-hidden="true" tabindex="-1"></a>    direct <span class="op">=</span> _adi(method, rho4)[<span class="dv">0</span>] <span class="op">*</span> b4[i_b]</span>
+<span id="cb10-27"><a href="#cb10-27" aria-hidden="true" tabindex="-1"></a>    total <span class="op">=</span> (b4[i_b] <span class="op">+</span> b4[i_g]) <span class="op">/</span> (<span class="dv">1</span> <span class="op">-</span> rho4)</span>
+<span id="cb10-28"><a href="#cb10-28" aria-hidden="true" tabindex="-1"></a>    indirect <span class="op">=</span> total <span class="op">-</span> direct</span>
+<span id="cb10-29"><a href="#cb10-29" aria-hidden="true" tabindex="-1"></a>    Deff <span class="op">=</span> _adi(method, R4) <span class="op">*</span> D4</span>
+<span id="cb10-30"><a href="#cb10-30" aria-hidden="true" tabindex="-1"></a>    Ieff <span class="op">=</span> T4 <span class="op">-</span> Deff</span>
+<span id="cb10-31"><a href="#cb10-31" aria-hidden="true" tabindex="-1"></a>    label <span class="op">=</span> method <span class="op">+</span> (<span class="st">" (main)"</span> <span class="cf">if</span> method <span class="op">==</span> <span class="st">"full"</span> <span class="cf">else</span> <span class="st">""</span>)</span>
+<span id="cb10-32"><a href="#cb10-32" aria-hidden="true" tabindex="-1"></a>    rob.append(<span class="st">"| </span><span class="sc">{}</span><span class="st"> | </span><span class="sc">{}</span><span class="st">&lt;br&gt;</span><span class="sc">{}</span><span class="st"> | </span><span class="sc">{}</span><span class="st">&lt;br&gt;</span><span class="sc">{}</span><span class="st"> | </span><span class="sc">{}</span><span class="st">&lt;br&gt;</span><span class="sc">{}</span><span class="st"> |"</span>.<span class="bu">format</span>(</span>
+<span id="cb10-33"><a href="#cb10-33" aria-hidden="true" tabindex="-1"></a>        label,</span>
+<span id="cb10-34"><a href="#cb10-34" aria-hidden="true" tabindex="-1"></a>        _est(direct, Deff.std()), _se(Deff.std()),</span>
+<span id="cb10-35"><a href="#cb10-35" aria-hidden="true" tabindex="-1"></a>        _est(indirect, Ieff.std()), _se(Ieff.std()),</span>
+<span id="cb10-36"><a href="#cb10-36" aria-hidden="true" tabindex="-1"></a>        _est(total, T4.std()), _se(T4.std()),</span>
+<span id="cb10-37"><a href="#cb10-37" aria-hidden="true" tabindex="-1"></a>    ))</span>
+<span id="cb10-38"><a href="#cb10-38" aria-hidden="true" tabindex="-1"></a>Markdown(<span class="st">"</span><span class="ch">\n</span><span class="st">"</span>.join(rob))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-container"><div class="cell-decorator"><pre>In [11]:</pre></div><div id="tbl-impacts-robustness" class="cell quarto-float quarto-figure quarto-figure-center anchored">
 <figure class="quarto-float quarto-float-tbl figure">
 <figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-impacts-robustness-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Table&nbsp;2: Robustness of the Model 4 spatial impacts of initial luminosity to the impact-computation method (Monte-Carlo standard errors in parentheses).
+Table&nbsp;3: Robustness of the Model 4 spatial impacts of initial luminosity to the impact-computation method (Monte-Carlo standard errors in parentheses).
 </figcaption>
 <div aria-describedby="tbl-impacts-robustness-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-<div class="cell-output cell-output-display cell-output-markdown" data-execution_count="7">
+<div class="cell-output cell-output-display cell-output-markdown" data-execution_count="8">
 <table class="cell caption-top table table-sm table-striped small">
 <colgroup>
 <col style="width: 24%">
