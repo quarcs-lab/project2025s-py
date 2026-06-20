@@ -4,7 +4,7 @@
 
 | Resource | Link |
 | -------- | ---- |
-| Interactive manuscript | [quarcs-lab.github.io/project2025s](https://quarcs-lab.github.io/project2025s/) |
+| Interactive manuscript | [quarcs-lab.github.io/project2025s-py](https://quarcs-lab.github.io/project2025s-py/) |
 | Standard PDF | [`index.pdf`](index.pdf) |
 | REGION journal PDF | [`index-REGION.pdf`](index-REGION.pdf) |
 | Repository | [github.com/quarcs-lab/project2025s-py](https://github.com/quarcs-lab/project2025s-py) |
@@ -102,7 +102,7 @@ This project combines several open-source tools. Each one plays a specific role 
 
 ```bash
 # 1. Clone the repository
-git clone https://github.com/quarcs-lab/project2025s.git
+git clone https://github.com/quarcs-lab/project2025s-py.git
 cd project2025s
 
 # 2. Install Python dependencies (creates .venv/ automatically)
@@ -412,7 +412,7 @@ One source file produces four output formats, each optimized for a different pur
 
 | Output | Format | Purpose |
 | ------ | ------ | ------- |
-| [`index.html`](https://quarcs-lab.github.io/project2025s/) | Interactive HTML | Web reading, embedded notebooks, GitHub Pages |
+| [`index.html`](https://quarcs-lab.github.io/project2025s-py/) | Interactive HTML | Web reading, embedded notebooks, GitHub Pages |
 | [`index.pdf`](index.pdf) | Standard PDF (Letter) | General sharing, KOMA-Script, numeric citations |
 | [`index-REGION.pdf`](index-REGION.pdf) | REGION Journal PDF (A4) | Journal submission, author-year citations, line numbers |
 | [`index.docx`](index.docx) | Microsoft Word | Collaboration and commenting |
@@ -525,7 +525,7 @@ Under the following terms:
   author  = {Mendez, Carlos and Kabiraj, Sujana and Li, Jiaqi},
   title   = {Spatial Convergence of Nighttime Lights in India (1996--2010)},
   year    = {2026},
-  url     = {https://github.com/quarcs-lab/project2025s}
+  url     = {https://github.com/quarcs-lab/project2025s-py}
 }
 ```
 

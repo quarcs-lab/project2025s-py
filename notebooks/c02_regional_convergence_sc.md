@@ -12,7 +12,7 @@ kernelspec:
   name: project2025s
 ---
 
-<a href="https://colab.research.google.com/github/quarcs-lab/project2025s/blob/master/notebooks/c02_regional_convergence_sc.ipynb"><img src="https://colab.research.google.com/assets/colab-badge.svg" alt="Open In Colab" /></a>
+<a href="https://colab.research.google.com/github/quarcs-lab/project2025s-py/blob/master/notebooks/c02_regional_convergence_sc.ipynb"><img src="https://colab.research.google.com/assets/colab-badge.svg" alt="Open In Colab" /></a>
 
 +++
 
@@ -53,7 +53,7 @@ import os
 import urllib.request
 
 fname = "india520.dta"
-url = "https://raw.githubusercontent.com/quarcs-lab/project2025s/master/data/" + fname
+url = "https://raw.githubusercontent.com/quarcs-lab/project2025s-py/master/data/" + fname
 local = os.path.join("..", "data", fname)
 path = local if os.path.exists(local) else fname
 if path == fname and not os.path.exists(fname):

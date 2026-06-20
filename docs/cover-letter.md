@@ -14,7 +14,7 @@ Using satellite nighttime light data as a proxy for economic activity, this pape
 
 A distinctive feature of this submission is its fully reproducible, open-science design. The manuscript is built using Quarto's single-source publishing system with Jupyter notebooks in Python, R, and Stata, ensuring that every analytical step is transparent and verifiable. An interactive HTML version of the manuscript, including all embedded visualizations and computational notebooks, is available at:
 
-https://quarcs-lab.github.io/project2025s
+https://quarcs-lab.github.io/project2025s-py
 
 We believe this work fits well within the scope of REGION given its focus on spatial analysis, regional convergence, and reproducible methodology.
 

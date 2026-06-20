@@ -12,7 +12,7 @@ kernelspec:
   name: python3
 ---
 
-<a href="https://colab.research.google.com/github/quarcs-lab/project2025s/blob/master/notebooks/c03_spatial_dependence_lisa.ipynb"><img src="https://colab.research.google.com/assets/colab-badge.svg" alt="Open In Colab" /></a>
+<a href="https://colab.research.google.com/github/quarcs-lab/project2025s-py/blob/master/notebooks/c03_spatial_dependence_lisa.ipynb"><img src="https://colab.research.google.com/assets/colab-badge.svg" alt="Open In Colab" /></a>
 
 +++
 
@@ -82,12 +82,16 @@ np.random.seed(RANDOM_SEED)
 We load district geometries and nighttime lights variables from the GeoPackage, which already contains the 520-district sample merged with all analysis variables.
 
 ```{code-cell} ipython3
-# Load data from GitHub
+# Load data (local ../data first, else download from the public repo)
 import urllib.request, tempfile, os
-url = "https://raw.githubusercontent.com/quarcs-lab/project2025s/master/data/maps/india_2001_520.gpkg"
-temp_gpkg = os.path.join(tempfile.gettempdir(), "india_2001_520.gpkg")
-urllib.request.urlretrieve(url, temp_gpkg)
-gdf = gpd.read_file(temp_gpkg, engine="pyogrio")
+local_gpkg = os.path.join("..", "data", "maps", "india_2001_520.gpkg")
+url = "https://raw.githubusercontent.com/quarcs-lab/project2025s-py/master/data/maps/india_2001_520.gpkg"
+if os.path.exists(local_gpkg):
+    gdf = gpd.read_file(local_gpkg, engine="pyogrio")
+else:
+    temp_gpkg = os.path.join(tempfile.gettempdir(), "india_2001_520.gpkg")
+    urllib.request.urlretrieve(url, temp_gpkg)
+    gdf = gpd.read_file(temp_gpkg, engine="pyogrio")
 ```
 
 ```{code-cell} ipython3

@@ -3,7 +3,7 @@
 #  Replication of the spatial convergence model in:
 #
 #  "Regional growth, convergence, and spatial spillovers in India:
-#   A reproducible view from outer space" (quarcs-lab/project2025s)
+#   A reproducible view from outer space" (quarcs-lab/project2025s-py)
 #
 #  This script reproduces TABLE 1 ("Unconditional and conditional convergence
 #  across districts") of the article. The original estimation notebook (c04)
@@ -67,7 +67,7 @@ CONTROLS = [
     "lit_percent96", "higheredu_percent96", "elechh_percent96", "log_puccaroads",
 ]
 
-RAW = "https://raw.githubusercontent.com/quarcs-lab/project2025s/master/data"
+RAW = "https://raw.githubusercontent.com/quarcs-lab/project2025s-py/master/data"
 
 
 # ---------------------------------------------------------------------------

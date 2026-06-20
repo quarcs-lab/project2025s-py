@@ -357,7 +357,7 @@
 </div>
 <div id="quarto-margin-sidebar" class="sidebar margin-sidebar zindex-bottom">
 </div>
-<main class="content quarto-banner-title-block" id="quarto-document-content">        <p><a href="https://colab.research.google.com/github/quarcs-lab/project2025s/blob/master/notebooks/c02_regional_convergence_sc.ipynb"><img src="https://colab.research.google.com/assets/colab-badge.svg" alt="Open In Colab"></a></p>
+<main class="content quarto-banner-title-block" id="quarto-document-content">        <p><a href="https://colab.research.google.com/github/quarcs-lab/project2025s-py/blob/master/notebooks/c02_regional_convergence_sc.ipynb"><img src="https://colab.research.google.com/assets/colab-badge.svg" alt="Open In Colab"></a></p>
 <p>This notebook examines absolute <span class="math inline">\(\beta\)</span>-convergence in nighttime luminosity across 520 Indian districts (1996–2010). We regress per capita luminosity growth on initial luminosity levels and visualize the relationship in an annotated scatterplot. This analysis corresponds to the first set of results discussed in the main manuscript.</p>
 <section id="setup" class="level2">
 <h2 class="anchored" data-anchor-id="setup">Setup</h2>
@@ -390,7 +390,7 @@
 <span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> urllib.request</span>
 <span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>fname <span class="op">=</span> <span class="st">"india520.dta"</span></span>
-<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>url <span class="op">=</span> <span class="st">"https://raw.githubusercontent.com/quarcs-lab/project2025s/master/data/"</span> <span class="op">+</span> fname</span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>url <span class="op">=</span> <span class="st">"https://raw.githubusercontent.com/quarcs-lab/project2025s-py/master/data/"</span> <span class="op">+</span> fname</span>
 <span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a>local <span class="op">=</span> os.path.join(<span class="st">".."</span>, <span class="st">"data"</span>, fname)</span>
 <span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a>path <span class="op">=</span> local <span class="cf">if</span> os.path.exists(local) <span class="cf">else</span> fname</span>
 <span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> path <span class="op">==</span> fname <span class="kw">and</span> <span class="kw">not</span> os.path.exists(fname):</span>

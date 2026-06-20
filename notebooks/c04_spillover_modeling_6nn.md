@@ -12,7 +12,7 @@ kernelspec:
   name: project2025s
 ---
 
-<a href="https://colab.research.google.com/github/quarcs-lab/project2025s/blob/master/notebooks/c04_spillover_modeling_6nn.ipynb"><img src="https://colab.research.google.com/assets/colab-badge.svg" alt="Open In Colab" /></a>
+<a href="https://colab.research.google.com/github/quarcs-lab/project2025s-py/blob/master/notebooks/c04_spillover_modeling_6nn.ipynb"><img src="https://colab.research.google.com/assets/colab-badge.svg" alt="Open In Colab" /></a>
 
 +++
 
@@ -88,7 +88,7 @@ CONTROLS = [
     "lit_percent96", "higheredu_percent96", "elechh_percent96", "log_puccaroads",
 ]
 
-RAW = "https://raw.githubusercontent.com/quarcs-lab/project2025s/master/data"
+RAW = "https://raw.githubusercontent.com/quarcs-lab/project2025s-py/master/data"
 ```
 
 ```{code-cell} ipython3
