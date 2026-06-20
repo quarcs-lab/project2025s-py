@@ -1,0 +1,27 @@
+# Non-blinded author metadata used by the prepare-region-submission skill
+# to assemble the cover letter that accompanies each submission bundle.
+#
+# This file is read at skill invocation time. Any field left as the literal
+# string "[PROMPT ON FIRST RUN]" will cause the skill to prompt the user
+# interactively and save the value back to this file.
+#
+# DO NOT copy this file into submission bundles — it contains identifying
+# information. The prepare-region-submission skill never references it from
+# inside a bundle; it only reads it to generate the non-blind CoverLetter.md.
+
+corresponding_author:
+  name: "Carlos Mendez"
+  affiliation: "Graduate School of International Development, Nagoya University, Japan"
+  email: "carlosmendez777@gmail.com"
+
+co_authors:
+  - name: "Sujana Kabiraj"
+    affiliation: "Shiv Nadar University, India"
+  - name: "Jiaqi Li"
+    affiliation: "Nagoya University, Japan"
+
+manuscript:
+  title: "Regional growth, convergence, and spatial spillovers in India: A reproducible view from outer space"
+  target_journal: "REGION — The Journal of ERSA"
+  # Valid values: "first" (first submission) or "revision" (R1, R2, ...)
+  submission_type: "first"

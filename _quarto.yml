@@ -1,0 +1,83 @@
+project:
+  type: manuscript
+  output-dir: .
+  render:
+    - "*.qmd"
+    - "!legacy/"
+    - "!log/"
+
+manuscript:
+  article: index.qmd
+  notebooks:
+    - notebook: notebooks/c01_view_from_space.ipynb
+      title: "N1: View from outer space"
+    - notebook: notebooks/c02_regional_convergence_sc.ipynb
+      title: "N2: Regional convergence"
+    - notebook: notebooks/c03_spatial_dependence_lisa.ipynb
+      title: "N3: Spatial dependence"
+    - notebook: notebooks/c04_spillover_modeling_6nn.ipynb
+      title: "N4: Spillover modeling"
+    - notebook: notebooks/c06_spatial_culture.ipynb
+      title: "N5: Spatial culture"
+
+format:
+  # REGION journal PDF (uses extension template)
+  region-ersa/REGION-pdf:
+    keep-tex: true
+    docstatus: review  # Options: review, final, uncorrected
+    output-file: index-REGION
+    notebook-links: false
+
+  # Main HTML format for GitHub Pages
+  html:
+    # Table of Contents
+    toc: true
+    toc-depth: 3
+    toc-location: left
+    toc-title: "Contents"
+
+    # Theme and Appearance
+    theme:
+      light: cosmo
+      dark: darkly
+
+    # Code Display
+    code-fold: false
+    code-tools: true
+    code-copy: true
+
+    # Interactive Features
+    lightbox: true
+
+    # Navigation
+    anchor-sections: true
+    smooth-scroll: true
+
+    # Citations and References
+    citation-location: document
+
+    # Comments (keep existing)
+    comments:
+      hypothesis: false
+
+    # Format Links
+    format-links: true
+
+  docx:
+    notebook-links: false
+
+  # Standard PDF (distinct from REGION format)
+  pdf:
+    documentclass: scrartcl
+    papersize: letter
+    number-sections: true
+    colorlinks: true
+    keep-tex: true  # For debugging/comparison
+    output-file: index
+    notebook-links: false
+
+execute:
+  freeze: auto
+
+editor: visual
+
