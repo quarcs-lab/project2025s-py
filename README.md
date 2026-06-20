@@ -82,9 +82,7 @@ This project combines several open-source tools. Each one plays a specific role 
 | [**uv**](https://docs.astral.sh/uv/) | Manages Python packages and virtual environments | Deterministic builds --- `uv.lock` ensures everyone installs identical package versions |
 | [**Jupytext**](https://jupytext.readthedocs.io/) | Pairs notebooks (`.ipynb`) with readable Markdown files (`.md`) | Edit code in clean text files instead of JSON blobs; better for version control |
 | [**Jupyter**](https://jupyter.org) | Runs computational notebooks interactively | Mix code, output, and narrative in a single document |
-| [**Python**](https://www.python.org) | Geospatial analysis (PySAL, GeoPandas) and visualization | Rich ecosystem for spatial statistics and mapping |
-| [**R**](https://www.r-project.org) | Convergence regression and scatter plots | Established statistical computing language |
-| [**Stata**](https://www.stata.com) | Spatial Durbin Model estimation | Industry-standard for spatial econometrics |
+| [**Python**](https://www.python.org) | All computation: convergence regression (statsmodels), spatial econometrics (PySAL / spreg), and geospatial analysis & visualization (GeoPandas) | A single open-source language for the entire pipeline |
 | [**Git / GitHub**](https://github.com) | Version control and hosting | Track every change; GitHub Pages hosts the live manuscript |
 
 ---
@@ -95,15 +93,13 @@ This project combines several open-source tools. Each one plays a specific role 
 
 - [uv](https://docs.astral.sh/uv/getting-started/installation/) (Python package manager)
 - [Quarto](https://quarto.org/docs/get-started/) (manuscript rendering)
-- [R](https://cran.r-project.org) (for the convergence notebook)
-- [Stata](https://www.stata.com) (optional, for the spillover notebook)
 
 ### 4 Steps to Reproduce
 
 ```bash
 # 1. Clone the repository
 git clone https://github.com/quarcs-lab/project2025s-py.git
-cd project2025s
+cd project2025s-py
 
 # 2. Install Python dependencies (creates .venv/ automatically)
 uv sync
@@ -132,18 +128,18 @@ This configures the Python interpreter and Jupytext extension to use the project
 ## Project Structure
 
 ```text
-project2025s/
+project2025s-py/
 │
 ├── index.qmd                  # Manuscript source (the ONE file you write in)
 │
 ├── notebooks/                 # Computational notebooks
 │   ├── c01_view_from_space.ipynb      # N1: Interactive GEE visualization
 │   ├── c01_view_from_space.md         #     ↔ MyST Markdown (editable)
-│   ├── c02_regional_convergence_sc.ipynb  # N2: Beta-convergence (R)
+│   ├── c02_regional_convergence_sc.ipynb  # N2: Beta-convergence (Python)
 │   ├── c02_regional_convergence_sc.md     #     ↔ MyST Markdown (editable)
 │   ├── c03_spatial_dependence_lisa.ipynb   # N3: LISA cluster maps (Python)
 │   ├── c03_spatial_dependence_lisa.md      #     ↔ MyST Markdown (editable)
-│   ├── c04_spillover_modeling_6nn.ipynb    # N4: Spatial Durbin Models (Stata)
+│   ├── c04_spillover_modeling_6nn.ipynb    # N4: Spatial Durbin Models (Python)
 │   └── c04_spillover_modeling_6nn.md       #     ↔ MyST Markdown (editable)
 │
 ├── data/                      # Data (raw inputs + generated weights matrix)
@@ -249,14 +245,14 @@ flowchart TB
 
 ## Computational Notebooks
 
-The analysis is organized into four Jupyter notebooks, each using the language best suited for the task:
+The analysis is organized into four Jupyter notebooks, all written in Python:
 
 | Notebook | Title | Language | Embedded in manuscript |
 | -------- | ----- | -------- | ---------------------- |
 | `c01_view_from_space` | View from outer space | Python | No (supplementary) |
-| `c02_regional_convergence_sc` | Regional convergence | R | Yes --- `fig-convergence` |
+| `c02_regional_convergence_sc` | Regional convergence | Python | Yes --- `fig-convergence` |
 | `c03_spatial_dependence_lisa` | Spatial dependence (LISA) | Python | Yes --- `fig-dependence-initial`, `fig-dependence-growth` |
-| `c04_spillover_modeling_6nn` | Spillover modeling | Stata | No (supplementary) |
+| `c04_spillover_modeling_6nn` | Spillover modeling | Python | Yes --- `tbl-models` |
 
 ### How notebooks feed into the manuscript
 
@@ -265,7 +261,7 @@ Quarto's `{{< embed >}}` shortcode pulls specific labeled figures from notebooks
 ```mermaid
 flowchart LR
     subgraph notebooks ["Notebooks"]
-        NB2["c02: R notebook<br/><code>#| label: fig-convergence</code>"]
+        NB2["c02: Python notebook<br/><code>#| label: fig-convergence</code>"]
         NB3["c03: Python notebook<br/><code>#| label: fig-dependence-initial</code><br/><code>#| label: fig-dependence-growth</code>"]
     end
 
@@ -289,9 +285,9 @@ Jupyter notebooks (`.ipynb`) are JSON files --- functional but hard to read and 
 | Notebook (`.ipynb`) | MyST Markdown (`.md`) | Kernel |
 | -------------------- | --------------------- | ------ |
 | `c01_view_from_space.ipynb` | `c01_view_from_space.md` | Python |
-| `c02_regional_convergence_sc.ipynb` | `c02_regional_convergence_sc.md` | R |
+| `c02_regional_convergence_sc.ipynb` | `c02_regional_convergence_sc.md` | Python |
 | `c03_spatial_dependence_lisa.ipynb` | `c03_spatial_dependence_lisa.md` | Python |
-| `c04_spillover_modeling_6nn.ipynb` | `c04_spillover_modeling_6nn.md` | Stata |
+| `c04_spillover_modeling_6nn.ipynb` | `c04_spillover_modeling_6nn.md` | Python |
 
 **What does a MyST Markdown file look like?**
 
@@ -541,7 +537,7 @@ Under the following terms:
 
 - DMSP-OLS Nighttime Lights data from [Google Earth Engine](https://earthengine.google.com)
 - Indian district boundary data from [geoBoundaries](https://www.geoboundaries.org)
-- Spatial econometric methods from [PySAL](https://pysal.org) and R spatial packages
+- Spatial econometric methods from [PySAL](https://pysal.org)
 - Quarto publishing system by [Posit](https://quarto.org)
 
 ---
