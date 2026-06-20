@@ -17,8 +17,10 @@ manuscript:
       title: "N3: Spatial dependence"
     - notebook: notebooks/c04_spillover_modeling_6nn.ipynb
       title: "N4: Spillover modeling"
+    - notebook: notebooks/c07_alternative_w_matrices.ipynb
+      title: "N5: Robustness — alternative spatial weights"
     - notebook: notebooks/c06_spatial_culture.ipynb
-      title: "N5: Spatial culture"
+      title: "N6: Spatial culture"
 
 format:
   # REGION journal PDF (uses extension template)

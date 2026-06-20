@@ -1075,6 +1075,95 @@ interactions between neighboring districts. Ignoring these interactions
 leads to both underestimated convergence speeds and inferior model
 performance.
 
+\subsection{Robustness to alternative spatial weight
+matrices}\label{robustness-to-alternative-spatial-weight-matrices}
+
+The spillover results above use a six-nearest-neighbor (6NN) spatial
+weight matrix. To assess their sensitivity to this choice, we
+re-estimate the preferred Model 4 under six alternative
+specifications---four- and eight-nearest neighbors, queen and rook
+contiguity, and inverse distance and inverse-distance-squared (each
+applied within a distance band)---and compare them with the 6NN
+baseline.
+
+\begin{figure}[H]
+
+\centering{
+
+\pandocbounded{\includegraphics[keepaspectratio]{index_files/figure-latex/notebooks-c07_alternative_w_matrices-fig-altw-output-1.png}}
+
+}
+
+\caption{\label{fig-altw}Robustness of the Model 4 spatial impacts of
+initial luminosity to the choice of spatial weight matrix. Points are
+Direct, Indirect, and Total impacts; bars are 95\% Monte-Carlo
+confidence intervals. The dashed lines mark the 6NN baseline estimates.}
+
+\end{figure}%
+
+{
+
+\begin{longtable}[]{@{}
+  >{\raggedright\arraybackslash}p{(\linewidth - 8\tabcolsep) * \real{0.3333}}
+  >{\raggedright\arraybackslash}p{(\linewidth - 8\tabcolsep) * \real{0.1778}}
+  >{\raggedright\arraybackslash}p{(\linewidth - 8\tabcolsep) * \real{0.2222}}
+  >{\raggedright\arraybackslash}p{(\linewidth - 8\tabcolsep) * \real{0.1556}}
+  >{\raggedright\arraybackslash}p{(\linewidth - 8\tabcolsep) * \real{0.1111}}@{}}
+
+\caption{\label{tbl-altw}Model 4 spatial impacts of initial luminosity
+under alternative spatial weight matrices (full LeSage--Pace method;
+Monte-Carlo standard errors in parentheses).}
+
+\tabularnewline
+
+\toprule\noalign{}
+\begin{minipage}[b]{\linewidth}\raggedright
+Weight matrix
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+Direct
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+Indirect
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+Total
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+AIC
+\end{minipage} \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+4 nearest neighbors & -0.024***(0.002) & -0.008(0.006) &
+-0.032***(0.006) & -2468 \\
+6 nearest neighbors (base) & -0.025***(0.002) & -0.013*(0.007) &
+-0.037***(0.007) & -2501 \\
+8 nearest neighbors & -0.025***(0.002) & -0.011(0.008) &
+-0.036***(0.008) & -2485 \\
+Queen contiguity & -0.025***(0.002) & -0.010**(0.005) & -0.035***(0.005)
+& -2463 \\
+Rook contiguity & -0.025***(0.002) & -0.009**(0.005) & -0.034***(0.005)
+& -2469 \\
+Inverse distance & -0.025***(0.002) & -0.016**(0.007) & -0.041***(0.008)
+& -2486 \\
+Inverse distance squared & -0.025***(0.002) & -0.012*(0.006) &
+-0.037***(0.006) & -2485 \\
+
+\end{longtable}
+
+}
+
+The convergence spillovers are robust to the choice of spatial weights
+(Figure~\ref{fig-altw} and Table~\ref{tbl-altw}). The direct
+(within-district) convergence effect is essentially unchanged across all
+seven specifications, ranging from -0.024 to -0.026 and always
+significant at the 1\% level. The total convergence effect likewise
+remains negative and significant throughout, ranging from -0.032 to
+-0.041, with the 6NN baseline (-0.037) near the middle of this range.
+The indirect (spillover) component is negative in every specification
+and statistically significant under most of them. This stability
+indicates that the evidence for spatial spillovers in the convergence
+process is not an artifact of the particular neighbor definition, but a
+consistent feature of the data.
+
 \section{Discussion}\label{discussion}
 
 \subsection{Beyond the economy: Luminosity and cultural
