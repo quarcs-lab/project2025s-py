@@ -1,0 +1,4 @@
+# Jupytext configuration
+# Each notebook stores its own pairing format in metadata (set via --set-formats).
+# All notebooks pair with .md files in MyST Markdown format (md:myst).
+# Use `uv run jupytext --sync notebooks/<file>` to synchronize after editing.
