@@ -360,7 +360,7 @@
 </div>
 <div id="quarto-margin-sidebar" class="sidebar margin-sidebar zindex-bottom">
 </div>
-<main class="content quarto-banner-title-block" id="quarto-document-content">        <p><a href="https://colab.research.google.com/github/quarcs-lab/project2025s/blob/master/notebooks/c03_spatial_dependence_lisa.ipynb"><img src="https://colab.research.google.com/assets/colab-badge.svg" alt="Open In Colab"></a></p>
+<main class="content quarto-banner-title-block" id="quarto-document-content">        <p><a href="https://colab.research.google.com/github/quarcs-lab/project2025s-py/blob/master/notebooks/c03_spatial_dependence_lisa.ipynb"><img src="https://colab.research.google.com/assets/colab-badge.svg" alt="Open In Colab"></a></p>
 <p>This notebook examines spatial dependence in nighttime luminosity across 520 Indian districts using Local Indicators of Spatial Association (LISA). We apply Local Moran’s I to both the initial level and the growth rate of luminosity per capita, and visualize the results as cluster maps identifying statistically significant spatial clusters (HH, LL) and outliers (HL, LH).</p>
 <section id="setup" class="level2">
 <h2 class="anchored" data-anchor-id="setup">Setup</h2>
@@ -422,12 +422,16 @@
 <h2 class="anchored" data-anchor-id="data">Data</h2>
 <p>We load district geometries and nighttime lights variables from the GeoPackage, which already contains the 520-district sample merged with all analysis variables.</p>
 <div class="cell-container"><div class="cell-decorator"><pre>In [3]:</pre></div><div id="cell-6" class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Load data from GitHub</span></span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Load data (local ../data first, else download from the public repo)</span></span>
 <span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> urllib.request, tempfile, os</span>
-<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>url <span class="op">=</span> <span class="st">"https://raw.githubusercontent.com/quarcs-lab/project2025s/master/data/maps/india_2001_520.gpkg"</span></span>
-<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>temp_gpkg <span class="op">=</span> os.path.join(tempfile.gettempdir(), <span class="st">"india_2001_520.gpkg"</span>)</span>
-<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>urllib.request.urlretrieve(url, temp_gpkg)</span>
-<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>gdf <span class="op">=</span> gpd.read_file(temp_gpkg, engine<span class="op">=</span><span class="st">"pyogrio"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>local_gpkg <span class="op">=</span> os.path.join(<span class="st">".."</span>, <span class="st">"data"</span>, <span class="st">"maps"</span>, <span class="st">"india_2001_520.gpkg"</span>)</span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>url <span class="op">=</span> <span class="st">"https://raw.githubusercontent.com/quarcs-lab/project2025s-py/master/data/maps/india_2001_520.gpkg"</span></span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> os.path.exists(local_gpkg):</span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>    gdf <span class="op">=</span> gpd.read_file(local_gpkg, engine<span class="op">=</span><span class="st">"pyogrio"</span>)</span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a><span class="cf">else</span>:</span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a>    temp_gpkg <span class="op">=</span> os.path.join(tempfile.gettempdir(), <span class="st">"india_2001_520.gpkg"</span>)</span>
+<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a>    urllib.request.urlretrieve(url, temp_gpkg)</span>
+<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a>    gdf <span class="op">=</span> gpd.read_file(temp_gpkg, engine<span class="op">=</span><span class="st">"pyogrio"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div></div>
 <div class="cell-container"><div class="cell-decorator"><pre>In [4]:</pre></div><div id="cell-7" class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Rename key variables for convenience</span></span>
@@ -925,7 +929,7 @@
 <a href="c03_spatial_dependence_lisa_files/figure-html/fig-chorophleths-output-1.png" class="lightbox" data-gallery="quarto-lightbox-gallery-1" title="Figure&nbsp;1: Spatial distribution of initial luminosity and luminosity growth   Notes: Districts are classified into five categories using Fisher-Jenks natural breaks. Panel (a) shows log of luminosity per capita in 1996. Panel (b) shows luminosity growth per capita over 1996–2010.   Source: Data from Chanda and Kabiraj (2020). See Spatial dependence notebook for source code."><img src="c03_spatial_dependence_lisa_files/figure-html/fig-chorophleths-output-1.png" class="img-fluid figure-img"></a>
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-chorophleths-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Figure&nbsp;1: Spatial distribution of initial luminosity and luminosity growth <br> Notes: Districts are classified into five categories using Fisher-Jenks natural breaks. Panel (a) shows log of luminosity per capita in 1996. Panel (b) shows luminosity growth per capita over 1996–2010. <br> Source: Data from Chanda and Kabiraj (2020). See <a href="https://quarcs-lab.github.io/project2025s/notebooks/c03_spatial_dependence_lisa.html">Spatial dependence</a> notebook for source code.
+Figure&nbsp;1: Spatial distribution of initial luminosity and luminosity growth <br> Notes: Districts are classified into five categories using Fisher-Jenks natural breaks. Panel (a) shows log of luminosity per capita in 1996. Panel (b) shows luminosity growth per capita over 1996–2010. <br> Source: Data from Chanda and Kabiraj (2020). See <a href="notebooks/c03_spatial_dependence_lisa.ipynb">Spatial dependence</a> notebook for source code.
 </figcaption>
 </figure>
 </div>
@@ -972,7 +976,7 @@ Figure&nbsp;1: Spatial distribution of initial luminosity and luminosity growth 
 <a href="c03_spatial_dependence_lisa_files/figure-html/fig-wmatrix6nn-output-1.png" class="lightbox" data-gallery="quarto-lightbox-gallery-2" title="Figure&nbsp;2: Spatial connectivity structure based on six nearest neighbors   Notes: Each node represents a district centroid. Each edge connects a district to one of its six geographically closest neighbors. The weight matrix is row-standardized.   Source: Data from Chanda and Kabiraj (2020). See Spatial dependence notebook for source code."><img src="c03_spatial_dependence_lisa_files/figure-html/fig-wmatrix6nn-output-1.png" class="img-fluid figure-img"></a>
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-wmatrix6nn-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Figure&nbsp;2: Spatial connectivity structure based on six nearest neighbors <br> Notes: Each node represents a district centroid. Each edge connects a district to one of its six geographically closest neighbors. The weight matrix is row-standardized. <br> Source: Data from Chanda and Kabiraj (2020). See <a href="https://quarcs-lab.github.io/project2025s/notebooks/c03_spatial_dependence_lisa.html">Spatial dependence</a> notebook for source code.
+Figure&nbsp;2: Spatial connectivity structure based on six nearest neighbors <br> Notes: Each node represents a district centroid. Each edge connects a district to one of its six geographically closest neighbors. The weight matrix is row-standardized. <br> Source: Data from Chanda and Kabiraj (2020). See <a href="notebooks/c03_spatial_dependence_lisa.ipynb">Spatial dependence</a> notebook for source code.
 </figcaption>
 </figure>
 </div>
@@ -1049,21 +1053,15 @@ Figure&nbsp;2: Spatial connectivity structure based on six nearest neighbors <br
 <span id="cb20-19"><a href="#cb20-19" aria-hidden="true" tabindex="-1"></a>               source<span class="op">=</span>cx.providers.CartoDB.Positron, </span>
 <span id="cb20-20"><a href="#cb20-20" aria-hidden="true" tabindex="-1"></a>               attribution<span class="op">=</span><span class="va">False</span>)</span>
 <span id="cb20-21"><a href="#cb20-21" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb20-22"><a href="#cb20-22" aria-hidden="true" tabindex="-1"></a><span class="co"># 3b. Overlay place labels for orientation (state/city names)</span></span>
-<span id="cb20-23"><a href="#cb20-23" aria-hidden="true" tabindex="-1"></a>cx.add_basemap(ax[<span class="dv">1</span>], </span>
-<span id="cb20-24"><a href="#cb20-24" aria-hidden="true" tabindex="-1"></a>               crs<span class="op">=</span>gdf.crs.to_string(), </span>
-<span id="cb20-25"><a href="#cb20-25" aria-hidden="true" tabindex="-1"></a>               source<span class="op">=</span>cx.providers.CartoDB.PositronOnlyLabels, </span>
-<span id="cb20-26"><a href="#cb20-26" aria-hidden="true" tabindex="-1"></a>               attribution<span class="op">=</span><span class="va">False</span>)</span>
-<span id="cb20-27"><a href="#cb20-27" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb20-28"><a href="#cb20-28" aria-hidden="true" tabindex="-1"></a><span class="co"># Optional: Remove axes ticks for the map to make it cleaner</span></span>
-<span id="cb20-29"><a href="#cb20-29" aria-hidden="true" tabindex="-1"></a>ax[<span class="dv">1</span>].set_axis_off()</span>
-<span id="cb20-30"><a href="#cb20-30" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb20-31"><a href="#cb20-31" aria-hidden="true" tabindex="-1"></a>plt.tight_layout()</span>
-<span id="cb20-32"><a href="#cb20-32" aria-hidden="true" tabindex="-1"></a><span class="cf">try</span>:</span>
-<span id="cb20-33"><a href="#cb20-33" aria-hidden="true" tabindex="-1"></a>    plt.savefig(<span class="st">"../images/lisaMAP1.png"</span>, dpi<span class="op">=</span><span class="dv">150</span>, bbox_inches<span class="op">=</span><span class="st">'tight'</span>)</span>
-<span id="cb20-34"><a href="#cb20-34" aria-hidden="true" tabindex="-1"></a><span class="cf">except</span> <span class="pp">OSError</span>:</span>
-<span id="cb20-35"><a href="#cb20-35" aria-hidden="true" tabindex="-1"></a>    <span class="cf">pass</span>  <span class="co"># Skip file export when running in Colab</span></span>
-<span id="cb20-36"><a href="#cb20-36" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb20-22"><a href="#cb20-22" aria-hidden="true" tabindex="-1"></a><span class="co"># Optional: Remove axes ticks for the map to make it cleaner</span></span>
+<span id="cb20-23"><a href="#cb20-23" aria-hidden="true" tabindex="-1"></a>ax[<span class="dv">1</span>].set_axis_off()</span>
+<span id="cb20-24"><a href="#cb20-24" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-25"><a href="#cb20-25" aria-hidden="true" tabindex="-1"></a>plt.tight_layout()</span>
+<span id="cb20-26"><a href="#cb20-26" aria-hidden="true" tabindex="-1"></a><span class="cf">try</span>:</span>
+<span id="cb20-27"><a href="#cb20-27" aria-hidden="true" tabindex="-1"></a>    plt.savefig(<span class="st">"../images/lisaMAP1.png"</span>, dpi<span class="op">=</span><span class="dv">150</span>, bbox_inches<span class="op">=</span><span class="st">'tight'</span>)</span>
+<span id="cb20-28"><a href="#cb20-28" aria-hidden="true" tabindex="-1"></a><span class="cf">except</span> <span class="pp">OSError</span>:</span>
+<span id="cb20-29"><a href="#cb20-29" aria-hidden="true" tabindex="-1"></a>    <span class="cf">pass</span>  <span class="co"># Skip file export when running in Colab</span></span>
+<span id="cb20-30"><a href="#cb20-30" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-display">
 <div id="fig-dependence-initial" class="quarto-float quarto-figure quarto-figure-center anchored">
 <figure class="quarto-float quarto-float-fig figure">
@@ -1071,7 +1069,7 @@ Figure&nbsp;2: Spatial connectivity structure based on six nearest neighbors <br
 <a href="c03_spatial_dependence_lisa_files/figure-html/fig-dependence-initial-output-1.png" class="lightbox" data-gallery="quarto-lightbox-gallery-3" title="Figure&nbsp;3: Spatial dependence in the initial level of luminosity   Notes: Panel (a) shows the Moran scatterplot with Global Moran’s I statistic. Panel (b) shows the LISA cluster map with statistically significant clusters at p < 0.05 based on 999 permutations.   Source: Data from Chanda and Kabiraj (2020). See Spatial dependence notebook for source code."><img src="c03_spatial_dependence_lisa_files/figure-html/fig-dependence-initial-output-1.png" class="img-fluid figure-img"></a>
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-dependence-initial-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Figure&nbsp;3: Spatial dependence in the initial level of luminosity <br> Notes: Panel (a) shows the Moran scatterplot with Global Moran’s I statistic. Panel (b) shows the LISA cluster map with statistically significant clusters at p &lt; 0.05 based on 999 permutations. <br> Source: Data from Chanda and Kabiraj (2020). See <a href="https://quarcs-lab.github.io/project2025s/notebooks/c03_spatial_dependence_lisa.html">Spatial dependence</a> notebook for source code.
+Figure&nbsp;3: Spatial dependence in the initial level of luminosity <br> Notes: Panel (a) shows the Moran scatterplot with Global Moran’s I statistic. Panel (b) shows the LISA cluster map with statistically significant clusters at p &lt; 0.05 based on 999 permutations. <br> Source: Data from Chanda and Kabiraj (2020). See <a href="notebooks/c03_spatial_dependence_lisa.ipynb">Spatial dependence</a> notebook for source code.
 </figcaption>
 </figure>
 </div>
@@ -1143,21 +1141,15 @@ Figure&nbsp;3: Spatial dependence in the initial level of luminosity <br> Notes:
 <span id="cb28-19"><a href="#cb28-19" aria-hidden="true" tabindex="-1"></a>               source<span class="op">=</span>cx.providers.CartoDB.Positron, </span>
 <span id="cb28-20"><a href="#cb28-20" aria-hidden="true" tabindex="-1"></a>               attribution<span class="op">=</span><span class="va">False</span>)</span>
 <span id="cb28-21"><a href="#cb28-21" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb28-22"><a href="#cb28-22" aria-hidden="true" tabindex="-1"></a><span class="co"># 3b. Overlay place labels for orientation (state/city names)</span></span>
-<span id="cb28-23"><a href="#cb28-23" aria-hidden="true" tabindex="-1"></a>cx.add_basemap(ax[<span class="dv">1</span>], </span>
-<span id="cb28-24"><a href="#cb28-24" aria-hidden="true" tabindex="-1"></a>               crs<span class="op">=</span>gdf.crs.to_string(), </span>
-<span id="cb28-25"><a href="#cb28-25" aria-hidden="true" tabindex="-1"></a>               source<span class="op">=</span>cx.providers.CartoDB.PositronOnlyLabels, </span>
-<span id="cb28-26"><a href="#cb28-26" aria-hidden="true" tabindex="-1"></a>               attribution<span class="op">=</span><span class="va">False</span>)</span>
-<span id="cb28-27"><a href="#cb28-27" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb28-28"><a href="#cb28-28" aria-hidden="true" tabindex="-1"></a><span class="co"># Optional: Remove axes ticks for the map to make it cleaner</span></span>
-<span id="cb28-29"><a href="#cb28-29" aria-hidden="true" tabindex="-1"></a>ax[<span class="dv">1</span>].set_axis_off()</span>
-<span id="cb28-30"><a href="#cb28-30" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb28-31"><a href="#cb28-31" aria-hidden="true" tabindex="-1"></a>plt.tight_layout()</span>
-<span id="cb28-32"><a href="#cb28-32" aria-hidden="true" tabindex="-1"></a><span class="cf">try</span>:</span>
-<span id="cb28-33"><a href="#cb28-33" aria-hidden="true" tabindex="-1"></a>    plt.savefig(<span class="st">"../images/lisaMAP2.png"</span>, dpi<span class="op">=</span><span class="dv">150</span>, bbox_inches<span class="op">=</span><span class="st">'tight'</span>)</span>
-<span id="cb28-34"><a href="#cb28-34" aria-hidden="true" tabindex="-1"></a><span class="cf">except</span> <span class="pp">OSError</span>:</span>
-<span id="cb28-35"><a href="#cb28-35" aria-hidden="true" tabindex="-1"></a>    <span class="cf">pass</span>  <span class="co"># Skip file export when running in Colab</span></span>
-<span id="cb28-36"><a href="#cb28-36" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb28-22"><a href="#cb28-22" aria-hidden="true" tabindex="-1"></a><span class="co"># Optional: Remove axes ticks for the map to make it cleaner</span></span>
+<span id="cb28-23"><a href="#cb28-23" aria-hidden="true" tabindex="-1"></a>ax[<span class="dv">1</span>].set_axis_off()</span>
+<span id="cb28-24"><a href="#cb28-24" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb28-25"><a href="#cb28-25" aria-hidden="true" tabindex="-1"></a>plt.tight_layout()</span>
+<span id="cb28-26"><a href="#cb28-26" aria-hidden="true" tabindex="-1"></a><span class="cf">try</span>:</span>
+<span id="cb28-27"><a href="#cb28-27" aria-hidden="true" tabindex="-1"></a>    plt.savefig(<span class="st">"../images/lisaMAP2.png"</span>, dpi<span class="op">=</span><span class="dv">150</span>, bbox_inches<span class="op">=</span><span class="st">'tight'</span>)</span>
+<span id="cb28-28"><a href="#cb28-28" aria-hidden="true" tabindex="-1"></a><span class="cf">except</span> <span class="pp">OSError</span>:</span>
+<span id="cb28-29"><a href="#cb28-29" aria-hidden="true" tabindex="-1"></a>    <span class="cf">pass</span>  <span class="co"># Skip file export when running in Colab</span></span>
+<span id="cb28-30"><a href="#cb28-30" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-display">
 <div id="fig-dependence-growth" class="quarto-float quarto-figure quarto-figure-center anchored">
 <figure class="quarto-float quarto-float-fig figure">
@@ -1165,7 +1157,7 @@ Figure&nbsp;3: Spatial dependence in the initial level of luminosity <br> Notes:
 <a href="c03_spatial_dependence_lisa_files/figure-html/fig-dependence-growth-output-1.png" class="lightbox" data-gallery="quarto-lightbox-gallery-4" title="Figure&nbsp;4: Spatial dependence in the growth rate of luminosity   Notes: Panel (a) shows the Moran scatterplot with Global Moran’s I statistic. Panel (b) shows the LISA cluster map with statistically significant clusters at p < 0.05 based on 999 permutations.   Source: Data from Chanda and Kabiraj (2020). See Spatial dependence notebook for source code."><img src="c03_spatial_dependence_lisa_files/figure-html/fig-dependence-growth-output-1.png" class="img-fluid figure-img"></a>
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-dependence-growth-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Figure&nbsp;4: Spatial dependence in the growth rate of luminosity <br> Notes: Panel (a) shows the Moran scatterplot with Global Moran’s I statistic. Panel (b) shows the LISA cluster map with statistically significant clusters at p &lt; 0.05 based on 999 permutations. <br> Source: Data from Chanda and Kabiraj (2020). See <a href="https://quarcs-lab.github.io/project2025s/notebooks/c03_spatial_dependence_lisa.html">Spatial dependence</a> notebook for source code.
+Figure&nbsp;4: Spatial dependence in the growth rate of luminosity <br> Notes: Panel (a) shows the Moran scatterplot with Global Moran’s I statistic. Panel (b) shows the LISA cluster map with statistically significant clusters at p &lt; 0.05 based on 999 permutations. <br> Source: Data from Chanda and Kabiraj (2020). See <a href="notebooks/c03_spatial_dependence_lisa.ipynb">Spatial dependence</a> notebook for source code.
 </figcaption>
 </figure>
 </div>

@@ -304,9 +304,9 @@ This scatterplot depicts the relationship between per-capita growth rates in nig
 Finally, we present some case studies to illustrate the nighttime light growth that occurred during our study period.
 Focusing on some of the poorest regions in the country, we show an increase in nighttime lights that visually aligns with the convergence hypothesis.
 
-[^2]: The interactive web application is available at [https://bit.ly/india-rc-ntl](https://bit.ly/india-rc-ntl). It was developed using Google Earth Engine and the source code is available in the [View from outer space](https://quarcs-lab.github.io/project2025s/notebooks/c01_view_from_space.html) notebook.
+[^2]: The interactive web application is available at [https://bit.ly/india-rc-ntl](https://bit.ly/india-rc-ntl). It was developed using Google Earth Engine and the source code is available in the [View from outer space](https://quarcs-lab.github.io/project2025s-py/notebooks/c01_view_from_space.html) notebook.
 
-![Regional luminosity in India: 1996 vs 2010 <br> Notes: Luminosity is measured in radiance-calibrated digital number (DN) values from DMSP-OLS satellites. Interactive web application available at [https://bit.ly/india-rc-ntl](https://bit.ly/india-rc-ntl). <br> Source: Authors' visualization using pre-processed luminosity images from the Earth Observation Group (NOAA/NCEI). See [View from outer space](https://quarcs-lab.github.io/project2025s/notebooks/c01_view_from_space.html) notebook for source code.](images/luminosity_map.png){#fig-map}
+![Regional luminosity in India: 1996 vs 2010 <br> Notes: Luminosity is measured in radiance-calibrated digital number (DN) values from DMSP-OLS satellites. Interactive web application available at [https://bit.ly/india-rc-ntl](https://bit.ly/india-rc-ntl). <br> Source: Authors' visualization using pre-processed luminosity images from the Earth Observation Group (NOAA/NCEI). See [View from outer space](https://quarcs-lab.github.io/project2025s-py/notebooks/c01_view_from_space.html) notebook for source code.](images/luminosity_map.png){#fig-map}
 
 @fig-map presents static maps (captured from our interactive application) of luminosity for the initial and final years (1996 and 2010).
 The maps show a noticeable increase in brightness across most parts of India in 2010.
@@ -323,7 +323,7 @@ Although these states remain among the poorest, there is a noticeable increase i
 
 [^3]: The data are taken from a report by the Economic Advisory Council to the Prime Minister (EAC-PM), released on September 18, 2024.
 
-![Some illustrative examples of regional convergence <br> Notes: Luminosity is measured in radiance-calibrated digital number (DN) values from DMSP-OLS satellites. Interactive web application available at [https://bit.ly/india-rc-ntl](https://bit.ly/india-rc-ntl). <br> Source: Authors' visualization using pre-processed luminosity images from the Earth Observation Group (NOAA/NCEI). See [View from outer space](https://quarcs-lab.github.io/project2025s/notebooks/c01_view_from_space.html) notebook for source code.](images/luminosity_map2.png){#fig-map2 width=75%}
+![Some illustrative examples of regional convergence <br> Notes: Luminosity is measured in radiance-calibrated digital number (DN) values from DMSP-OLS satellites. Interactive web application available at [https://bit.ly/india-rc-ntl](https://bit.ly/india-rc-ntl). <br> Source: Authors' visualization using pre-processed luminosity images from the Earth Observation Group (NOAA/NCEI). See [View from outer space](https://quarcs-lab.github.io/project2025s-py/notebooks/c01_view_from_space.html) notebook for source code.](images/luminosity_map2.png){#fig-map2 width=75%}
 
 ### Spatial dependence is a feature of the convergence process
 
@@ -426,7 +426,7 @@ A growing literature argues that regional cultural attitudes constitute an indep
 In particular, @tubadji_cultural_entropy proposes a Culture-Based Development framework arguing that regional cultural participation patterns---measured through revealed preferences in household expenditure and survey data---predict regional development patterns.
 For India, the National Sample Survey (NSS) 47th Round (July--December 1991) provides state-level data on six dimensions of cultural participation: live cultural performance, cultural telecast (TV/media), socio-cultural participation, cultural heritage and religion, live cultural shows, and sports.
 
-With nighttime lights data for an adjacent period (1992) now available for 32 Indian states and union territories, we can examine the extent to which luminosity is associated with regional cultural patterns (see [Spatial culture](https://quarcs-lab.github.io/project2025s/notebooks/c06_spatial_culture.html) notebook for details and extended analyses).
+With nighttime lights data for an adjacent period (1992) now available for 32 Indian states and union territories, we can examine the extent to which luminosity is associated with regional cultural patterns (see [Spatial culture](https://quarcs-lab.github.io/project2025s-py/notebooks/c06_spatial_culture.html) notebook for details and extended analyses).
 Given the small sample size (N = 32) and the potential leverage of small territories at the extremes of the distribution on linear correlation measures, we report Spearman rank correlations throughout this section.
 @fig-culture-scatter presents the relationship between log nighttime lights per capita and the two cultural dimensions that show statistically significant associations.
 
@@ -551,5 +551,5 @@ The authors declare no conflict of interest.
 ## Data and Code Availability {.appendix}
 
 All data and computational code used in this study are available in the project repository: [Repository URL removed for blind review].
-The interactive HTML version of this manuscript (<https://quarcs-lab.github.io/project2025s/>) embeds the computational notebooks, allowing readers to inspect the complete analytical pipeline from raw data to published results.
+The interactive HTML version of this manuscript (<https://quarcs-lab.github.io/project2025s-py/>) embeds the computational notebooks, allowing readers to inspect the complete analytical pipeline from raw data to published results.
 All Python and R notebooks can be executed in the cloud using Google Colaboratory without requiring local software installation.

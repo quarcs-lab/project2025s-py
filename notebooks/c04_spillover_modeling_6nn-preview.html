@@ -356,7 +356,7 @@
 </div>
 <div id="quarto-margin-sidebar" class="sidebar margin-sidebar zindex-bottom">
 </div>
-<main class="content quarto-banner-title-block" id="quarto-document-content">        <p><a href="https://colab.research.google.com/github/quarcs-lab/project2025s/blob/master/notebooks/c04_spillover_modeling_6nn.ipynb"><img src="https://colab.research.google.com/assets/colab-badge.svg" alt="Open In Colab"></a></p>
+<main class="content quarto-banner-title-block" id="quarto-document-content">        <p><a href="https://colab.research.google.com/github/quarcs-lab/project2025s-py/blob/master/notebooks/c04_spillover_modeling_6nn.ipynb"><img src="https://colab.research.google.com/assets/colab-badge.svg" alt="Open In Colab"></a></p>
 <p>This notebook estimates <strong>8 econometric models</strong> to analyze convergence in nighttime light intensity across 520 Indian districts (1996–2010). It compares standard OLS regressions with <strong>Spatial Durbin Models (SDM)</strong> that account for spatial spillovers between neighboring districts. The models follow a 2×2×2 design: OLS vs SDM, unconditional vs conditional, without vs with state fixed effects. Results are presented as four model columns, each estimated by OLS and by SDM. For details on the model design and spatial weights, see the Background &amp; Context section below.</p>
 <section id="running-the-analysis-in-python" class="level2">
 <h2 class="anchored" data-anchor-id="running-the-analysis-in-python">Running the analysis in Python</h2>
@@ -424,7 +424,7 @@
 <span id="cb2-29"><a href="#cb2-29" aria-hidden="true" tabindex="-1"></a>    <span class="st">"lit_percent96"</span>, <span class="st">"higheredu_percent96"</span>, <span class="st">"elechh_percent96"</span>, <span class="st">"log_puccaroads"</span>,</span>
 <span id="cb2-30"><a href="#cb2-30" aria-hidden="true" tabindex="-1"></a>]</span>
 <span id="cb2-31"><a href="#cb2-31" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-32"><a href="#cb2-32" aria-hidden="true" tabindex="-1"></a>RAW <span class="op">=</span> <span class="st">"https://raw.githubusercontent.com/quarcs-lab/project2025s/master/data"</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb2-32"><a href="#cb2-32" aria-hidden="true" tabindex="-1"></a>RAW <span class="op">=</span> <span class="st">"https://raw.githubusercontent.com/quarcs-lab/project2025s-py/master/data"</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div></div>
 <div class="cell-container"><div class="cell-decorator"><pre>In [3]:</pre></div><div id="cell-6" class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Load data (local ../data first, else download from the public repo)</span></span>
