@@ -7,9 +7,9 @@ jupytext:
     format_version: 0.13
     jupytext_version: 1.19.1
 kernelspec:
-  display_name: Project 2025s (Python 3.10)
+  display_name: Python 3 (ipykernel)
   language: python
-  name: project2025s
+  name: python3
 ---
 
 <a href="https://code.earthengine.google.com/87ac51fc81a194c7a1dfa299f3251a95"><img src="https://img.shields.io/badge/Open%20in-Google%20Earth%20Engine-4285F4?style=for-the-badge&logo=google-earth&logoColor=white" alt="Open in Google Earth Engine" /></a>
@@ -169,5 +169,3 @@ function createLegendPanel() {
 leftMap.add(createLegendPanel());
 rightMap.add(createLegendPanel());
 ```
-
-+++

@@ -68,7 +68,7 @@ This project asks three questions about India's 520 administrative districts bet
 
 - Districts exhibit **beta-convergence** --- initially dimmer districts grew faster
 - Strong **spatial clustering** exists (Moran's I = 0.73 for initial levels, 0.60 for growth)
-- **Spatial spillovers increase convergence speed by ~36%** compared to non-spatial models
+- **Spatial spillovers accelerate convergence** --- in the preferred model the implied annual speed rises from ~3% (OLS) to ~5% (spatial Durbin); the SDM total effect is ~48% larger than OLS (up to 64% in Model 3)
 
 ---
 

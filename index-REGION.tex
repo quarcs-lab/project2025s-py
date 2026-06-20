@@ -310,9 +310,8 @@ supporting multiple programming languages such as Python, R, and Stata.
 Quarto is an open-source publishing system that generates multiple
 output formats---including HTML, PDF, and Word---from a single source
 file, ensuring consistency across all versions of a document. Together,
-these tools foster scientific reproducibility and open science by making
-every analytical step transparent, verifiable, and accessible to other
-researchers.
+these tools make every analytical step transparent and let any reader
+re-execute the full analysis from the raw data.
 
 The rest of this article is organized as follows. Section 2 provides an
 overview of the data and methods, describing the use of nighttime light
@@ -367,7 +366,7 @@ lights as the dependent variable and the initial nighttime lights per
 capita as the primary explanatory variable. For 520 districts in India,
 these variables are derived from NTL data released by the National
 Geophysical Data Center (NGDC). The data are based on observations from
-the DMSP/OLS satellites spanning the period from 1996 to 2010. To
+the DMSP-OLS satellites spanning the period from 1996 to 2010. To
 mitigate the issue of top-coding in NTL data, the NGDC released
 ``radiance-calibrated'' nighttime lights for eight specific years within
 this period. This dataset employs high magnification settings for
@@ -615,10 +614,10 @@ economic influence.
 The detection of significant spatial dependence would justify the use of
 spatial econometric techniques. In particular,
 \citet{ertur_koch_spatial_growth} and \citet{fischer_spatial_mrw} argue
-that the spatial Durbin model can appropriately account for spatial
-dependence in the convergence process. This methodological choice allows
-us to distinguish between direct effects of district characteristics and
-indirect effects operating through spatial channels
+that the spatial Durbin model (SDM) can appropriately account for
+spatial dependence in the convergence process. This methodological
+choice allows us to distinguish between direct effects of district
+characteristics and indirect effects operating through spatial channels
 \citep{lesage_pace_spatial_econometrics}.
 
 \subsection{Spatial spillover
@@ -743,8 +742,9 @@ economic activity, this increase in luminosity reflects economic growth
 over the period. Figure~\ref{fig-convergence} illustrates the
 relationship between per-capita growth in nighttime lights and initial
 per-capita nighttime light. The scatterplot shows an inverse
-relationship, suggesting a \(\beta\)-convergence rate of approximately
-2\%, consistent with the seminal finding of
+relationship: the estimated \(\beta\)-convergence coefficient of about
+\(-0.02\) implies an annual speed of convergence of roughly 2.3\% and a
+half-life of about 30 years, consistent with the seminal finding of
 \citet{barro_sala_convergence}.
 
 \begin{figure}[H]
@@ -966,14 +966,15 @@ convergence}\label{evidence-of-spatial-spillovers-in-regional-convergence}
 
 The regression results of Table~\ref{tbl-models} provide evidence of
 both unconditional and conditional convergence across districts in
-India. Both conventional OLS and spatial econometric approaches indicate
-significant negative relationships between initial luminosity levels and
-subsequent growth rates. The direct effects, representing
-within-district convergence, remain stable across specifications,
-ranging from -0.020 to -0.026. This consistency across different model
-specifications and estimation methods suggests that poorer districts are
-catching up to their wealthier counterparts, even after controlling for
-various district characteristics and state-level fixed effects.
+India. Both conventional ordinary least squares (OLS) and spatial
+econometric approaches indicate significant negative relationships
+between initial luminosity levels and subsequent growth rates. The
+direct effects, representing within-district convergence, remain stable
+across specifications, ranging from -0.020 to -0.026. This consistency
+across different model specifications and estimation methods suggests
+that poorer districts are catching up to their wealthier counterparts,
+even after controlling for various district characteristics and
+state-level fixed effects.
 
 {
 
@@ -1060,24 +1061,27 @@ erratic---negative in Model 2 but positive in Model 1---reflecting how,
 without controls, the strong residual spatial dependence confounds the
 spillover estimates with omitted variables. However, once district-level
 controls are introduced (Models 3 and 4), the indirect effects become
-both larger in magnitude and statistically significant, reaching -0.015
-in Model 3 and -0.013 in our most comprehensive Model 4. This emergence
-of significant spillover effects in the conditional specifications
-indicates that the spatial channels of convergence become discernible
-only after accounting for district-specific characteristics.
+both larger in magnitude and statistically significant at the 10\%
+level, reaching -0.015 in Model 3 and -0.013 in our most comprehensive
+Model 4. This emergence of significant spillover effects in the
+conditional specifications indicates that the spatial channels of
+convergence become discernible only after accounting for
+district-specific characteristics.
 
 The total impact of initial conditions on growth, combining both direct
 and spillover effects, is substantially larger when we account for
 spatial dependence. In our fully specified model (Model 4), the total
 convergence effect in the spatial Durbin model (-0.037) is approximately
-48\% larger than the OLS estimate (-0.025). This gap is even more
-pronounced in Model 3, where the SDM total effect (-0.041) exceeds the
-corresponding OLS estimate (-0.025) by 64\%, showing that spatial
-spillovers can constitute a considerable share of the overall
-convergence process. These differences indicate that conventional
-non-spatial approaches may significantly underestimate the speed of
-regional convergence by failing to capture the additional convergence
-channels created through spatial spillovers.
+48\% larger in magnitude than the OLS estimate (-0.025). Translated into
+an annual speed of convergence, this raises the implied speed from about
+3.0\% under OLS to about 5.2\% under the SDM, shortening the implied
+half-life from roughly 23 to 13 years. The gap is even larger in Model 3
+(SDM total -0.041 vs.~OLS -0.025, or 64\%), but because the Model 3 and
+Model 4 spillover estimates are statistically indistinguishable we
+anchor our interpretation on the preferred Model 4. These differences
+indicate that conventional non-spatial approaches may underestimate the
+speed of regional convergence by failing to capture the additional
+convergence channels created through spatial spillovers.
 
 The model fit statistics further support the spatial econometric
 approach. The Akaike Information Criterion (AIC) consistently favors the
@@ -1411,7 +1415,7 @@ particularly useful as it allows readers to engage with interactive
 visualizations, easily inspect the code of multiple computational
 notebooks, and reevaluate the results in light of their source code. By
 hosting the complete codebase and data in a public GitHub repository and
-making the Python and R notebooks executable in the cloud through Google
+making the Python notebooks executable in the cloud through Google
 Colaboratory, we aim to encourage broader adoption of reproducible
 open-science practices.
 
@@ -1436,9 +1440,14 @@ project repository: {[}Repository URL removed for blind review{]}. The
 interactive HTML version of this manuscript
 (\url{https://quarcs-lab.github.io/project2025s-py/}) embeds the
 computational notebooks, allowing readers to inspect the complete
-analytical pipeline from raw data to published results. All Python and R
-notebooks can be executed in the cloud using Google Colaboratory without
-requiring local software installation.
+analytical pipeline from raw data to published results. All notebooks
+can be executed in the cloud using Google Colaboratory without requiring
+local software installation. The computational notebooks are implemented
+entirely in Python; an earlier implementation of the same analysis used
+R and Stata, and the present Python results are largely consistent with
+it---the only material difference being the impact decomposition of the
+unconditional spatial Durbin model (Model 1), whose total effect is
+unchanged.
 
 
 \bibliography{references.bib}

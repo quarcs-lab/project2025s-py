@@ -7,9 +7,9 @@ jupytext:
     format_version: 0.13
     jupytext_version: 1.19.1
 kernelspec:
-  display_name: Project 2025s (Python 3.10)
+  display_name: Python 3 (ipykernel)
   language: python
-  name: project2025s
+  name: python3
 ---
 
 <a href="https://colab.research.google.com/github/quarcs-lab/project2025s-py/blob/master/notebooks/c02_regional_convergence_sc.ipynb"><img src="https://colab.research.google.com/assets/colab-badge.svg" alt="Open In Colab" /></a>
@@ -77,6 +77,19 @@ print(model1.summary())
 model = smf.ols("light_growth96_10rcr_cap ~ log_light96_rcr_cap", data=data).fit()
 slope = round(model.params["log_light96_rcr_cap"], 3)
 rsq   = round(model.rsquared, 3)
+```
+
+The $\beta$ coefficient implies an annual **speed of convergence** $\lambda = -\ln(1 + \beta T)/T$ (Barro & Sala-i-Martin), where $T = 14$ years (1996--2010) and the dependent variable is the average annual growth rate, together with a **half-life** $\ln(2)/\lambda$ (the time to close half the gap to the steady state).
+
+```{code-cell} ipython3
+# Implied annual speed of convergence and half-life (Barro & Sala-i-Martin)
+T = 14  # 1996-2010; dependent variable is the average annual growth rate
+beta = model.params["log_light96_rcr_cap"]
+speed = -np.log(1 + beta * T) / T   # annual convergence speed (lambda)
+half_life = np.log(2) / speed       # years to close half the gap
+print("Convergence coefficient (beta): {:.4f}".format(beta))
+print("Annual speed of convergence:    {:.2%}".format(speed))
+print("Implied half-life:              {:.1f} years".format(half_life))
 ```
 
 ## Convergence scatterplot

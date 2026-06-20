@@ -14,6 +14,8 @@ kernelspec:
 
 # Spatial Analysis of Cultural Participation in India
 
+> **Note:** This exploratory notebook is **not part of the rendered manuscript** (it is not registered in `_quarto.yml`); the manuscript's cultural-participation results are produced by `c06_spatial_culture.ipynb`, which supersedes it. Retained for provenance.
+
 This notebook performs an Exploratory Spatial Data Analysis (ESDA) of cultural participation across Indian states using data from the NSS 47th Round (1991-92).
 The first critical step is harmonizing region names between the Stata data file (32 states/UTs) and the GeoJSON map (36 regions), then creating a 32-region map consistent with the data.
 

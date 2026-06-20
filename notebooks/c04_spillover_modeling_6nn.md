@@ -7,9 +7,9 @@ jupytext:
     format_version: 0.13
     jupytext_version: 1.19.1
 kernelspec:
-  display_name: Project 2025s (Python 3.10)
+  display_name: Python 3 (ipykernel)
   language: python
-  name: project2025s
+  name: python3
 ---
 
 <a href="https://colab.research.google.com/github/quarcs-lab/project2025s-py/blob/master/notebooks/c04_spillover_modeling_6nn.ipynb"><img src="https://colab.research.google.com/assets/colab-badge.svg" alt="Open In Colab" /></a>
@@ -22,7 +22,7 @@ This notebook estimates **8 econometric models** to analyze convergence in night
 
 ## Running the analysis in Python
 
-This notebook runs on the `project2025s` Python kernel managed by [uv](https://docs.astral.sh/uv/). The spatial econometrics rely on the open-source [PySAL](https://pysal.org/) ecosystem:
+This notebook runs on the project's Python environment managed by [uv](https://docs.astral.sh/uv/) (the repo-local `python3` kernel). The spatial econometrics rely on the open-source [PySAL](https://pysal.org/) ecosystem:
 
 - **`geopandas`** — reads the district geometries (`india520.geojson`) used to build the spatial weights.
 - **`libpysal`** — constructs the row-standardized 6-nearest-neighbor (6NN) spatial weights matrix from district centroids.
@@ -270,6 +270,7 @@ specs = {
     "Model 4": dict(cols=[XKEY] + CONTROLS, fe=True),   # conditional, + state FE
 }
 
+np.random.seed(20250620)   # re-seed so Table 1 Monte-Carlo SEs reproduce regardless of upstream RNG use
 results = {}
 for tag, sp in specs.items():
     Xdf = m[sp["cols"]].copy()
@@ -281,7 +282,7 @@ for tag, sp in specs.items():
         "controls": "Yes" if len(sp["cols"]) > 1 else "No",
         "fe": "Yes" if sp["fe"] else "No",
     }
-    print("{}: estimated (OLS + SDM)".format(tag))
+    print("{}: estimated (OLS + SDM), rho={:.3f}".format(tag, results[tag]["sdm"]["rho"]))
 ```
 
 ## 4. Results Table
@@ -344,6 +345,37 @@ lines += [ctrl, fe_row, aic]
 
 Markdown("\n".join(lines))
 ```
+
+### 4.1 Implied speed of convergence
+
+The convergence coefficients above translate into an annual **speed of convergence** $\lambda = -\ln(1 + \beta T)/T$ (Barro & Sala-i-Martin), with $T = 14$ years (1996--2010), the dependent variable being the average annual growth rate, and $\beta$ the total effect of initial luminosity; the **half-life** is $\ln(2)/\lambda$. Comparing the OLS and SDM total effects shows directly how spatial spillovers raise the implied speed and shorten the half-life.
+
+```{code-cell} ipython3
+#| label: tbl-speed
+#| tbl-cap: "Implied annual speed of convergence and half-life by model, from the OLS and SDM total effects of initial luminosity."
+T = 14  # 1996-2010; dependent variable is the average annual growth rate
+
+
+def _speed(beta):
+    arg = 1 + beta * T
+    if arg <= 0:
+        return float("nan"), float("nan")
+    lam = -np.log(arg) / T
+    return lam, np.log(2) / lam
+
+
+srows = [
+    "| Model | OLS speed | SDM speed | OLS half-life | SDM half-life |",
+    "|-------|-----------|-----------|---------------|---------------|",
+]
+for c in ["Model 1", "Model 2", "Model 3", "Model 4"]:
+    lo, hlo = _speed(results[c]["ols"]["total"])
+    ls, hls = _speed(results[c]["sdm"]["total"])
+    srows.append("| {} | {:.1%} | {:.1%} | {:.0f} yr | {:.0f} yr |".format(c, lo, ls, hlo, hls))
+Markdown("\n".join(srows))
+```
+
+In the preferred Model 4 the implied annual speed of convergence rises from the OLS estimate to the SDM estimate, shortening the half-life accordingly --- a direct, quantitative statement of how spatial spillovers accelerate the convergence process.
 
 ## 5. Robustness: alternative spatial-impact methods
 
