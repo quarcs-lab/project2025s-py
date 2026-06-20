@@ -435,6 +435,7 @@ Overall, the results highlight the role of spatial dependence in regional conver
   <li><a href="#regional-convergence-an-interactive-exploration-from-outer-space" id="toc-regional-convergence-an-interactive-exploration-from-outer-space" class="nav-link" data-scroll-target="#regional-convergence-an-interactive-exploration-from-outer-space">Regional convergence: An interactive exploration from outer space</a></li>
   <li><a href="#spatial-dependence-is-a-feature-of-the-convergence-process" id="toc-spatial-dependence-is-a-feature-of-the-convergence-process" class="nav-link" data-scroll-target="#spatial-dependence-is-a-feature-of-the-convergence-process">Spatial dependence is a feature of the convergence process</a></li>
   <li><a href="#evidence-of-spatial-spillovers-in-regional-convergence" id="toc-evidence-of-spatial-spillovers-in-regional-convergence" class="nav-link" data-scroll-target="#evidence-of-spatial-spillovers-in-regional-convergence">Evidence of spatial spillovers in regional convergence</a></li>
+  <li><a href="#robustness-to-alternative-spatial-weight-matrices" id="toc-robustness-to-alternative-spatial-weight-matrices" class="nav-link" data-scroll-target="#robustness-to-alternative-spatial-weight-matrices">Robustness to alternative spatial weight matrices</a></li>
   </ul></li>
   <li><a href="#discussion" id="toc-discussion" class="nav-link" data-scroll-target="#discussion">Discussion</a>
   <ul class="collapse">
@@ -448,7 +449,7 @@ Overall, the results highlight the role of spatial dependence in regional conver
   
   
   </ul>
-<div class="quarto-alternate-notebooks"><h2>Notebooks</h2><ul><li><a href="notebooks/c01_view_from_space-preview.html"><i class="bi bi-journal-code"></i>N1: View from outer space</a></li><li><a href="notebooks/c02_regional_convergence_sc-preview.html"><i class="bi bi-journal-code"></i>N2: Regional convergence</a></li><li><a href="notebooks/c03_spatial_dependence_lisa-preview.html"><i class="bi bi-journal-code"></i>N3: Spatial dependence</a></li><li><a href="notebooks/c04_spillover_modeling_6nn-preview.html"><i class="bi bi-journal-code"></i>N4: Spillover modeling</a></li><li><a href="notebooks/c06_spatial_culture-preview.html"><i class="bi bi-journal-code"></i>N5: Spatial culture</a></li></ul></div></nav>
+<div class="quarto-alternate-notebooks"><h2>Notebooks</h2><ul><li><a href="notebooks/c01_view_from_space-preview.html"><i class="bi bi-journal-code"></i>N1: View from outer space</a></li><li><a href="notebooks/c02_regional_convergence_sc-preview.html"><i class="bi bi-journal-code"></i>N2: Regional convergence</a></li><li><a href="notebooks/c03_spatial_dependence_lisa-preview.html"><i class="bi bi-journal-code"></i>N3: Spatial dependence</a></li><li><a href="notebooks/c04_spillover_modeling_6nn-preview.html"><i class="bi bi-journal-code"></i>N4: Spillover modeling</a></li><li><a href="notebooks/c07_alternative_w_matrices-preview.html"><i class="bi bi-journal-code"></i>N5: Robustness — alternative spatial weights</a></li><li><a href="notebooks/c06_spatial_culture-preview.html"><i class="bi bi-journal-code"></i>N6: Spatial culture</a></li></ul></div></nav>
 </div>
 <div id="quarto-margin-sidebar" class="sidebar margin-sidebar zindex-bottom">
 </div>
@@ -830,6 +831,111 @@ Table&nbsp;1: Unconditional and conditional convergence across districts.
 <p>The total impact of initial conditions on growth, combining both direct and spillover effects, is substantially larger when we account for spatial dependence. In our fully specified model (Model 4), the total convergence effect in the spatial Durbin model (-0.037) is approximately 48% larger in magnitude than the OLS estimate (-0.025). Translated into an annual speed of convergence, this raises the implied speed from about 3.0% under OLS to about 5.2% under the SDM, shortening the implied half-life from roughly 23 to 13 years. The gap is even larger in Model 3 (SDM total -0.041 vs.&nbsp;OLS -0.025, or 64%), but because the Model 3 and Model 4 spillover estimates are statistically indistinguishable we anchor our interpretation on the preferred Model 4. These differences indicate that conventional non-spatial approaches may underestimate the speed of regional convergence by failing to capture the additional convergence channels created through spatial spillovers.</p>
 <p>The model fit statistics further support the spatial econometric approach. The Akaike Information Criterion (AIC) consistently favors the spatial Durbin model over OLS across all four specifications. The most comprehensive model (Model 4 SDM) achieves the lowest AIC value of -2501 compared to -2465 for the corresponding OLS. Notably, the improvement from incorporating spatial structure is most pronounced in the unconditional specification (Model 1). The AIC drops by 347 units when moving from OLS to SDM, reflecting the large amount of spatial dependence left unmodeled by ordinary regressions. Even in the fully specified model, where state fixed effects already absorb much of the spatial heterogeneity, the SDM retains a meaningful advantage. Overall, these results suggest that regional convergence in India operates not only through district-specific factors but also through spatial interactions between neighboring districts. Ignoring these interactions leads to both underestimated convergence speeds and inferior model performance.</p>
 </section>
+<section id="robustness-to-alternative-spatial-weight-matrices" class="level3">
+<h3 class="anchored" data-anchor-id="robustness-to-alternative-spatial-weight-matrices">Robustness to alternative spatial weight matrices</h3>
+<p>The spillover results above use a six-nearest-neighbor (6NN) spatial weight matrix. To assess their sensitivity to this choice, we re-estimate the preferred Model 4 under six alternative specifications—four- and eight-nearest neighbors, queen and rook contiguity, and inverse distance and inverse-distance-squared (each applied within a distance band)—and compare them with the 6NN baseline.</p>
+<div class="quarto-embed-nb-cell">
+<div id="cell-fig-altw" class="cell">
+<div class="cell-output cell-output-display">
+<div id="fig-altw" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-altw-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<a href="index_files/figure-html/notebooks-c07_alternative_w_matrices-fig-altw-output-1.png" class="lightbox" data-gallery="quarto-lightbox-gallery-8" title="Figure&nbsp;8: Robustness of the Model 4 spatial impacts of initial luminosity to the choice of spatial weight matrix. Points are Direct, Indirect, and Total impacts; bars are 95% Monte-Carlo confidence intervals. The dashed lines mark the 6NN baseline estimates."><img src="index_files/figure-html/notebooks-c07_alternative_w_matrices-fig-altw-output-1.png" class="img-fluid figure-img"></a>
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-altw-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;8: Robustness of the Model 4 spatial impacts of initial luminosity to the choice of spatial weight matrix. Points are Direct, Indirect, and Total impacts; bars are 95% Monte-Carlo confidence intervals. The dashed lines mark the 6NN baseline estimates.
+</figcaption>
+</figure>
+</div>
+</div>
+</div>
+</div>
+<div class="quarto-embed-nb-cell">
+<div class="cell">
+<div id="tbl-altw" class="cell quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-tbl figure">
+<figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-altw-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Table&nbsp;2: Model 4 spatial impacts of initial luminosity under alternative spatial weight matrices (full LeSage–Pace method; Monte-Carlo standard errors in parentheses).
+</figcaption>
+<div aria-describedby="tbl-altw-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<div class="cell-output cell-output-display cell-output-markdown" data-execution_count="6">
+<table class="cell caption-top table table-sm table-striped small">
+<colgroup>
+<col style="width: 33%">
+<col style="width: 17%">
+<col style="width: 22%">
+<col style="width: 15%">
+<col style="width: 11%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Weight matrix</th>
+<th>Direct</th>
+<th>Indirect</th>
+<th>Total</th>
+<th>AIC</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>4 nearest neighbors</td>
+<td>-0.024***<br>(0.002)</td>
+<td>-0.008<br>(0.006)</td>
+<td>-0.032***<br>(0.006)</td>
+<td>-2468</td>
+</tr>
+<tr class="even">
+<td>6 nearest neighbors (base)</td>
+<td>-0.025***<br>(0.002)</td>
+<td>-0.013*<br>(0.007)</td>
+<td>-0.037***<br>(0.007)</td>
+<td>-2501</td>
+</tr>
+<tr class="odd">
+<td>8 nearest neighbors</td>
+<td>-0.025***<br>(0.002)</td>
+<td>-0.011<br>(0.008)</td>
+<td>-0.036***<br>(0.008)</td>
+<td>-2485</td>
+</tr>
+<tr class="even">
+<td>Queen contiguity</td>
+<td>-0.025***<br>(0.002)</td>
+<td>-0.010**<br>(0.005)</td>
+<td>-0.035***<br>(0.005)</td>
+<td>-2463</td>
+</tr>
+<tr class="odd">
+<td>Rook contiguity</td>
+<td>-0.025***<br>(0.002)</td>
+<td>-0.009**<br>(0.005)</td>
+<td>-0.034***<br>(0.005)</td>
+<td>-2469</td>
+</tr>
+<tr class="even">
+<td>Inverse distance</td>
+<td>-0.025***<br>(0.002)</td>
+<td>-0.016**<br>(0.007)</td>
+<td>-0.041***<br>(0.008)</td>
+<td>-2486</td>
+</tr>
+<tr class="odd">
+<td>Inverse distance squared</td>
+<td>-0.025***<br>(0.002)</td>
+<td>-0.012*<br>(0.006)</td>
+<td>-0.037***<br>(0.006)</td>
+<td>-2485</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</figure>
+</div>
+</div>
+</div>
+<p>The convergence spillovers are robust to the choice of spatial weights (<a href="#fig-altw" class="quarto-xref">Figure&nbsp;8</a> and <a href="#tbl-altw" class="quarto-xref">Table&nbsp;2</a>). The direct (within-district) convergence effect is essentially unchanged across all seven specifications, ranging from -0.024 to -0.026 and always significant at the 1% level. The total convergence effect likewise remains negative and significant throughout, ranging from -0.032 to -0.041, with the 6NN baseline (-0.037) near the middle of this range. The indirect (spillover) component is negative in every specification and statistically significant under most of them. This stability indicates that the evidence for spatial spillovers in the convergence process is not an artifact of the particular neighbor definition, but a consistent feature of the data.</p>
+</section>
 </section>
 <section id="discussion" class="level2">
 <h2 class="anchored" data-anchor-id="discussion">Discussion</h2>
@@ -837,17 +943,17 @@ Table&nbsp;1: Unconditional and conditional convergence across districts.
 <h3 class="anchored" data-anchor-id="beyond-the-economy-luminosity-and-cultural-factors">Beyond the economy: Luminosity and cultural factors</h3>
 <p>Nighttime lights capture not just GDP but a composite of electrification, urbanization, infrastructure, and broader socioeconomic conditions <span class="citation" data-cites="henderson_storeygard_weil_lights mellander_etal_lights_gdp">(<a href="#ref-henderson_storeygard_weil_lights" role="doc-biblioref">Henderson et al. 2012</a>; <a href="#ref-mellander_etal_lights_gdp" role="doc-biblioref">Mellander et al. 2015</a>)</span>. This multi-dimensional nature invites exploration of how luminosity relates to socioeconomic indicators beyond strictly economic output. In this section, we examine the association between luminosity and cultural participation patterns across Indian states.</p>
 <p>A growing literature argues that regional cultural attitudes constitute an independent factor in economic development, not merely a by-product of income or institutions. In particular, <span class="citation" data-cites="tubadji_cultural_entropy">Tubadji (<a href="#ref-tubadji_cultural_entropy" role="doc-biblioref">2025</a>)</span> proposes a Culture-Based Development framework arguing that regional cultural participation patterns—measured through revealed preferences in household expenditure and survey data—predict regional development patterns. For India, the National Sample Survey (NSS) 47th Round (July–December 1991) provides state-level data on six dimensions of cultural participation: live cultural performance, cultural telecast (TV/media), socio-cultural participation, cultural heritage and religion, live cultural shows, and sports.</p>
-<p>With nighttime lights data for an adjacent period (1992) now available for 32 Indian states and union territories, we can examine the extent to which luminosity is associated with regional cultural patterns (see <a href="https://quarcs-lab.github.io/project2025s-py/notebooks/c06_spatial_culture.html">Spatial culture</a> notebook for details and extended analyses). Given the small sample size (N = 32) and the potential leverage of small territories at the extremes of the distribution on linear correlation measures, we report Spearman rank correlations throughout this section. <a href="#fig-culture-scatter" class="quarto-xref">Figure&nbsp;8</a> presents the relationship between log nighttime lights per capita and the two cultural dimensions that show statistically significant associations.</p>
+<p>With nighttime lights data for an adjacent period (1992) now available for 32 Indian states and union territories, we can examine the extent to which luminosity is associated with regional cultural patterns (see <a href="https://quarcs-lab.github.io/project2025s-py/notebooks/c06_spatial_culture.html">Spatial culture</a> notebook for details and extended analyses). Given the small sample size (N = 32) and the potential leverage of small territories at the extremes of the distribution on linear correlation measures, we report Spearman rank correlations throughout this section. <a href="#fig-culture-scatter" class="quarto-xref">Figure&nbsp;9</a> presents the relationship between log nighttime lights per capita and the two cultural dimensions that show statistically significant associations.</p>
 <div class="quarto-embed-nb-cell">
 <div id="cell-fig-culture-scatter" class="cell">
 <div class="cell-output cell-output-display">
 <div id="fig-culture-scatter" class="quarto-float quarto-figure quarto-figure-center anchored">
 <figure class="quarto-float quarto-float-fig figure">
 <div aria-describedby="fig-culture-scatter-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-<a href="index_files/figure-html/notebooks-c06_spatial_culture-fig-culture-scatter-output-1.png" class="lightbox" data-gallery="quarto-lightbox-gallery-8" title="Figure&nbsp;8: Relationship between nightlight luminosity and cultural participation across 32 Indian states   Notes: Each point represents one of the 32 Indian states and union territories. Panel (a) shows the bivariate relationship between log nighttime lights per capita and cultural telecast (TV/media); Panel (b) shows the relationship with socio-cultural participation. Solid line is the OLS regression; gray band shows the 95% confidence interval (t-distribution, 30 df). Annotations report regression slope, Spearman rank correlation, and Pearson correlation.   Source: Nighttime lights from CCNL DMSP-OLS (Zhao et al., 2022). Cultural participation from NSS 47th Round (July–December 1991). See Spatial culture notebook for source code."><img src="index_files/figure-html/notebooks-c06_spatial_culture-fig-culture-scatter-output-1.png" class="img-fluid figure-img"></a>
+<a href="index_files/figure-html/notebooks-c06_spatial_culture-fig-culture-scatter-output-1.png" class="lightbox" data-gallery="quarto-lightbox-gallery-9" title="Figure&nbsp;9: Relationship between nightlight luminosity and cultural participation across 32 Indian states   Notes: Each point represents one of the 32 Indian states and union territories. Panel (a) shows the bivariate relationship between log nighttime lights per capita and cultural telecast (TV/media); Panel (b) shows the relationship with socio-cultural participation. Solid line is the OLS regression; gray band shows the 95% confidence interval (t-distribution, 30 df). Annotations report regression slope, Spearman rank correlation, and Pearson correlation.   Source: Nighttime lights from CCNL DMSP-OLS (Zhao et al., 2022). Cultural participation from NSS 47th Round (July–December 1991). See Spatial culture notebook for source code."><img src="index_files/figure-html/notebooks-c06_spatial_culture-fig-culture-scatter-output-1.png" class="img-fluid figure-img"></a>
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-culture-scatter-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Figure&nbsp;8: Relationship between nightlight luminosity and cultural participation across 32 Indian states <br> Notes: Each point represents one of the 32 Indian states and union territories. Panel (a) shows the bivariate relationship between log nighttime lights per capita and cultural telecast (TV/media); Panel (b) shows the relationship with socio-cultural participation. Solid line is the OLS regression; gray band shows the 95% confidence interval (t-distribution, 30 df). Annotations report regression slope, Spearman rank correlation, and Pearson correlation. <br> Source: Nighttime lights from CCNL DMSP-OLS (Zhao et al., 2022). Cultural participation from NSS 47th Round (July–December 1991). See <a href="https://quarcs-lab.github.io/project2025s-py/notebooks/c06_spatial_culture.html">Spatial culture</a> notebook for source code.
+Figure&nbsp;9: Relationship between nightlight luminosity and cultural participation across 32 Indian states <br> Notes: Each point represents one of the 32 Indian states and union territories. Panel (a) shows the bivariate relationship between log nighttime lights per capita and cultural telecast (TV/media); Panel (b) shows the relationship with socio-cultural participation. Solid line is the OLS regression; gray band shows the 95% confidence interval (t-distribution, 30 df). Annotations report regression slope, Spearman rank correlation, and Pearson correlation. <br> Source: Nighttime lights from CCNL DMSP-OLS (Zhao et al., 2022). Cultural participation from NSS 47th Round (July–December 1991). See <a href="https://quarcs-lab.github.io/project2025s-py/notebooks/c06_spatial_culture.html">Spatial culture</a> notebook for source code.
 </figcaption>
 </figure>
 </div>
@@ -856,17 +962,17 @@ Figure&nbsp;8: Relationship between nightlight luminosity and cultural participa
 </div>
 <p>Cultural telecast (TV/media) exhibits a positive association (Spearman <span class="math inline">\(\rho\)</span> = 0.370, <span class="math inline">\(p\)</span> = 0.037) with nighttime light luminosity. That is, states with higher luminosity consume more culture through television and media. This link is intuitive: access to television depends on electrification and urbanization, which are closely tied to luminosity.</p>
 <p>In contrast, socio-cultural participation shows a significant negative association (Spearman <span class="math inline">\(\rho\)</span> = $-$0.404, <span class="math inline">\(p\)</span> = 0.022). That is, community-based cultural engagement is stronger in states with less luminosity. This suggests that less urbanized regions rely more on collective, in-person forms of cultural participation rather than on media infrastructure.</p>
-<p><a href="#fig-culture-lisa" class="quarto-xref">Figure&nbsp;9</a> presents spatial distribution of these two cultural variables through the lens of a LISA analysis. Both dimensions exhibit significant spatial autocorrelation, indicating that cultural participation is not randomly distributed across Indian states. The spatial clustering of cultural telecast broadly mirrors the economic geography distribution. States in the western and southern regions form high-high clusters while northeastern and eastern states form distinct community-participation clusters.</p>
+<p><a href="#fig-culture-lisa" class="quarto-xref">Figure&nbsp;10</a> presents spatial distribution of these two cultural variables through the lens of a LISA analysis. Both dimensions exhibit significant spatial autocorrelation, indicating that cultural participation is not randomly distributed across Indian states. The spatial clustering of cultural telecast broadly mirrors the economic geography distribution. States in the western and southern regions form high-high clusters while northeastern and eastern states form distinct community-participation clusters.</p>
 <div class="quarto-embed-nb-cell">
 <div id="cell-fig-culture-lisa" class="cell">
 <div class="cell-output cell-output-display">
 <div id="fig-culture-lisa" class="quarto-float quarto-figure quarto-figure-center anchored">
 <figure class="quarto-float quarto-float-fig figure">
 <div aria-describedby="fig-culture-lisa-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-<a href="index_files/figure-html/notebooks-c06_spatial_culture-fig-culture-lisa-output-1.png" class="lightbox" data-gallery="quarto-lightbox-gallery-9" title="Figure&nbsp;9: LISA cluster maps of cultural participation across 32 Indian states   Notes: Panel (a) shows results for cultural telecast (TV/media); Panel (b) for socio-cultural participation. Left subpanels show Moran scatterplots with the Global Moran’s I statistic. Right subpanels show LISA cluster maps with statistically significant clusters at p < 0.05 based on 999 permutations and a 6-nearest-neighbors spatial weights matrix. Region labels are overlaid from the CartoDB Positron basemap.   Source: Cultural participation data from NSS 47th Round (July–December 1991). See Spatial culture notebook for source code."><img src="index_files/figure-html/notebooks-c06_spatial_culture-fig-culture-lisa-output-1.png" class="img-fluid figure-img"></a>
+<a href="index_files/figure-html/notebooks-c06_spatial_culture-fig-culture-lisa-output-1.png" class="lightbox" data-gallery="quarto-lightbox-gallery-10" title="Figure&nbsp;10: LISA cluster maps of cultural participation across 32 Indian states   Notes: Panel (a) shows results for cultural telecast (TV/media); Panel (b) for socio-cultural participation. Left subpanels show Moran scatterplots with the Global Moran’s I statistic. Right subpanels show LISA cluster maps with statistically significant clusters at p < 0.05 based on 999 permutations and a 6-nearest-neighbors spatial weights matrix. Region labels are overlaid from the CartoDB Positron basemap.   Source: Cultural participation data from NSS 47th Round (July–December 1991). See Spatial culture notebook for source code."><img src="index_files/figure-html/notebooks-c06_spatial_culture-fig-culture-lisa-output-1.png" class="img-fluid figure-img"></a>
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-culture-lisa-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Figure&nbsp;9: LISA cluster maps of cultural participation across 32 Indian states <br> Notes: Panel (a) shows results for cultural telecast (TV/media); Panel (b) for socio-cultural participation. Left subpanels show Moran scatterplots with the Global Moran’s I statistic. Right subpanels show LISA cluster maps with statistically significant clusters at p &lt; 0.05 based on 999 permutations and a 6-nearest-neighbors spatial weights matrix. Region labels are overlaid from the CartoDB Positron basemap. <br> Source: Cultural participation data from NSS 47th Round (July–December 1991). See <a href="https://quarcs-lab.github.io/project2025s-py/notebooks/c06_spatial_culture.html">Spatial culture</a> notebook for source code.
+Figure&nbsp;10: LISA cluster maps of cultural participation across 32 Indian states <br> Notes: Panel (a) shows results for cultural telecast (TV/media); Panel (b) for socio-cultural participation. Left subpanels show Moran scatterplots with the Global Moran’s I statistic. Right subpanels show LISA cluster maps with statistically significant clusters at p &lt; 0.05 based on 999 permutations and a 6-nearest-neighbors spatial weights matrix. Region labels are overlaid from the CartoDB Positron basemap. <br> Source: Cultural participation data from NSS 47th Round (July–December 1991). See <a href="https://quarcs-lab.github.io/project2025s-py/notebooks/c06_spatial_culture.html">Spatial culture</a> notebook for source code.
 </figcaption>
 </figure>
 </div>
@@ -1946,147 +2052,162 @@ Ursavas, Ugur, and Carlos Mendez. 2023. <span>“Regional Income Convergence and
 <span id="cb1-414"><a href="#cb1-414" aria-hidden="true" tabindex="-1"></a>Overall, these results suggest that regional convergence in India operates not only through district-specific factors but also through spatial interactions between neighboring districts.</span>
 <span id="cb1-415"><a href="#cb1-415" aria-hidden="true" tabindex="-1"></a>Ignoring these interactions leads to both underestimated convergence speeds and inferior model performance.</span>
 <span id="cb1-416"><a href="#cb1-416" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-417"><a href="#cb1-417" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-418"><a href="#cb1-418" aria-hidden="true" tabindex="-1"></a><span class="fu">## Discussion</span></span>
-<span id="cb1-419"><a href="#cb1-419" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-420"><a href="#cb1-420" aria-hidden="true" tabindex="-1"></a><span class="fu">### Beyond the economy: Luminosity and cultural factors</span></span>
+<span id="cb1-417"><a href="#cb1-417" aria-hidden="true" tabindex="-1"></a><span class="fu">### Robustness to alternative spatial weight matrices</span></span>
+<span id="cb1-418"><a href="#cb1-418" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-419"><a href="#cb1-419" aria-hidden="true" tabindex="-1"></a>The spillover results above use a six-nearest-neighbor (6NN) spatial weight matrix.</span>
+<span id="cb1-420"><a href="#cb1-420" aria-hidden="true" tabindex="-1"></a>To assess their sensitivity to this choice, we re-estimate the preferred Model 4 under six alternative specifications---four- and eight-nearest neighbors, queen and rook contiguity, and inverse distance and inverse-distance-squared (each applied within a distance band)---and compare them with the 6NN baseline.</span>
 <span id="cb1-421"><a href="#cb1-421" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-422"><a href="#cb1-422" aria-hidden="true" tabindex="-1"></a>Nighttime lights capture not just GDP but a composite of electrification, urbanization, infrastructure, and broader socioeconomic conditions <span class="co">[</span><span class="ot">@henderson_storeygard_weil_lights; @mellander_etal_lights_gdp</span><span class="co">]</span>.</span>
-<span id="cb1-423"><a href="#cb1-423" aria-hidden="true" tabindex="-1"></a>This multi-dimensional nature invites exploration of how luminosity relates to socioeconomic indicators beyond strictly economic output.</span>
-<span id="cb1-424"><a href="#cb1-424" aria-hidden="true" tabindex="-1"></a>In this section, we examine the association between luminosity and cultural participation patterns across Indian states.</span>
+<span id="cb1-422"><a href="#cb1-422" aria-hidden="true" tabindex="-1"></a>{{&lt; embed notebooks/c07_alternative_w_matrices.ipynb#fig-altw &gt;}}</span>
+<span id="cb1-423"><a href="#cb1-423" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-424"><a href="#cb1-424" aria-hidden="true" tabindex="-1"></a>{{&lt; embed notebooks/c07_alternative_w_matrices.ipynb#tbl-altw &gt;}}</span>
 <span id="cb1-425"><a href="#cb1-425" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-426"><a href="#cb1-426" aria-hidden="true" tabindex="-1"></a>A growing literature argues that regional cultural attitudes constitute an independent factor in economic development, not merely a by-product of income or institutions.</span>
-<span id="cb1-427"><a href="#cb1-427" aria-hidden="true" tabindex="-1"></a>In particular, @tubadji_cultural_entropy proposes a Culture-Based Development framework arguing that regional cultural participation patterns---measured through revealed preferences in household expenditure and survey data---predict regional development patterns.</span>
-<span id="cb1-428"><a href="#cb1-428" aria-hidden="true" tabindex="-1"></a>For India, the National Sample Survey (NSS) 47th Round (July--December 1991) provides state-level data on six dimensions of cultural participation: live cultural performance, cultural telecast (TV/media), socio-cultural participation, cultural heritage and religion, live cultural shows, and sports.</span>
-<span id="cb1-429"><a href="#cb1-429" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-430"><a href="#cb1-430" aria-hidden="true" tabindex="-1"></a>With nighttime lights data for an adjacent period (1992) now available for 32 Indian states and union territories, we can examine the extent to which luminosity is associated with regional cultural patterns (see <span class="co">[</span><span class="ot">Spatial culture</span><span class="co">](https://quarcs-lab.github.io/project2025s-py/notebooks/c06_spatial_culture.html)</span> notebook for details and extended analyses).</span>
-<span id="cb1-431"><a href="#cb1-431" aria-hidden="true" tabindex="-1"></a>Given the small sample size (N = 32) and the potential leverage of small territories at the extremes of the distribution on linear correlation measures, we report Spearman rank correlations throughout this section.</span>
-<span id="cb1-432"><a href="#cb1-432" aria-hidden="true" tabindex="-1"></a>@fig-culture-scatter presents the relationship between log nighttime lights per capita and the two cultural dimensions that show statistically significant associations.</span>
-<span id="cb1-433"><a href="#cb1-433" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-434"><a href="#cb1-434" aria-hidden="true" tabindex="-1"></a>{{&lt; embed notebooks/c06_spatial_culture.ipynb#fig-culture-scatter &gt;}}</span>
-<span id="cb1-435"><a href="#cb1-435" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-436"><a href="#cb1-436" aria-hidden="true" tabindex="-1"></a>Cultural telecast (TV/media) exhibits a positive association (Spearman $\rho$ = 0.370, $p$ = 0.037) with nighttime light luminosity.</span>
-<span id="cb1-437"><a href="#cb1-437" aria-hidden="true" tabindex="-1"></a>That is, states with higher luminosity consume more culture through television and media.</span>
-<span id="cb1-438"><a href="#cb1-438" aria-hidden="true" tabindex="-1"></a>This link is intuitive: access to television depends on electrification and urbanization, which are closely tied to luminosity.</span>
-<span id="cb1-439"><a href="#cb1-439" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-440"><a href="#cb1-440" aria-hidden="true" tabindex="-1"></a>In contrast, socio-cultural participation shows a significant negative association (Spearman $\rho$ = $-$0.404, $p$ = 0.022).</span>
-<span id="cb1-441"><a href="#cb1-441" aria-hidden="true" tabindex="-1"></a>That is, community-based cultural engagement is stronger in states with less luminosity.</span>
-<span id="cb1-442"><a href="#cb1-442" aria-hidden="true" tabindex="-1"></a>This suggests that less urbanized regions rely more on collective, in-person forms of cultural participation rather than on media infrastructure.</span>
-<span id="cb1-443"><a href="#cb1-443" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-444"><a href="#cb1-444" aria-hidden="true" tabindex="-1"></a>@fig-culture-lisa presents spatial distribution of these two cultural variables through the lens of a LISA analysis.</span>
-<span id="cb1-445"><a href="#cb1-445" aria-hidden="true" tabindex="-1"></a>Both dimensions exhibit significant spatial autocorrelation, indicating that cultural participation is not randomly distributed across Indian states.</span>
-<span id="cb1-446"><a href="#cb1-446" aria-hidden="true" tabindex="-1"></a>The spatial clustering of cultural telecast broadly mirrors the economic geography distribution.</span>
-<span id="cb1-447"><a href="#cb1-447" aria-hidden="true" tabindex="-1"></a>States in the western and southern regions form high-high clusters while northeastern and eastern states form distinct community-participation clusters.</span>
+<span id="cb1-426"><a href="#cb1-426" aria-hidden="true" tabindex="-1"></a>The convergence spillovers are robust to the choice of spatial weights (@fig-altw and @tbl-altw).</span>
+<span id="cb1-427"><a href="#cb1-427" aria-hidden="true" tabindex="-1"></a>The direct (within-district) convergence effect is essentially unchanged across all seven specifications, ranging from -0.024 to -0.026 and always significant at the 1% level.</span>
+<span id="cb1-428"><a href="#cb1-428" aria-hidden="true" tabindex="-1"></a>The total convergence effect likewise remains negative and significant throughout, ranging from -0.032 to -0.041, with the 6NN baseline (-0.037) near the middle of this range.</span>
+<span id="cb1-429"><a href="#cb1-429" aria-hidden="true" tabindex="-1"></a>The indirect (spillover) component is negative in every specification and statistically significant under most of them.</span>
+<span id="cb1-430"><a href="#cb1-430" aria-hidden="true" tabindex="-1"></a>This stability indicates that the evidence for spatial spillovers in the convergence process is not an artifact of the particular neighbor definition, but a consistent feature of the data.</span>
+<span id="cb1-431"><a href="#cb1-431" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-432"><a href="#cb1-432" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-433"><a href="#cb1-433" aria-hidden="true" tabindex="-1"></a><span class="fu">## Discussion</span></span>
+<span id="cb1-434"><a href="#cb1-434" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-435"><a href="#cb1-435" aria-hidden="true" tabindex="-1"></a><span class="fu">### Beyond the economy: Luminosity and cultural factors</span></span>
+<span id="cb1-436"><a href="#cb1-436" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-437"><a href="#cb1-437" aria-hidden="true" tabindex="-1"></a>Nighttime lights capture not just GDP but a composite of electrification, urbanization, infrastructure, and broader socioeconomic conditions <span class="co">[</span><span class="ot">@henderson_storeygard_weil_lights; @mellander_etal_lights_gdp</span><span class="co">]</span>.</span>
+<span id="cb1-438"><a href="#cb1-438" aria-hidden="true" tabindex="-1"></a>This multi-dimensional nature invites exploration of how luminosity relates to socioeconomic indicators beyond strictly economic output.</span>
+<span id="cb1-439"><a href="#cb1-439" aria-hidden="true" tabindex="-1"></a>In this section, we examine the association between luminosity and cultural participation patterns across Indian states.</span>
+<span id="cb1-440"><a href="#cb1-440" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-441"><a href="#cb1-441" aria-hidden="true" tabindex="-1"></a>A growing literature argues that regional cultural attitudes constitute an independent factor in economic development, not merely a by-product of income or institutions.</span>
+<span id="cb1-442"><a href="#cb1-442" aria-hidden="true" tabindex="-1"></a>In particular, @tubadji_cultural_entropy proposes a Culture-Based Development framework arguing that regional cultural participation patterns---measured through revealed preferences in household expenditure and survey data---predict regional development patterns.</span>
+<span id="cb1-443"><a href="#cb1-443" aria-hidden="true" tabindex="-1"></a>For India, the National Sample Survey (NSS) 47th Round (July--December 1991) provides state-level data on six dimensions of cultural participation: live cultural performance, cultural telecast (TV/media), socio-cultural participation, cultural heritage and religion, live cultural shows, and sports.</span>
+<span id="cb1-444"><a href="#cb1-444" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-445"><a href="#cb1-445" aria-hidden="true" tabindex="-1"></a>With nighttime lights data for an adjacent period (1992) now available for 32 Indian states and union territories, we can examine the extent to which luminosity is associated with regional cultural patterns (see <span class="co">[</span><span class="ot">Spatial culture</span><span class="co">](https://quarcs-lab.github.io/project2025s-py/notebooks/c06_spatial_culture.html)</span> notebook for details and extended analyses).</span>
+<span id="cb1-446"><a href="#cb1-446" aria-hidden="true" tabindex="-1"></a>Given the small sample size (N = 32) and the potential leverage of small territories at the extremes of the distribution on linear correlation measures, we report Spearman rank correlations throughout this section.</span>
+<span id="cb1-447"><a href="#cb1-447" aria-hidden="true" tabindex="-1"></a>@fig-culture-scatter presents the relationship between log nighttime lights per capita and the two cultural dimensions that show statistically significant associations.</span>
 <span id="cb1-448"><a href="#cb1-448" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-449"><a href="#cb1-449" aria-hidden="true" tabindex="-1"></a>{{&lt; embed notebooks/c06_spatial_culture.ipynb#fig-culture-lisa &gt;}}</span>
+<span id="cb1-449"><a href="#cb1-449" aria-hidden="true" tabindex="-1"></a>{{&lt; embed notebooks/c06_spatial_culture.ipynb#fig-culture-scatter &gt;}}</span>
 <span id="cb1-450"><a href="#cb1-450" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-451"><a href="#cb1-451" aria-hidden="true" tabindex="-1"></a>Together, these two results reveal a contrast in how regions engage with culture: more luminous states favor media-based consumption, while less luminous states sustain community-based participation.</span>
-<span id="cb1-452"><a href="#cb1-452" aria-hidden="true" tabindex="-1"></a>The remaining four cultural dimensions---live cultural performance, cultural heritage and religion, live cultural shows, and sports---show no statistically significant association with luminosity.</span>
-<span id="cb1-453"><a href="#cb1-453" aria-hidden="true" tabindex="-1"></a>However, these findings are based on a small cross-section of 32 states observed at a single point in time.</span>
-<span id="cb1-454"><a href="#cb1-454" aria-hidden="true" tabindex="-1"></a>Further investigation with larger datasets covering more regions and additional time periods is needed to establish whether these patterns are robust.</span>
-<span id="cb1-455"><a href="#cb1-455" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-456"><a href="#cb1-456" aria-hidden="true" tabindex="-1"></a><span class="fu">### Better luminosity data from VIIRS</span></span>
-<span id="cb1-457"><a href="#cb1-457" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-458"><a href="#cb1-458" aria-hidden="true" tabindex="-1"></a>Our analysis, following @chanda_kabiraj_district_convergence, relies on radiance-calibrated DMSP-OLS nighttime lights data covering the period 1996 to 2010.</span>
-<span id="cb1-459"><a href="#cb1-459" aria-hidden="true" tabindex="-1"></a>This dataset has been widely used as a proxy for economic activity <span class="co">[</span><span class="ot">@henderson_storeygard_weil_lights; @chen_nordhaus_luminosity_gdp</span><span class="co">]</span>.</span>
-<span id="cb1-460"><a href="#cb1-460" aria-hidden="true" tabindex="-1"></a>However, DMSP-OLS data are subject to well-documented limitations, including top-coding in bright urban cores and lack of on-board calibration leading to inter-satellite inconsistencies.</span>
-<span id="cb1-461"><a href="#cb1-461" aria-hidden="true" tabindex="-1"></a>Blooming artifacts that spatially blur light sources beyond their true boundaries represent an additional concern <span class="co">[</span><span class="ot">@abrahams_etal_deblurring</span><span class="co">]</span>.</span>
-<span id="cb1-462"><a href="#cb1-462" aria-hidden="true" tabindex="-1"></a>These measurement issues can attenuate the precision of convergence estimates, particularly in rapidly urbanizing districts.</span>
+<span id="cb1-451"><a href="#cb1-451" aria-hidden="true" tabindex="-1"></a>Cultural telecast (TV/media) exhibits a positive association (Spearman $\rho$ = 0.370, $p$ = 0.037) with nighttime light luminosity.</span>
+<span id="cb1-452"><a href="#cb1-452" aria-hidden="true" tabindex="-1"></a>That is, states with higher luminosity consume more culture through television and media.</span>
+<span id="cb1-453"><a href="#cb1-453" aria-hidden="true" tabindex="-1"></a>This link is intuitive: access to television depends on electrification and urbanization, which are closely tied to luminosity.</span>
+<span id="cb1-454"><a href="#cb1-454" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-455"><a href="#cb1-455" aria-hidden="true" tabindex="-1"></a>In contrast, socio-cultural participation shows a significant negative association (Spearman $\rho$ = $-$0.404, $p$ = 0.022).</span>
+<span id="cb1-456"><a href="#cb1-456" aria-hidden="true" tabindex="-1"></a>That is, community-based cultural engagement is stronger in states with less luminosity.</span>
+<span id="cb1-457"><a href="#cb1-457" aria-hidden="true" tabindex="-1"></a>This suggests that less urbanized regions rely more on collective, in-person forms of cultural participation rather than on media infrastructure.</span>
+<span id="cb1-458"><a href="#cb1-458" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-459"><a href="#cb1-459" aria-hidden="true" tabindex="-1"></a>@fig-culture-lisa presents spatial distribution of these two cultural variables through the lens of a LISA analysis.</span>
+<span id="cb1-460"><a href="#cb1-460" aria-hidden="true" tabindex="-1"></a>Both dimensions exhibit significant spatial autocorrelation, indicating that cultural participation is not randomly distributed across Indian states.</span>
+<span id="cb1-461"><a href="#cb1-461" aria-hidden="true" tabindex="-1"></a>The spatial clustering of cultural telecast broadly mirrors the economic geography distribution.</span>
+<span id="cb1-462"><a href="#cb1-462" aria-hidden="true" tabindex="-1"></a>States in the western and southern regions form high-high clusters while northeastern and eastern states form distinct community-participation clusters.</span>
 <span id="cb1-463"><a href="#cb1-463" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-464"><a href="#cb1-464" aria-hidden="true" tabindex="-1"></a>The Visible Infrared Imaging Radiometer Suite (VIIRS), operational since 2012, represents a marked improvement over DMSP-OLS along multiple dimensions.</span>
-<span id="cb1-465"><a href="#cb1-465" aria-hidden="true" tabindex="-1"></a>VIIRS offers finer spatial resolution (approximately 750 meters versus 2.7 kilometers) and on-board radiometric calibration that provides consistent quantitative measurements.</span>
-<span id="cb1-466"><a href="#cb1-466" aria-hidden="true" tabindex="-1"></a>It also features a wider dynamic range that avoids saturation in urban areas while detecting dim lights in rural settlements <span class="co">[</span><span class="ot">@elvidge_etal_viirs</span><span class="co">]</span>.</span>
-<span id="cb1-467"><a href="#cb1-467" aria-hidden="true" tabindex="-1"></a>Systematic assessments recommend VIIRS as the preferred product for cross-sectional and recent time-series studies <span class="co">[</span><span class="ot">@gibson_etal_ntl_measurement</span><span class="co">]</span>.</span>
-<span id="cb1-468"><a href="#cb1-468" aria-hidden="true" tabindex="-1"></a>Future extensions of our convergence analysis using VIIRS data could yield more precise estimates of both direct and indirect effects, especially in districts where blooming effects may have distorted the true spillover effects.</span>
-<span id="cb1-469"><a href="#cb1-469" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-470"><a href="#cb1-470" aria-hidden="true" tabindex="-1"></a>A practical challenge for extending long-run convergence studies is the discontinuity between DMSP (1992--2013) and VIIRS (2012--present) sensor eras.</span>
-<span id="cb1-471"><a href="#cb1-471" aria-hidden="true" tabindex="-1"></a>Recent harmonization efforts, notably the global harmonized nighttime light dataset by @li_etal_harmonization, have created consistent long-run time series by calibrating VIIRS observations to DMSP-equivalent units during the overlap period.</span>
-<span id="cb1-472"><a href="#cb1-472" aria-hidden="true" tabindex="-1"></a>Such harmonized datasets could enable the extension of our spatial Durbin analysis to more recent periods.</span>
-<span id="cb1-473"><a href="#cb1-473" aria-hidden="true" tabindex="-1"></a>This would allow researchers to examine whether the convergence patterns and spatial spillovers documented here have persisted, accelerated, or changed in character as India's economy has continued to transform.</span>
-<span id="cb1-474"><a href="#cb1-474" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-475"><a href="#cb1-475" aria-hidden="true" tabindex="-1"></a><span class="fu">### New research directions</span></span>
-<span id="cb1-476"><a href="#cb1-476" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-477"><a href="#cb1-477" aria-hidden="true" tabindex="-1"></a>While our analysis documents the average convergence effect and its spatial spillover component, the cross-sectional regression framework does not capture potential heterogeneity in convergence patterns across the income distribution.</span>
-<span id="cb1-478"><a href="#cb1-478" aria-hidden="true" tabindex="-1"></a>Distribution dynamics approaches, as pioneered by @quah_twin_peaks, could reveal whether Indian districts are converging to a single steady state or forming distinct convergence clubs where districts converge within groups but diverge across them.</span>
-<span id="cb1-479"><a href="#cb1-479" aria-hidden="true" tabindex="-1"></a>The regression tree methods developed by @durlauf_johnson_convergence_clubs for identifying multiple growth regimes could be combined with spatial econometric techniques.</span>
-<span id="cb1-480"><a href="#cb1-480" aria-hidden="true" tabindex="-1"></a>Such an approach could examine whether geographic clusters of districts follow distinct convergence trajectories, potentially revealing spatial poverty traps or growth poles that are not visible in average convergence estimates <span class="co">[</span><span class="ot">@rey_spatial_dynamics</span><span class="co">]</span>.</span>
-<span id="cb1-481"><a href="#cb1-481" aria-hidden="true" tabindex="-1"></a>Furthermore, analysis of harmonized luminosity data across Chinese provinces has uncovered complex inequality dynamics that differ markedly across cross-sectional and temporal dimensions <span class="co">[</span><span class="ot">@glawe_mendez_china_luminosity</span><span class="co">]</span>.</span>
-<span id="cb1-482"><a href="#cb1-482" aria-hidden="true" tabindex="-1"></a>Extending these insights to the Indian district context could help determine whether the convergence patterns we document reflect a single equilibrium or mask the formation of distinct spatial clubs.</span>
-<span id="cb1-483"><a href="#cb1-483" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-484"><a href="#cb1-484" aria-hidden="true" tabindex="-1"></a>Another important direction concerns the causal identification of the spillover channels that our spatial Durbin model captures in reduced form.</span>
-<span id="cb1-485"><a href="#cb1-485" aria-hidden="true" tabindex="-1"></a>While our estimates document significant indirect effects, the model does not identify whether these spillovers operate through infrastructure linkages, labor migration, technology diffusion, or market access channels.</span>
-<span id="cb1-486"><a href="#cb1-486" aria-hidden="true" tabindex="-1"></a>Quasi-experimental approaches, such as those employed by @asher_novosad_rural_roads to study the causal effects of rural road construction on structural transformation in India, could be embedded within spatial econometric frameworks to isolate specific spillover mechanisms.</span>
-<span id="cb1-487"><a href="#cb1-487" aria-hidden="true" tabindex="-1"></a>Understanding which channels drive the indirect convergence effects is important for designing spatially targeted policies that may amplify positive spillovers.</span>
-<span id="cb1-488"><a href="#cb1-488" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-489"><a href="#cb1-489" aria-hidden="true" tabindex="-1"></a>Comparative evidence from other developing economies suggests that spatial dependence in regional convergence is a widespread phenomenon rather than an India-specific feature.</span>
-<span id="cb1-490"><a href="#cb1-490" aria-hidden="true" tabindex="-1"></a>Studies have documented significant spatial spillover effects in convergence processes across Thailand <span class="co">[</span><span class="ot">@tipayalai_mendez_thailand</span><span class="co">]</span>, Turkey <span class="co">[</span><span class="ot">@ursavas_mendez_turkey</span><span class="co">]</span>, and Indonesian districts <span class="co">[</span><span class="ot">@miranti_mendez_indonesia</span><span class="co">]</span>, with neighbor effects and spatial conditioning factors playing important roles in shaping convergence trajectories.</span>
-<span id="cb1-491"><a href="#cb1-491" aria-hidden="true" tabindex="-1"></a>This cross-country regularity strengthens the case for systematic investigation of the specific mechanisms driving spatial spillovers, as the channels may differ across institutional and geographic contexts.</span>
-<span id="cb1-492"><a href="#cb1-492" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-493"><a href="#cb1-493" aria-hidden="true" tabindex="-1"></a>The growing availability of diverse satellite products and machine learning methods opens possibilities for richer measurement of regional economic activity.</span>
-<span id="cb1-494"><a href="#cb1-494" aria-hidden="true" tabindex="-1"></a>@jean_etal_poverty_prediction showed that combining high-resolution daytime imagery with nighttime lights through deep learning can considerably improve poverty prediction in data-scarce settings.</span>
-<span id="cb1-495"><a href="#cb1-495" aria-hidden="true" tabindex="-1"></a>Similarly, @keola_etal_lights_poverty showed that integrating nighttime lights with land cover data improves economic measurement in agricultural areas where lights alone provide weak signals.</span>
-<span id="cb1-496"><a href="#cb1-496" aria-hidden="true" tabindex="-1"></a>These alternative data sources allow the construction of multi-dimensional proxies for regional economic activity that go beyond what nighttime lights alone can capture.</span>
-<span id="cb1-497"><a href="#cb1-497" aria-hidden="true" tabindex="-1"></a>Recent applications demonstrate the practical potential of these advances for subnational economic measurement.</span>
-<span id="cb1-498"><a href="#cb1-498" aria-hidden="true" tabindex="-1"></a>@chen_etal_turkey_viirs show that higher-quality VIIRS nighttime lights can predict sectoral GDP composition across Turkish provinces, distinguishing between urban service-oriented and rural agricultural regions in ways that DMSP data cannot.</span>
-<span id="cb1-499"><a href="#cb1-499" aria-hidden="true" tabindex="-1"></a>@hussein_etal_vietnam_ml employ machine learning methods with multiple remote sensing indicators to predict subnational GDP in Vietnam, achieving accuracy improvements over traditional luminosity-based approaches.</span>
-<span id="cb1-500"><a href="#cb1-500" aria-hidden="true" tabindex="-1"></a>At a broader scale, @theara_etal_cambodia_poverty combine big data sources, socioeconomic surveys, and machine learning to map multidimensional poverty in Cambodia, illustrating how satellite-derived features can complement conventional survey instruments.</span>
-<span id="cb1-501"><a href="#cb1-501" aria-hidden="true" tabindex="-1"></a>Applying similar multi-source approaches to Indian districts could yield richer proxies for economic activity that overcome the well-known limitations of nighttime lights in agricultural and low-density areas.</span>
-<span id="cb1-502"><a href="#cb1-502" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-503"><a href="#cb1-503" aria-hidden="true" tabindex="-1"></a><span class="fu">### Research reproducibility and open science</span></span>
-<span id="cb1-504"><a href="#cb1-504" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-505"><a href="#cb1-505" aria-hidden="true" tabindex="-1"></a>The complexity of satellite-based economic research---involving multi-step data processing pipelines, spatial econometric estimation, and geographic visualization---makes reproducibility both challenging and essential.</span>
-<span id="cb1-506"><a href="#cb1-506" aria-hidden="true" tabindex="-1"></a>As @donaldson_storeygard_remotesensing note, the processing of satellite data requires careful documentation and sharing of code to ensure that results can be replicated and extended.</span>
-<span id="cb1-507"><a href="#cb1-507" aria-hidden="true" tabindex="-1"></a>Each methodological choice in the pipeline, from sensor inter-calibration to spatial weight matrix construction, can affect empirical conclusions.</span>
-<span id="cb1-508"><a href="#cb1-508" aria-hidden="true" tabindex="-1"></a>This underscores the need for transparent computational workflows that allow other researchers to verify and build upon published findings.</span>
-<span id="cb1-509"><a href="#cb1-509" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-510"><a href="#cb1-510" aria-hidden="true" tabindex="-1"></a>This article adopts a reproducible research approach through Jupyter notebooks and the Quarto publishing framework.</span>
-<span id="cb1-511"><a href="#cb1-511" aria-hidden="true" tabindex="-1"></a>All computational analyses are documented in embedded notebooks that readers can inspect alongside the results they produce.</span>
-<span id="cb1-512"><a href="#cb1-512" aria-hidden="true" tabindex="-1"></a>The interactive visualization tool, built on Google Earth Engine, allows researchers to explore the spatial and temporal patterns in satellite nighttime light data.</span>
-<span id="cb1-513"><a href="#cb1-513" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-514"><a href="#cb1-514" aria-hidden="true" tabindex="-1"></a>Open-source tools and cloud computing platforms are rapidly lowering the barriers to reproducible spatial economic research.</span>
-<span id="cb1-515"><a href="#cb1-515" aria-hidden="true" tabindex="-1"></a>Cloud-based computational notebooks, such as those developed by @mendez_patnaik_notebook for processing nighttime lights data, eliminate the need for specialized local software and provide accessible workflows for data ingestion, preprocessing, spatial analysis, and visualization.</span>
-<span id="cb1-516"><a href="#cb1-516" aria-hidden="true" tabindex="-1"></a>The combination of open data repositories, version-controlled code, and cloud computing infrastructure creates an ecosystem where the full analytical pipeline---from satellite imagery to econometric results---can be made transparent, verifiable, and extensible by the broader research community.</span>
+<span id="cb1-464"><a href="#cb1-464" aria-hidden="true" tabindex="-1"></a>{{&lt; embed notebooks/c06_spatial_culture.ipynb#fig-culture-lisa &gt;}}</span>
+<span id="cb1-465"><a href="#cb1-465" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-466"><a href="#cb1-466" aria-hidden="true" tabindex="-1"></a>Together, these two results reveal a contrast in how regions engage with culture: more luminous states favor media-based consumption, while less luminous states sustain community-based participation.</span>
+<span id="cb1-467"><a href="#cb1-467" aria-hidden="true" tabindex="-1"></a>The remaining four cultural dimensions---live cultural performance, cultural heritage and religion, live cultural shows, and sports---show no statistically significant association with luminosity.</span>
+<span id="cb1-468"><a href="#cb1-468" aria-hidden="true" tabindex="-1"></a>However, these findings are based on a small cross-section of 32 states observed at a single point in time.</span>
+<span id="cb1-469"><a href="#cb1-469" aria-hidden="true" tabindex="-1"></a>Further investigation with larger datasets covering more regions and additional time periods is needed to establish whether these patterns are robust.</span>
+<span id="cb1-470"><a href="#cb1-470" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-471"><a href="#cb1-471" aria-hidden="true" tabindex="-1"></a><span class="fu">### Better luminosity data from VIIRS</span></span>
+<span id="cb1-472"><a href="#cb1-472" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-473"><a href="#cb1-473" aria-hidden="true" tabindex="-1"></a>Our analysis, following @chanda_kabiraj_district_convergence, relies on radiance-calibrated DMSP-OLS nighttime lights data covering the period 1996 to 2010.</span>
+<span id="cb1-474"><a href="#cb1-474" aria-hidden="true" tabindex="-1"></a>This dataset has been widely used as a proxy for economic activity <span class="co">[</span><span class="ot">@henderson_storeygard_weil_lights; @chen_nordhaus_luminosity_gdp</span><span class="co">]</span>.</span>
+<span id="cb1-475"><a href="#cb1-475" aria-hidden="true" tabindex="-1"></a>However, DMSP-OLS data are subject to well-documented limitations, including top-coding in bright urban cores and lack of on-board calibration leading to inter-satellite inconsistencies.</span>
+<span id="cb1-476"><a href="#cb1-476" aria-hidden="true" tabindex="-1"></a>Blooming artifacts that spatially blur light sources beyond their true boundaries represent an additional concern <span class="co">[</span><span class="ot">@abrahams_etal_deblurring</span><span class="co">]</span>.</span>
+<span id="cb1-477"><a href="#cb1-477" aria-hidden="true" tabindex="-1"></a>These measurement issues can attenuate the precision of convergence estimates, particularly in rapidly urbanizing districts.</span>
+<span id="cb1-478"><a href="#cb1-478" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-479"><a href="#cb1-479" aria-hidden="true" tabindex="-1"></a>The Visible Infrared Imaging Radiometer Suite (VIIRS), operational since 2012, represents a marked improvement over DMSP-OLS along multiple dimensions.</span>
+<span id="cb1-480"><a href="#cb1-480" aria-hidden="true" tabindex="-1"></a>VIIRS offers finer spatial resolution (approximately 750 meters versus 2.7 kilometers) and on-board radiometric calibration that provides consistent quantitative measurements.</span>
+<span id="cb1-481"><a href="#cb1-481" aria-hidden="true" tabindex="-1"></a>It also features a wider dynamic range that avoids saturation in urban areas while detecting dim lights in rural settlements <span class="co">[</span><span class="ot">@elvidge_etal_viirs</span><span class="co">]</span>.</span>
+<span id="cb1-482"><a href="#cb1-482" aria-hidden="true" tabindex="-1"></a>Systematic assessments recommend VIIRS as the preferred product for cross-sectional and recent time-series studies <span class="co">[</span><span class="ot">@gibson_etal_ntl_measurement</span><span class="co">]</span>.</span>
+<span id="cb1-483"><a href="#cb1-483" aria-hidden="true" tabindex="-1"></a>Future extensions of our convergence analysis using VIIRS data could yield more precise estimates of both direct and indirect effects, especially in districts where blooming effects may have distorted the true spillover effects.</span>
+<span id="cb1-484"><a href="#cb1-484" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-485"><a href="#cb1-485" aria-hidden="true" tabindex="-1"></a>A practical challenge for extending long-run convergence studies is the discontinuity between DMSP (1992--2013) and VIIRS (2012--present) sensor eras.</span>
+<span id="cb1-486"><a href="#cb1-486" aria-hidden="true" tabindex="-1"></a>Recent harmonization efforts, notably the global harmonized nighttime light dataset by @li_etal_harmonization, have created consistent long-run time series by calibrating VIIRS observations to DMSP-equivalent units during the overlap period.</span>
+<span id="cb1-487"><a href="#cb1-487" aria-hidden="true" tabindex="-1"></a>Such harmonized datasets could enable the extension of our spatial Durbin analysis to more recent periods.</span>
+<span id="cb1-488"><a href="#cb1-488" aria-hidden="true" tabindex="-1"></a>This would allow researchers to examine whether the convergence patterns and spatial spillovers documented here have persisted, accelerated, or changed in character as India's economy has continued to transform.</span>
+<span id="cb1-489"><a href="#cb1-489" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-490"><a href="#cb1-490" aria-hidden="true" tabindex="-1"></a><span class="fu">### New research directions</span></span>
+<span id="cb1-491"><a href="#cb1-491" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-492"><a href="#cb1-492" aria-hidden="true" tabindex="-1"></a>While our analysis documents the average convergence effect and its spatial spillover component, the cross-sectional regression framework does not capture potential heterogeneity in convergence patterns across the income distribution.</span>
+<span id="cb1-493"><a href="#cb1-493" aria-hidden="true" tabindex="-1"></a>Distribution dynamics approaches, as pioneered by @quah_twin_peaks, could reveal whether Indian districts are converging to a single steady state or forming distinct convergence clubs where districts converge within groups but diverge across them.</span>
+<span id="cb1-494"><a href="#cb1-494" aria-hidden="true" tabindex="-1"></a>The regression tree methods developed by @durlauf_johnson_convergence_clubs for identifying multiple growth regimes could be combined with spatial econometric techniques.</span>
+<span id="cb1-495"><a href="#cb1-495" aria-hidden="true" tabindex="-1"></a>Such an approach could examine whether geographic clusters of districts follow distinct convergence trajectories, potentially revealing spatial poverty traps or growth poles that are not visible in average convergence estimates <span class="co">[</span><span class="ot">@rey_spatial_dynamics</span><span class="co">]</span>.</span>
+<span id="cb1-496"><a href="#cb1-496" aria-hidden="true" tabindex="-1"></a>Furthermore, analysis of harmonized luminosity data across Chinese provinces has uncovered complex inequality dynamics that differ markedly across cross-sectional and temporal dimensions <span class="co">[</span><span class="ot">@glawe_mendez_china_luminosity</span><span class="co">]</span>.</span>
+<span id="cb1-497"><a href="#cb1-497" aria-hidden="true" tabindex="-1"></a>Extending these insights to the Indian district context could help determine whether the convergence patterns we document reflect a single equilibrium or mask the formation of distinct spatial clubs.</span>
+<span id="cb1-498"><a href="#cb1-498" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-499"><a href="#cb1-499" aria-hidden="true" tabindex="-1"></a>Another important direction concerns the causal identification of the spillover channels that our spatial Durbin model captures in reduced form.</span>
+<span id="cb1-500"><a href="#cb1-500" aria-hidden="true" tabindex="-1"></a>While our estimates document significant indirect effects, the model does not identify whether these spillovers operate through infrastructure linkages, labor migration, technology diffusion, or market access channels.</span>
+<span id="cb1-501"><a href="#cb1-501" aria-hidden="true" tabindex="-1"></a>Quasi-experimental approaches, such as those employed by @asher_novosad_rural_roads to study the causal effects of rural road construction on structural transformation in India, could be embedded within spatial econometric frameworks to isolate specific spillover mechanisms.</span>
+<span id="cb1-502"><a href="#cb1-502" aria-hidden="true" tabindex="-1"></a>Understanding which channels drive the indirect convergence effects is important for designing spatially targeted policies that may amplify positive spillovers.</span>
+<span id="cb1-503"><a href="#cb1-503" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-504"><a href="#cb1-504" aria-hidden="true" tabindex="-1"></a>Comparative evidence from other developing economies suggests that spatial dependence in regional convergence is a widespread phenomenon rather than an India-specific feature.</span>
+<span id="cb1-505"><a href="#cb1-505" aria-hidden="true" tabindex="-1"></a>Studies have documented significant spatial spillover effects in convergence processes across Thailand <span class="co">[</span><span class="ot">@tipayalai_mendez_thailand</span><span class="co">]</span>, Turkey <span class="co">[</span><span class="ot">@ursavas_mendez_turkey</span><span class="co">]</span>, and Indonesian districts <span class="co">[</span><span class="ot">@miranti_mendez_indonesia</span><span class="co">]</span>, with neighbor effects and spatial conditioning factors playing important roles in shaping convergence trajectories.</span>
+<span id="cb1-506"><a href="#cb1-506" aria-hidden="true" tabindex="-1"></a>This cross-country regularity strengthens the case for systematic investigation of the specific mechanisms driving spatial spillovers, as the channels may differ across institutional and geographic contexts.</span>
+<span id="cb1-507"><a href="#cb1-507" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-508"><a href="#cb1-508" aria-hidden="true" tabindex="-1"></a>The growing availability of diverse satellite products and machine learning methods opens possibilities for richer measurement of regional economic activity.</span>
+<span id="cb1-509"><a href="#cb1-509" aria-hidden="true" tabindex="-1"></a>@jean_etal_poverty_prediction showed that combining high-resolution daytime imagery with nighttime lights through deep learning can considerably improve poverty prediction in data-scarce settings.</span>
+<span id="cb1-510"><a href="#cb1-510" aria-hidden="true" tabindex="-1"></a>Similarly, @keola_etal_lights_poverty showed that integrating nighttime lights with land cover data improves economic measurement in agricultural areas where lights alone provide weak signals.</span>
+<span id="cb1-511"><a href="#cb1-511" aria-hidden="true" tabindex="-1"></a>These alternative data sources allow the construction of multi-dimensional proxies for regional economic activity that go beyond what nighttime lights alone can capture.</span>
+<span id="cb1-512"><a href="#cb1-512" aria-hidden="true" tabindex="-1"></a>Recent applications demonstrate the practical potential of these advances for subnational economic measurement.</span>
+<span id="cb1-513"><a href="#cb1-513" aria-hidden="true" tabindex="-1"></a>@chen_etal_turkey_viirs show that higher-quality VIIRS nighttime lights can predict sectoral GDP composition across Turkish provinces, distinguishing between urban service-oriented and rural agricultural regions in ways that DMSP data cannot.</span>
+<span id="cb1-514"><a href="#cb1-514" aria-hidden="true" tabindex="-1"></a>@hussein_etal_vietnam_ml employ machine learning methods with multiple remote sensing indicators to predict subnational GDP in Vietnam, achieving accuracy improvements over traditional luminosity-based approaches.</span>
+<span id="cb1-515"><a href="#cb1-515" aria-hidden="true" tabindex="-1"></a>At a broader scale, @theara_etal_cambodia_poverty combine big data sources, socioeconomic surveys, and machine learning to map multidimensional poverty in Cambodia, illustrating how satellite-derived features can complement conventional survey instruments.</span>
+<span id="cb1-516"><a href="#cb1-516" aria-hidden="true" tabindex="-1"></a>Applying similar multi-source approaches to Indian districts could yield richer proxies for economic activity that overcome the well-known limitations of nighttime lights in agricultural and low-density areas.</span>
 <span id="cb1-517"><a href="#cb1-517" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-518"><a href="#cb1-518" aria-hidden="true" tabindex="-1"></a><span class="fu">## Concluding remarks</span></span>
+<span id="cb1-518"><a href="#cb1-518" aria-hidden="true" tabindex="-1"></a><span class="fu">### Research reproducibility and open science</span></span>
 <span id="cb1-519"><a href="#cb1-519" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-520"><a href="#cb1-520" aria-hidden="true" tabindex="-1"></a>This article re-examines the regional convergence hypothesis across Indian districts using satellite nighttime light data, interactive visualizations, and spatial econometric modeling.</span>
-<span id="cb1-521"><a href="#cb1-521" aria-hidden="true" tabindex="-1"></a>Building on the work of @chanda_kabiraj_district_convergence, we developed an interactive web-based visualization tool that illustrates spatial and convergence patterns across Indian districts.</span>
-<span id="cb1-522"><a href="#cb1-522" aria-hidden="true" tabindex="-1"></a>Spatial autocorrelation analyses indicate that spatial dependence is a notable characteristic of satellite data and the regional convergence process in India.</span>
-<span id="cb1-523"><a href="#cb1-523" aria-hidden="true" tabindex="-1"></a>Estimates from our spatial Durbin model indicate that incorporating spatial spillovers increases the estimated speed of regional convergence.</span>
-<span id="cb1-524"><a href="#cb1-524" aria-hidden="true" tabindex="-1"></a>The total convergence effect in our fully specified model is approximately 48% larger than conventional non-spatial estimates.</span>
-<span id="cb1-525"><a href="#cb1-525" aria-hidden="true" tabindex="-1"></a>This finding suggests that non-spatial convergence models may underestimate the speed of regional convergence.</span>
-<span id="cb1-526"><a href="#cb1-526" aria-hidden="true" tabindex="-1"></a>Additionally, it suggests that place-based development interventions may have broader impacts, as their benefits can extend to neighboring districts through spatial spillover effects.</span>
-<span id="cb1-527"><a href="#cb1-527" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-528"><a href="#cb1-528" aria-hidden="true" tabindex="-1"></a>Our results also demonstrate the usefulness of satellite nighttime lights for studying economic dynamics in countries where subnational data are scarce, infrequent, or unreliable.</span>
-<span id="cb1-529"><a href="#cb1-529" aria-hidden="true" tabindex="-1"></a>Conventional economic statistics at the district level are often unavailable or inconsistent across administrative boundaries, especially in large developing economies.</span>
-<span id="cb1-530"><a href="#cb1-530" aria-hidden="true" tabindex="-1"></a>Radiance-calibrated nighttime light data allowed us to analyze 520 Indian districts at a spatial granularity that would be difficult to achieve with traditional national accounts.</span>
-<span id="cb1-531"><a href="#cb1-531" aria-hidden="true" tabindex="-1"></a>This data-driven approach is potentially transferable to other data-poor contexts across the developing world.</span>
-<span id="cb1-532"><a href="#cb1-532" aria-hidden="true" tabindex="-1"></a>The ongoing transition from DMSP-OLS to the higher-resolution VIIRS sensor should yield more precise measurement of subnational economic activity in future studies.</span>
-<span id="cb1-533"><a href="#cb1-533" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-534"><a href="#cb1-534" aria-hidden="true" tabindex="-1"></a>This study also shows how reproducible open-science practices can strengthen the credibility and reach of scientific research.</span>
-<span id="cb1-535"><a href="#cb1-535" aria-hidden="true" tabindex="-1"></a>The entire analytical pipeline is documented in computational Jupyter notebooks using Python, R, and Stata code.</span>
-<span id="cb1-536"><a href="#cb1-536" aria-hidden="true" tabindex="-1"></a>Research results are automatically embedded within the manuscript through Quarto's publishing framework.</span>
-<span id="cb1-537"><a href="#cb1-537" aria-hidden="true" tabindex="-1"></a>Moreover, a single manuscript source generates multiple output formats: HTML, PDF, Microsoft Word, among others.</span>
-<span id="cb1-538"><a href="#cb1-538" aria-hidden="true" tabindex="-1"></a>The HTML version is particularly useful as it allows readers to engage with interactive visualizations, easily inspect the code of multiple computational notebooks, and reevaluate the results in light of their source code.</span>
-<span id="cb1-539"><a href="#cb1-539" aria-hidden="true" tabindex="-1"></a>By hosting the complete codebase and data in a public GitHub repository and making the Python notebooks executable in the cloud through Google Colaboratory, we aim to encourage broader adoption of reproducible open-science practices.</span>
-<span id="cb1-540"><a href="#cb1-540" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-541"><a href="#cb1-541" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-542"><a href="#cb1-542" aria-hidden="true" tabindex="-1"></a><span class="fu">## Acknowledgments {.appendix}</span></span>
-<span id="cb1-543"><a href="#cb1-543" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-544"><a href="#cb1-544" aria-hidden="true" tabindex="-1"></a>This research project was supported by JSPS KAKENHI Grant Number 24K04884.</span>
-<span id="cb1-545"><a href="#cb1-545" aria-hidden="true" tabindex="-1"></a>During the preparation of this manuscript, the authors acknowledge the use of Claude Code (Anthropic) to assist with manuscript editing, computational notebook development, and research infrastructure setup.</span>
-<span id="cb1-546"><a href="#cb1-546" aria-hidden="true" tabindex="-1"></a>After using this AI tool, the authors reviewed the outputs, confirmed their accuracy, and take full responsibility for the content of this publication.</span>
-<span id="cb1-547"><a href="#cb1-547" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-548"><a href="#cb1-548" aria-hidden="true" tabindex="-1"></a><span class="fu">## Conflict of Interest {.appendix}</span></span>
-<span id="cb1-549"><a href="#cb1-549" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-550"><a href="#cb1-550" aria-hidden="true" tabindex="-1"></a>The authors declare no conflict of interest.</span>
-<span id="cb1-551"><a href="#cb1-551" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-552"><a href="#cb1-552" aria-hidden="true" tabindex="-1"></a><span class="fu">## Data and Code Availability {.appendix}</span></span>
-<span id="cb1-553"><a href="#cb1-553" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-554"><a href="#cb1-554" aria-hidden="true" tabindex="-1"></a>All data and computational code used in this study are available in the project repository: <span class="co">[</span><span class="ot">Repository URL removed for blind review</span><span class="co">]</span>.</span>
-<span id="cb1-555"><a href="#cb1-555" aria-hidden="true" tabindex="-1"></a>The interactive HTML version of this manuscript (<span class="ot">&lt;https://quarcs-lab.github.io/project2025s-py/&gt;</span>) embeds the computational notebooks, allowing readers to inspect the complete analytical pipeline from raw data to published results.</span>
-<span id="cb1-556"><a href="#cb1-556" aria-hidden="true" tabindex="-1"></a>All notebooks can be executed in the cloud using Google Colaboratory without requiring local software installation.</span>
-<span id="cb1-557"><a href="#cb1-557" aria-hidden="true" tabindex="-1"></a>The computational notebooks are implemented entirely in Python; an earlier implementation of the same analysis used R and Stata, and the present Python results are largely consistent with it---the only material difference being the impact decomposition of the unconditional spatial Durbin model (Model 1), whose total effect is unchanged.</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button" data-in-quarto-modal=""><i class="bi"></i></button></div>
+<span id="cb1-520"><a href="#cb1-520" aria-hidden="true" tabindex="-1"></a>The complexity of satellite-based economic research---involving multi-step data processing pipelines, spatial econometric estimation, and geographic visualization---makes reproducibility both challenging and essential.</span>
+<span id="cb1-521"><a href="#cb1-521" aria-hidden="true" tabindex="-1"></a>As @donaldson_storeygard_remotesensing note, the processing of satellite data requires careful documentation and sharing of code to ensure that results can be replicated and extended.</span>
+<span id="cb1-522"><a href="#cb1-522" aria-hidden="true" tabindex="-1"></a>Each methodological choice in the pipeline, from sensor inter-calibration to spatial weight matrix construction, can affect empirical conclusions.</span>
+<span id="cb1-523"><a href="#cb1-523" aria-hidden="true" tabindex="-1"></a>This underscores the need for transparent computational workflows that allow other researchers to verify and build upon published findings.</span>
+<span id="cb1-524"><a href="#cb1-524" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-525"><a href="#cb1-525" aria-hidden="true" tabindex="-1"></a>This article adopts a reproducible research approach through Jupyter notebooks and the Quarto publishing framework.</span>
+<span id="cb1-526"><a href="#cb1-526" aria-hidden="true" tabindex="-1"></a>All computational analyses are documented in embedded notebooks that readers can inspect alongside the results they produce.</span>
+<span id="cb1-527"><a href="#cb1-527" aria-hidden="true" tabindex="-1"></a>The interactive visualization tool, built on Google Earth Engine, allows researchers to explore the spatial and temporal patterns in satellite nighttime light data.</span>
+<span id="cb1-528"><a href="#cb1-528" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-529"><a href="#cb1-529" aria-hidden="true" tabindex="-1"></a>Open-source tools and cloud computing platforms are rapidly lowering the barriers to reproducible spatial economic research.</span>
+<span id="cb1-530"><a href="#cb1-530" aria-hidden="true" tabindex="-1"></a>Cloud-based computational notebooks, such as those developed by @mendez_patnaik_notebook for processing nighttime lights data, eliminate the need for specialized local software and provide accessible workflows for data ingestion, preprocessing, spatial analysis, and visualization.</span>
+<span id="cb1-531"><a href="#cb1-531" aria-hidden="true" tabindex="-1"></a>The combination of open data repositories, version-controlled code, and cloud computing infrastructure creates an ecosystem where the full analytical pipeline---from satellite imagery to econometric results---can be made transparent, verifiable, and extensible by the broader research community.</span>
+<span id="cb1-532"><a href="#cb1-532" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-533"><a href="#cb1-533" aria-hidden="true" tabindex="-1"></a><span class="fu">## Concluding remarks</span></span>
+<span id="cb1-534"><a href="#cb1-534" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-535"><a href="#cb1-535" aria-hidden="true" tabindex="-1"></a>This article re-examines the regional convergence hypothesis across Indian districts using satellite nighttime light data, interactive visualizations, and spatial econometric modeling.</span>
+<span id="cb1-536"><a href="#cb1-536" aria-hidden="true" tabindex="-1"></a>Building on the work of @chanda_kabiraj_district_convergence, we developed an interactive web-based visualization tool that illustrates spatial and convergence patterns across Indian districts.</span>
+<span id="cb1-537"><a href="#cb1-537" aria-hidden="true" tabindex="-1"></a>Spatial autocorrelation analyses indicate that spatial dependence is a notable characteristic of satellite data and the regional convergence process in India.</span>
+<span id="cb1-538"><a href="#cb1-538" aria-hidden="true" tabindex="-1"></a>Estimates from our spatial Durbin model indicate that incorporating spatial spillovers increases the estimated speed of regional convergence.</span>
+<span id="cb1-539"><a href="#cb1-539" aria-hidden="true" tabindex="-1"></a>The total convergence effect in our fully specified model is approximately 48% larger than conventional non-spatial estimates.</span>
+<span id="cb1-540"><a href="#cb1-540" aria-hidden="true" tabindex="-1"></a>This finding suggests that non-spatial convergence models may underestimate the speed of regional convergence.</span>
+<span id="cb1-541"><a href="#cb1-541" aria-hidden="true" tabindex="-1"></a>Additionally, it suggests that place-based development interventions may have broader impacts, as their benefits can extend to neighboring districts through spatial spillover effects.</span>
+<span id="cb1-542"><a href="#cb1-542" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-543"><a href="#cb1-543" aria-hidden="true" tabindex="-1"></a>Our results also demonstrate the usefulness of satellite nighttime lights for studying economic dynamics in countries where subnational data are scarce, infrequent, or unreliable.</span>
+<span id="cb1-544"><a href="#cb1-544" aria-hidden="true" tabindex="-1"></a>Conventional economic statistics at the district level are often unavailable or inconsistent across administrative boundaries, especially in large developing economies.</span>
+<span id="cb1-545"><a href="#cb1-545" aria-hidden="true" tabindex="-1"></a>Radiance-calibrated nighttime light data allowed us to analyze 520 Indian districts at a spatial granularity that would be difficult to achieve with traditional national accounts.</span>
+<span id="cb1-546"><a href="#cb1-546" aria-hidden="true" tabindex="-1"></a>This data-driven approach is potentially transferable to other data-poor contexts across the developing world.</span>
+<span id="cb1-547"><a href="#cb1-547" aria-hidden="true" tabindex="-1"></a>The ongoing transition from DMSP-OLS to the higher-resolution VIIRS sensor should yield more precise measurement of subnational economic activity in future studies.</span>
+<span id="cb1-548"><a href="#cb1-548" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-549"><a href="#cb1-549" aria-hidden="true" tabindex="-1"></a>This study also shows how reproducible open-science practices can strengthen the credibility and reach of scientific research.</span>
+<span id="cb1-550"><a href="#cb1-550" aria-hidden="true" tabindex="-1"></a>The entire analytical pipeline is documented in computational Jupyter notebooks using Python, R, and Stata code.</span>
+<span id="cb1-551"><a href="#cb1-551" aria-hidden="true" tabindex="-1"></a>Research results are automatically embedded within the manuscript through Quarto's publishing framework.</span>
+<span id="cb1-552"><a href="#cb1-552" aria-hidden="true" tabindex="-1"></a>Moreover, a single manuscript source generates multiple output formats: HTML, PDF, Microsoft Word, among others.</span>
+<span id="cb1-553"><a href="#cb1-553" aria-hidden="true" tabindex="-1"></a>The HTML version is particularly useful as it allows readers to engage with interactive visualizations, easily inspect the code of multiple computational notebooks, and reevaluate the results in light of their source code.</span>
+<span id="cb1-554"><a href="#cb1-554" aria-hidden="true" tabindex="-1"></a>By hosting the complete codebase and data in a public GitHub repository and making the Python notebooks executable in the cloud through Google Colaboratory, we aim to encourage broader adoption of reproducible open-science practices.</span>
+<span id="cb1-555"><a href="#cb1-555" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-556"><a href="#cb1-556" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-557"><a href="#cb1-557" aria-hidden="true" tabindex="-1"></a><span class="fu">## Acknowledgments {.appendix}</span></span>
+<span id="cb1-558"><a href="#cb1-558" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-559"><a href="#cb1-559" aria-hidden="true" tabindex="-1"></a>This research project was supported by JSPS KAKENHI Grant Number 24K04884.</span>
+<span id="cb1-560"><a href="#cb1-560" aria-hidden="true" tabindex="-1"></a>During the preparation of this manuscript, the authors acknowledge the use of Claude Code (Anthropic) to assist with manuscript editing, computational notebook development, and research infrastructure setup.</span>
+<span id="cb1-561"><a href="#cb1-561" aria-hidden="true" tabindex="-1"></a>After using this AI tool, the authors reviewed the outputs, confirmed their accuracy, and take full responsibility for the content of this publication.</span>
+<span id="cb1-562"><a href="#cb1-562" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-563"><a href="#cb1-563" aria-hidden="true" tabindex="-1"></a><span class="fu">## Conflict of Interest {.appendix}</span></span>
+<span id="cb1-564"><a href="#cb1-564" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-565"><a href="#cb1-565" aria-hidden="true" tabindex="-1"></a>The authors declare no conflict of interest.</span>
+<span id="cb1-566"><a href="#cb1-566" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-567"><a href="#cb1-567" aria-hidden="true" tabindex="-1"></a><span class="fu">## Data and Code Availability {.appendix}</span></span>
+<span id="cb1-568"><a href="#cb1-568" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-569"><a href="#cb1-569" aria-hidden="true" tabindex="-1"></a>All data and computational code used in this study are available in the project repository: <span class="co">[</span><span class="ot">Repository URL removed for blind review</span><span class="co">]</span>.</span>
+<span id="cb1-570"><a href="#cb1-570" aria-hidden="true" tabindex="-1"></a>The interactive HTML version of this manuscript (<span class="ot">&lt;https://quarcs-lab.github.io/project2025s-py/&gt;</span>) embeds the computational notebooks, allowing readers to inspect the complete analytical pipeline from raw data to published results.</span>
+<span id="cb1-571"><a href="#cb1-571" aria-hidden="true" tabindex="-1"></a>All notebooks can be executed in the cloud using Google Colaboratory without requiring local software installation.</span>
+<span id="cb1-572"><a href="#cb1-572" aria-hidden="true" tabindex="-1"></a>The computational notebooks are implemented entirely in Python; an earlier implementation of the same analysis used R and Stata, and the present Python results are largely consistent with it---the only material difference being the impact decomposition of the unconditional spatial Durbin model (Model 1), whose total effect is unchanged.</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button" data-in-quarto-modal=""><i class="bi"></i></button></div>
 </div></div></div></div></div>
 </div> <!-- /content -->
 <script>var lightboxQuarto = GLightbox({"closeEffect":"zoom","descPosition":"bottom","loop":false,"openEffect":"zoom","selector":".lightbox"});

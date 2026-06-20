@@ -414,6 +414,21 @@ Even in the fully specified model, where state fixed effects already absorb much
 Overall, these results suggest that regional convergence in India operates not only through district-specific factors but also through spatial interactions between neighboring districts.
 Ignoring these interactions leads to both underestimated convergence speeds and inferior model performance.
 
+### Robustness to alternative spatial weight matrices
+
+The spillover results above use a six-nearest-neighbor (6NN) spatial weight matrix.
+To assess their sensitivity to this choice, we re-estimate the preferred Model 4 under six alternative specifications---four- and eight-nearest neighbors, queen and rook contiguity, and inverse distance and inverse-distance-squared (each applied within a distance band)---and compare them with the 6NN baseline.
+
+{{< embed notebooks/c07_alternative_w_matrices.ipynb#fig-altw >}}
+
+{{< embed notebooks/c07_alternative_w_matrices.ipynb#tbl-altw >}}
+
+The convergence spillovers are robust to the choice of spatial weights (@fig-altw and @tbl-altw).
+The direct (within-district) convergence effect is essentially unchanged across all seven specifications, ranging from -0.024 to -0.026 and always significant at the 1% level.
+The total convergence effect likewise remains negative and significant throughout, ranging from -0.032 to -0.041, with the 6NN baseline (-0.037) near the middle of this range.
+The indirect (spillover) component is negative in every specification and statistically significant under most of them.
+This stability indicates that the evidence for spatial spillovers in the convergence process is not an artifact of the particular neighbor definition, but a consistent feature of the data.
+
 
 ## Discussion
 

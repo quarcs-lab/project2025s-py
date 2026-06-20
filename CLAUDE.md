@@ -71,8 +71,9 @@ Each notebook in `notebooks/` is paired with a MyST Markdown `.md` file via [Jup
 | `c02_regional_convergence_sc.ipynb` | `c02_regional_convergence_sc.md` | Python |
 | `c03_spatial_dependence_lisa.ipynb` | `c03_spatial_dependence_lisa.md` | Python |
 | `c04_spillover_modeling_6nn.ipynb` | `c04_spillover_modeling_6nn.md` | Python |
-| `c05_spatial_culture.ipynb` | — (no Jupytext pair) | Python |
+| `c05_spatial_culture.ipynb` | `c05_spatial_culture.md` | Python (supplementary; superseded by c06) |
 | `c06_spatial_culture.ipynb` | — (no Jupytext pair) | Python |
+| `c07_alternative_w_matrices.ipynb` | `c07_alternative_w_matrices.md` | Python |
 
 ```bash
 uv run jupytext --sync notebooks/<file>   # Sync .md <-> .ipynb
@@ -124,6 +125,8 @@ Current embeds:
 {{< embed notebooks/c03_spatial_dependence_lisa.ipynb#fig-dependence-initial >}}
 {{< embed notebooks/c03_spatial_dependence_lisa.ipynb#fig-dependence-growth >}}
 {{< embed notebooks/c04_spillover_modeling_6nn.ipynb#tbl-models >}}
+{{< embed notebooks/c07_alternative_w_matrices.ipynb#fig-altw >}}
+{{< embed notebooks/c07_alternative_w_matrices.ipynb#tbl-altw >}}
 {{< embed notebooks/c06_spatial_culture.ipynb#fig-culture-scatter >}}
 {{< embed notebooks/c06_spatial_culture.ipynb#fig-culture-lisa >}}
 ```
