@@ -14,6 +14,17 @@
 set -euo pipefail
 cd "$(dirname "$0")/.."
 
+# Pin Quarto's Jupyter engine to the project venv (created by `uv sync`).
+# Without this, Quarto resolves the kernel named "python3" through the *user*
+# kernelspec directory (~/Library/Jupyter/kernels), which on some machines
+# points at an unrelated project's interpreter and fails on the first import.
+export QUARTO_PYTHON="$PWD/.venv/bin/python"
+export JUPYTER_PATH="$PWD/.venv/share/jupyter"
+if [ ! -x "$QUARTO_PYTHON" ]; then
+  echo "ERROR: $QUARTO_PYTHON not found. Run 'uv sync' first." >&2
+  exit 1
+fi
+
 echo "Cleaning Quarto caches..."
 rm -rf _freeze/
 rm -rf .quarto/embed/

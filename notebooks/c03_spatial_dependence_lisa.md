@@ -12,7 +12,7 @@ kernelspec:
   name: python3
 ---
 
-<a href="https://colab.research.google.com/github/quarcs-lab/project2025s-py/blob/master/notebooks/c03_spatial_dependence_lisa.ipynb"><img src="https://colab.research.google.com/assets/colab-badge.svg" alt="Open In Colab" /></a>
+<a href="https://colab.research.google.com/github/quarcs-lab/project2025s-py/blob/main/notebooks/c03_spatial_dependence_lisa.ipynb"><img src="https://colab.research.google.com/assets/colab-badge.svg" alt="Open In Colab" /></a>
 
 +++
 
@@ -85,7 +85,7 @@ We load district geometries and nighttime lights variables from the GeoPackage, 
 # Load data (local ../data first, else download from the public repo)
 import urllib.request, tempfile, os
 local_gpkg = os.path.join("..", "data", "maps", "india_2001_520.gpkg")
-url = "https://raw.githubusercontent.com/quarcs-lab/project2025s-py/master/data/maps/india_2001_520.gpkg"
+url = "https://raw.githubusercontent.com/quarcs-lab/project2025s-py/main/data/maps/india_2001_520.gpkg"
 if os.path.exists(local_gpkg):
     gdf = gpd.read_file(local_gpkg, engine="pyogrio")
 else:
@@ -220,7 +220,7 @@ We construct a 6 nearest neighbors (6NN) spatial weights matrix from the distric
 
 +++
 
-We reproject the geometries to an India-specific CRS (EPSG:7755) for proper basemap overlay, then compute the spatial lag of each variable---the weighted average of neighboring districts' values.
+The neighbors of each district are the six districts whose centroids are nearest in the geographic coordinates of the source file. We then compute the spatial lag of each variable, which is the weighted average of the values of neighboring districts.
 
 ```{code-cell} ipython3
 # Generate and export weight matrix
@@ -392,8 +392,8 @@ f, ax = plt.subplots(1, 2, figsize=(14, 7))
 # 1. Plot Moran Scatterplot and customize labels
 moran_scatterplot(moranLocal2, p=0.05, zstandard=False, aspect_equal=f, ax=ax[0])
 ax[0].set_title(f"(a) Moran scatterplot (Moran's I = {moranI2})", fontsize=14)
-ax[0].set_xlabel("Growth luminosity per capita 1990-2010", fontsize=12)
-ax[0].set_ylabel("Growth luminosity per capita 1990-2010 in neighboring regions", fontsize=12)
+ax[0].set_xlabel("Growth luminosity per capita 1996-2010", fontsize=12)
+ax[0].set_ylabel("Growth luminosity per capita 1996-2010 in neighboring regions", fontsize=12)
 
 # 2. Plot LISA Cluster map and customize title
 lisa_cluster(moranLocal2, gdf, p=0.05, 
