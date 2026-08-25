@@ -42,6 +42,9 @@ index-meca.zip
 /docs/
 /legacy/
 
+# Non-blind author metadata used by the submission skill. Local only.
+.claude/author-config.yml
+
 # REGION extension format-resources (auto-copied to root during render).
 # Anchored with / so they only match at the repo root — legitimate copies
 # inside legacy/ submission bundles should still be tracked.
