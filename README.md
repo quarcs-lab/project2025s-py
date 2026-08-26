@@ -115,11 +115,7 @@ That's it. Step 2 reads `pyproject.toml` and `uv.lock` to install the exact same
 
 ### Editor setup (optional)
 
-VS Code settings are **not tracked** because they contain machine-specific paths. A template is provided instead:
-
-```bash
-cp .vscode/settings.json.template .vscode/settings.json
-```
+VS Code settings are **not tracked** because they contain machine-specific paths. The whole `.vscode/` directory is gitignored, so a fresh clone has no template to copy; point your editor at `.venv/bin/python` and enable the Jupytext extension by hand.
 
 This configures the Python interpreter and Jupytext extension to use the project's virtual environment. The template uses `${workspaceFolder}`, which VS Code resolves to your local project path automatically.
 
@@ -145,8 +141,8 @@ project2025s-py/
 ├── data/                      # Data (raw inputs + generated weights matrix)
 │   ├── india520.dta           #   Main dataset: 520 districts, 1996-2010
 │   ├── india520.geojson       #   District boundary polygons
-│   ├── W_matrix.csv           #   Spatial weights matrix (6NN, row-normalized)
-│   ├── W_matrix.dta           #   Spatial weights matrix (Stata format)
+│   ├── W_matrix.csv           #   6NN adjacency, binary 0/1 (row sums = 6, not normalized)
+│   ├── W_matrix.dta           #   Same matrix, Stata format. Exported by c03; read by nothing
 │   └── maps/                  #   GeoPackage files for mapping
 │
 ├── scripts/
@@ -235,7 +231,7 @@ flowchart TB
 | Step | Command | Purpose |
 | ---- | ------- | ------- |
 | 1 | `rm -rf _freeze/ .quarto/embed/ ...` | Clear all caches for a clean build |
-| 2 | `quarto render index.qmd` | Full render: HTML + notebook previews + all formats |
+| 2 | `quarto render index.qmd` | Full render: HTML + notebook previews. Run via `scripts/clean-render.sh`, never on its own |
 | 3 | `quarto render --to region-ersa/REGION-pdf` | Re-render REGION PDF with 4 LaTeX passes (fixes bibliography) |
 | 4 | `quarto render --to pdf` | Re-render standard PDF (restores LaTeX source) |
 
@@ -245,14 +241,16 @@ flowchart TB
 
 ## Computational Notebooks
 
-The analysis is organized into four Jupyter notebooks, all written in Python:
+The analysis is organized into six Jupyter notebooks, all written in Python:
 
 | Notebook | Title | Language | Embedded in manuscript |
 | -------- | ----- | -------- | ---------------------- |
 | `c01_view_from_space` | View from outer space | Python | No (supplementary) |
 | `c02_regional_convergence_sc` | Regional convergence | Python | Yes --- `fig-convergence` |
-| `c03_spatial_dependence_lisa` | Spatial dependence (LISA) | Python | Yes --- `fig-dependence-initial`, `fig-dependence-growth` |
-| `c04_spillover_modeling_6nn` | Spillover modeling | Python | Yes --- `tbl-models` |
+| `c03_spatial_dependence_lisa` | Spatial dependence (LISA) | Python | Yes --- `fig-chorophleths`, `fig-Wmatrix6nn`, `fig-dependence-initial`, `fig-dependence-growth` |
+| `c04_spillover_modeling_6nn` | Spillover modeling | Python | Yes --- `tbl-models`, `tbl-speed` |
+| `c07_alternative_w_matrices` | Robustness: alternative spatial weights | Python | Yes --- `fig-altw`, `tbl-altw` |
+| `c06_spatial_culture` | Spatial culture | Python | Yes --- `fig-culture-scatter`, `fig-culture-lisa` |
 
 ### How notebooks feed into the manuscript
 
@@ -340,7 +338,7 @@ uv run jupytext --sync notebooks/<file>
 
 1. Open [`index.qmd`](index.qmd) in any text editor
 2. Make your changes (introduction, methods, conclusions, citations...)
-3. Render: `quarto render index.qmd`
+3. Render: `bash scripts/clean-render.sh` (a bare `quarto render index.qmd` degrades the REGION PDF)
 
 For text-only changes, you don't need `clean-render.sh` --- a plain `quarto render` is faster.
 
@@ -393,9 +391,9 @@ The build script clears Quarto's embed caches, re-executes changed notebooks, an
 | Variable | Description |
 | -------- | ----------- |
 | `light_growth96_10rcr_cap` | Luminosity growth rate per capita (dependent variable) |
-| `log_light96_10rcr_cap` | Log initial luminosity per capita |
+| `log_light96_rcr_cap` | Log initial luminosity per capita |
 | `SL_light_growth96_10rcr_cap` | Spatial lag of growth |
-| `SL_log_light96_10rcr_cap` | Spatial lag of initial luminosity |
+| `SL_log_light96_rcr_cap` | Spatial lag of initial luminosity |
 | Geographic controls | Terrain ruggedness, rainfall, temperature |
 | Demographic controls | Literacy rate, education, electrification |
 | Economic controls | Population density, road infrastructure |
@@ -542,4 +540,4 @@ Under the following terms:
 
 ---
 
-**Last updated:** April 10, 2026
+**Last updated:** August 26, 2026

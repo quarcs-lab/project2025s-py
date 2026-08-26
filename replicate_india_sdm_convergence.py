@@ -5,12 +5,13 @@
 #  "Regional growth, convergence, and spatial spillovers in India:
 #   A reproducible view from outer space" (quarcs-lab/project2025s-py)
 #
-#  This script reproduces TABLE 1 ("Unconditional and conditional convergence
-#  across districts") of the article. The original estimation notebook (c04)
-#  is written in Stata and estimates a Spatial Durbin Model (SDM) via
+#  This script reproduces TABLE 2 ("Unconditional and conditional convergence
+#  across districts") of the article. The estimation notebook (c04) is written
+#  in Python; the retired Stata original, kept in archive/ for provenance,
+#  estimated the same Spatial Durbin Model (SDM) via
 #       spregress y x, ml dvarlag(W6nn) ivarlag(W6nn: x ...)
 #  which is the maximum-likelihood spatial-lag model augmented with spatially
-#  lagged regressors (SLX). In Python this maps exactly onto
+#  lagged regressors (SLX). In Python this maps onto
 #       spreg.ML_Lag(..., slx_lags=1)
 #
 #  Model (Ertur & Koch 2007; eq. 7 of the paper):
@@ -67,14 +68,14 @@ CONTROLS = [
     "lit_percent96", "higheredu_percent96", "elechh_percent96", "log_puccaroads",
 ]
 
-RAW = "https://raw.githubusercontent.com/quarcs-lab/project2025s-py/master/data"
+RAW = "https://raw.githubusercontent.com/quarcs-lab/project2025s-py/main/data"
 
 
 # ---------------------------------------------------------------------------
 # 1. Load data (local ./data first, else download from the public repo)
 # ---------------------------------------------------------------------------
 def _resolve(fname):
-    for cand in (os.path.join("data", fname), fname):
+    for cand in (os.path.join("..", "data", fname), os.path.join("data", fname), fname):
         if os.path.exists(cand):
             return cand
     url = f"{RAW}/{fname}"
@@ -139,23 +140,36 @@ def run_ols(y, Xdf):
 
 
 def run_sdm(y, Xdf, w, Wd):
-    """Spatial Durbin Model via ML_Lag(slx_lags=1); impacts use the 'simple'
-    (Kim-Phipps-Anselin) method, which reproduces Stata's `estat impact`.
+    """Spatial Durbin Model via ML_Lag(slx_lags=1), with the LeSage-Pace impact
+    decomposition, which reproduces Stata's `estat impact`.
 
-    For the key regressor with own coefficient b, spatial-lag coefficient g
-    and spatial parameter rho:
-        Direct   = b
+    For the key regressor with own coefficient b, spatial-lag coefficient g and
+    spatial parameter rho, writing adi = n^-1 tr[(I - rho W)^-1] and
+    awi = n^-1 tr[(I - rho W)^-1 W]:
+        Direct   = adi * b + awi * g
         Total    = (b + g) / (1 - rho)
         Indirect = Total - Direct
-    Inference on impacts is obtained by Monte-Carlo simulation from the ML
-    parameter covariance matrix.
+    Note that spreg's own spat_impacts output omits the awi * g term and
+    assigns the whole SLX coefficient to the indirect effect, so it does not
+    agree with this decomposition. Inference on impacts is obtained by
+    Monte-Carlo simulation from the ML parameter covariance matrix.
     """
     Xv = Xdf.astype(float).values
     mask = full_rank_lag_mask(Xv, Wd)
+    assert mask[0], "the key regressor's spatial lag must be retained"
     slx_vars = "All" if all(mask) else mask
+    eigs = np.linalg.eigvals(Wd)
     with redirect_stdout(open(os.devnull, "w")):
         mod = ML_Lag(y=y, x=Xv, w=w, slx_lags=1, slx_vars=slx_vars,
-                     spat_impacts="simple")
+                     spat_impacts="full")
+
+    def adi(R):
+        R = np.atleast_1d(np.asarray(R, dtype=float))
+        return (1.0 / (1.0 - np.outer(R, eigs))).real.mean(axis=1)
+
+    def awi(R):
+        R = np.atleast_1d(np.asarray(R, dtype=float))
+        return (eigs / (1.0 - np.outer(R, eigs))).real.mean(axis=1)
 
     b = mod.betas.flatten()
     k = Xv.shape[1]
@@ -163,16 +177,17 @@ def run_sdm(y, Xdf, w, Wd):
     i_g = 1 + k                   # first W*X column (XKEY is always lagged)
     i_r = len(b) - 1              # rho is last
     rho = b[i_r]
-    direct = b[i_b]
+    direct = adi(rho)[0] * b[i_b] + awi(rho)[0] * b[i_g]
     total = (b[i_b] + b[i_g]) / (1 - rho)
     indirect = total - direct
 
     draws = np.random.multivariate_normal(b, mod.vm, size=N_MC)
     D, G, R = draws[:, i_b], draws[:, i_g], draws[:, i_r]
+    Deff = adi(R) * D + awi(R) * G
     T = (D + G) / (1 - R)
-    I = T - D
+    I = T - Deff
     return {
-        "direct": direct, "direct_se": D.std(),
+        "direct": direct, "direct_se": Deff.std(),
         "indirect": indirect, "indirect_se": I.std(),
         "total": total, "total_se": T.std(),
         "aic": mod.aic, "rho": rho,
@@ -231,7 +246,7 @@ def _se(se):
 def print_table(results):
     cols = ["Model 1", "Model 2", "Model 3", "Model 4"]
     print("\n" + "=" * 70)
-    print("  REPLICATION OF TABLE 1")
+    print("  REPLICATION OF TABLE 2")
     print("  Unconditional and conditional convergence across districts in India")
     print("  Dependent variable: per-capita NTL growth, 1996-2010")
     print("=" * 70)
@@ -266,12 +281,12 @@ def print_table(results):
     print(line)
     print("=" * 70)
     print("Notes: *** p<0.01, ** p<0.05, * p<0.10. OLS uses HC1-robust SEs;")
-    print("SDM impacts use the 'simple' method with Monte-Carlo inference.")
-    print("Published Table 1 (for comparison):")
+    print("SDM impacts use the LeSage-Pace decomposition with Monte-Carlo inference.")
+    print("Published Table 2 (for comparison):")
     print("  Direct  : -0.020/-0.021 | -0.022/-0.021 | -0.025/-0.026 | -0.025/-0.025")
     print("  Indirect:      –/-0.001 |      –/-0.001 |      –/-0.015* |      –/-0.012*")
     print("  Total   : -0.020/-0.022 | -0.022/-0.022 | -0.025/-0.041 | -0.025/-0.037")
-    print("  AIC     :  -1945/-2290  |  -2413/-2466  |  -2211/-2356  |  -2469/-2499")
+    print("  AIC     :  -1945/-2292  |  -2409/-2468  |  -2211/-2358  |  -2465/-2501")
 
 
 if __name__ == "__main__":

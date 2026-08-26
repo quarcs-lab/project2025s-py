@@ -125,6 +125,7 @@ Current embeds:
 {{< embed notebooks/c03_spatial_dependence_lisa.ipynb#fig-dependence-initial >}}
 {{< embed notebooks/c03_spatial_dependence_lisa.ipynb#fig-dependence-growth >}}
 {{< embed notebooks/c04_spillover_modeling_6nn.ipynb#tbl-models >}}
+{{< embed notebooks/c04_spillover_modeling_6nn.ipynb#tbl-speed >}}
 {{< embed notebooks/c07_alternative_w_matrices.ipynb#fig-altw >}}
 {{< embed notebooks/c07_alternative_w_matrices.ipynb#tbl-altw >}}
 {{< embed notebooks/c06_spatial_culture.ipynb#fig-culture-scatter >}}
