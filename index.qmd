@@ -30,8 +30,8 @@ abstract: |
   Second, we assess the degree of spatial dependence in their main econometric specification.
   Third, we employ a spatial Durbin model to measure the role of spatial spillovers in the convergence process.
   Our results indicate that spatial spillovers increase the estimated speed of regional convergence.
-  Accounting for them raises the implied speed from about 3.0% to about 5.2% per year, which shortens the half-life of regional disparities from roughly 23 to 13 years.
-  These conclusions are robust across seven definitions of the spatial weight matrix.
+  In our fully specified model, accounting for them raises the implied speed from about 3.0% to about 5.2% per year, which shortens the half-life of regional disparities from roughly 23 to 13 years.
+  The direct and total convergence effects are robust across seven definitions of the spatial weight matrix, and the spillover component is negative under all seven and statistically significant under five.
   We close by illustrating how the same reproducible workflow extends beyond economic output, with an exploratory analysis of how luminosity relates to cultural participation across Indian states.
   We also set out the gaps in data, geographic coverage, and theory that this line of work must close next.
 
@@ -69,7 +69,7 @@ Regional growth and convergence are central concerns in developing countries, an
 Consistent economic data are rarely available below the state level, which has long made convergence difficult to study.
 Satellite nighttime lights, used as a proxy for economic activity, have relaxed that constraint and opened a literature on regional growth at granular scales.
 
-@chanda_kabiraj_district_convergence used nighttime light data to document regional convergence across 520 districts in India between 1996 and 2010, with poorer districts growing faster than richer ones, which suggests a reduction in spatial inequalities.
+@chanda_kabiraj_district_convergence used nighttime light data to document regional convergence across 520 districts in India between 1996 and 2010, with poorer districts growing faster than richer ones.
 Their econometric approach, however, did not model spatial dependence.
 The initial luminosity of neighboring districts enters only as a robustness control, with no spatially lagged dependent variable and no impact decomposition.
 The growth of a district may nevertheless depend on the initial conditions of its neighbors as well as on its own.
@@ -78,7 +78,7 @@ This article extends that analysis in three methodological directions, and each 
 First, we develop an interactive visualization tool for the spatial and temporal patterns of regional convergence in nighttime lights, which identifies converging regions and growth hotspots that static visualizations obscure.
 It reveals clear spatial patterns in both the initial distribution and the subsequent growth of luminosity.
 Second, we test formally for spatial dependence in the dependent and the independent variables of the convergence equation, and find that district-level economic trajectories are not independent of their neighbors.
-Third, we employ a spatial Durbin model to quantify how neighbors influence the speed of convergence, and find that catch-up across Indian districts is a neighborhood process and not only a district one.
+Third, we employ a spatial Durbin model to measure how much of the estimated convergence is associated with the initial conditions of neighboring districts, and find that catch-up across Indian districts has a neighborhood dimension as well as a district one.
 The indirect effect of initial luminosity is negative and statistically significant at the 10% level, so districts whose neighbors started from a lower base grew faster than their own initial conditions alone would predict.
 
 These contributions have three dimensions, and it is worth stating which of them carries the most weight.
@@ -100,12 +100,12 @@ That exercise relies on state-level data for an adjacent period, and on rank cor
 We present it as a demonstration of what the workflow makes possible rather than as additional evidence on the convergence process itself.
 
 These findings carry implications for methodology and for policy.
-Methodologically, they suggest that in settings of this kind conventional non-spatial approaches understate the speed of regional convergence by failing to account for inter-district spillovers.
+Methodologically, they suggest that in settings of this kind conventional non-spatial approaches understate the speed of regional convergence because they omit the spatial structure of the growth process.
 For policy, the implied half-life of regional disparities falls from roughly 23 years to 13, and if the indirect effects reflect genuine spillovers, place-based policies would benefit more districts than they target and be more cost-effective than conventional estimates imply.
 The Indian evidence, however, also carries a warning: a district-targeted tax program has been found to raise activity partly by displacing it from neighboring districts that narrowly missed qualifying [@hasan_etal_backward_districts].
 Displaced activity would appear in our framework as a spillover, so we weigh both readings in the discussion.
 
-Every figure and table in this article is produced by one of the six computational notebooks listed in @tbl-notebooks.
+Every empirical figure and table in this article is produced by one of the six computational notebooks listed in @tbl-notebooks.
 The five analytical notebooks are written in Python and run directly in Google Colaboratory, so that a reader needs no local installation, no environment configuration, and no software licenses.
 Opening a notebook through its Colab badge and clicking *Run all* downloads the raw data from the repository and re-executes the analysis, regenerating every figure and table that the notebook contributes.
 The remaining notebook, N1, hosts the interactive visualization and its Google Earth Engine source code, which runs in the Earth Engine Code Editor.
@@ -153,6 +153,7 @@ Our study builds on @chanda_kabiraj_district_convergence.
 Following their approach, we use the per capita growth in nighttime lights as the dependent variable and the initial nighttime lights per capita as the primary explanatory variable.
 For 520 districts in India, these variables are derived from NTL data released by the National Geophysical Data Center (NGDC), based on observations from the DMSP-OLS satellites over the period from 1996 to 2010.
 To mitigate the issue of top-coding, the NGDC released radiance-calibrated nighttime lights for eight specific years, using high magnification settings for low-light regions and low magnification settings for brightly lit areas.
+Six of those eight fall inside our sample window, and they are the dates our dataset holds.
 We use the radiance-calibrated series throughout.[^1]
 
 [^1]: Following @chanda_kabiraj_district_convergence, our sample consists of 520 districts (out of a possible 593).
@@ -161,7 +162,7 @@ We use the radiance-calibrated series throughout.[^1]
     Eight of the 47 new districts were created by splitting areas from multiple parent districts.
     Those new districts along with their multiple-origin districts were dropped from our sample.
     We dropped all the districts in the state of Assam, where more than half of the new districts were created in that manner.
-    The 73 districts not in our sample are the 23 of Assam, the 4 of Tripura, the 10 union-territory districts outside Delhi, the 8 by which Delhi's nine districts are collapsed to a single unit, and 28 multiple-origin districts and their parents spread across ten further states.
+    The 73 districts not in our sample are those of Assam and Tripura, the union-territory districts outside Delhi, the eight by which Delhi's nine are collapsed to one, and 28 multiple-origin districts and their parents.
 
 
 ### Jupyter and Quarto for reproducible open science
@@ -181,7 +182,7 @@ Satellite data have opened new dimensions of economic measurement [@donaldson_st
 Interactive visualizations of nighttime lights imagery offer further methodological advantages over static representations, especially when the analysis concerns temporal and spatial heterogeneity in economic activity.
 Google Earth Engine (GEE) lowers the computational and technical barriers to creating such visualizations and provides an accessible platform for analyzing satellite data [@gorelick_gee].
 Its browser-based development environment supports interactive web applications without specialized local software, and its extensive catalog of pre-processed datasets, including the DMSP-OLS and VIIRS nighttime lights collections, reduces the storage and processing burden [@tamiminia_gee_review].
-For the purposes of this article, the platform allows readers to track the evolution of light intensity across regions over time, and therefore to observe catch-up growth directly, as initially dim regions converge toward the luminosity levels of their brighter counterparts.
+For the purposes of this article, the platform allows readers to track the evolution of light intensity across regions over time, and therefore to see where initially dim regions brightened fastest, which is the visual counterpart of the convergence relationship estimated in Section 3.
 
 
 ### Regional convergence modeling
@@ -275,7 +276,7 @@ Statistical significance of each local statistic is assessed through conditional
     High-Low (HL) is a spatial outlier where a high-value location is surrounded by low-value neighbors, and Low-High (LH) is the opposite spatial outlier.
 
 The specification of the spatial weights matrix $\mathbf{W}$ is important for capturing the underlying spatial structure.
-We employ a six-nearest-neighbors (6NN) weight matrix, so that for each district the six nearest districts by centroid distance are identified as its neighbors.
+We employ a six-nearest-neighbors (6NN) weight matrix, so that for each district the six nearest districts by centroid distance are identified as its neighbors.[^centroids]
 This specification ensures a fixed number of connections per district regardless of the heterogeneity in district sizes across the country:
 
 $$
@@ -288,7 +289,9 @@ w_{n1} & w_{n2} & w_{n3} & \cdots & w_{nn}
 $$
 
 where $w_{ij} = 1$ if district $j$ is among the six nearest neighbors of district $i$, and $w_{ij} = 0$ otherwise.
-Following standard practice, we row-normalize the weights matrix so that each row sums to one.[^rownorm]
+Following standard practice, we row-normalize the weights matrix so that each row sums to one.
+
+[^centroids]: Centroid distances are measured in the geographic coordinates of the source file rather than in a projected metric; rebuilding the matrix from a metric projection leaves 96.4% of the neighbor links unchanged.[^rownorm]
 The choice of $k = 6$ provides a balance between capturing local spatial interactions and avoiding the inclusion of geographically distant districts that are unlikely to exert meaningful economic influence.
 This choice is also supported empirically: among the seven weight matrices considered in @tbl-altw, the 6NN specification attains the lowest AIC, indicating the best fit to the spatial structure of the data.
 
@@ -357,6 +360,7 @@ The maps show a noticeable increase in brightness across most parts of India in 
 Because nighttime lights serve as a proxy for economic activity, this increase in luminosity reflects economic growth over the period.
 @fig-convergence then illustrates the relationship between per-capita growth in nighttime lights and initial per-capita nighttime light.
 The scatterplot shows an inverse relationship: the estimated $\beta$-convergence coefficient of about $-0.02$ implies an annual speed of convergence of roughly 2.3% and a half-life of about 30 years, consistent with the seminal finding of @barro_sala_convergence.
+Because $\beta$-convergence need not imply a narrowing of the distribution, we also check $\sigma$-convergence: the cross-district standard deviation of log per-capita luminosity falls from 1.09 in 1996 to 0.95 in 2010, a reduction of 13.5%, so spatial disparities did narrow over the period.
 
 {{< embed notebooks/c02_regional_convergence_sc.ipynb#fig-convergence >}}
 
@@ -481,9 +485,9 @@ The first is other work on Indian districts using the same proxy: @beyer_yamada_
 That two independent applications of the same measurement strategy recover similar non-spatial rates, despite different periods and different generations of the sensor, is reassuring about the proxy.
 
 The second comparison is with convergence estimated from luminosity elsewhere.
-@basher_etal_bangladesh_lights find 4.57% per year across the 64 districts of Bangladesh, implying a half-life of 15 years, close to the 5.2% and 13 years of our preferred spatial model.
+@basher_etal_bangladesh_lights find 4.57% per year across the 64 districts of Bangladesh, implying a half-life of 15 years, above the 2.3% we obtain without controls and below the 5.2% of our preferred spatial model.
 @carrington_jimenez_ecuador_lights report a speed near the 2% benchmark for Ecuadorian provinces, while @kacou_africa_convergence finds multiple equilibria in within-country regional inequality across 49 African countries.
-Our non-spatial estimates therefore sit near the familiar 2% regularity and the spatial estimates above it.[^twopercent]
+Our unconditional non-spatial estimate therefore sits near the familiar 2% regularity, and the conditional spatial estimates well above it.[^twopercent]
 That regularity should not be treated as a law: a meta-analysis of some 600 published estimates concludes that it is misleading to speak of a natural convergence rate, since estimates from different specifications are drawn from different populations [@abreu_etal_meta_convergence].
 These comparisons therefore locate our estimates rather than validate them.
 
@@ -510,7 +514,7 @@ The alternatives are four- and eight-nearest neighbors, queen and rook contiguit
 
 {{< embed notebooks/c07_alternative_w_matrices.ipynb#tbl-altw >}}
 
-The convergence spillovers are robust to the choice of spatial weights (@fig-altw and @tbl-altw).
+The direct and total convergence effects are robust to the choice of spatial weights, and the spillover component is consistently negative but more sensitive (@fig-altw and @tbl-altw).
 The direct (within-district) convergence effect is essentially unchanged across all seven specifications, ranging from -0.024 to -0.025 and always significant at the 1% level.
 The total convergence effect likewise remains negative and significant throughout, ranging from -0.032 to -0.041, with the 6NN baseline (-0.037) near the middle of this range.
 The indirect (spillover) component is negative in every specification and statistically significant under five of the seven, which is a consistent if weaker pattern.
@@ -537,7 +541,7 @@ If convergence is faster, as the spatial estimates imply, the returns to a well-
 
 The results also speak to the level at which such policies should operate.
 We find convergence across districts over 1996--2010, whereas @lolayekar_mukhopadhyay_india_spatial, working with Indian states over a longer period, find divergence.
-Catch-up that is visible at the district level and absent at the state level is an argument for treating the district as the unit of intervention, which is what the Aspirational Districts Programme of India already does.[^adp]
+Catch-up that is visible at the district level and absent at the state level is consistent with the district being the more informative unit of intervention, as the Aspirational Districts Programme of India already assumes, although the two studies also differ in outcome variable and period.[^adp]
 The spatial results add a qualification to that logic: the growth of a district is associated with the initial conditions of its neighbors, so a lagging district surrounded by other lagging districts is in a different position from one adjacent to a growing cluster, and a targeting rule that ranks districts one at a time will not register that difference.
 
 [^adp]: The programme was launched in 2018 to direct additional resources to the least developed districts of the country.
@@ -584,13 +588,12 @@ Harmonized DMSP--VIIRS series now make that feasible across roughly three decade
 ### An exploratory extension: Luminosity and cultural participation
 
 Nighttime lights capture not just GDP but a composite of electrification, urbanization, infrastructure, and broader socioeconomic conditions [@henderson_storeygard_weil_lights; @mellander_etal_lights_gdp].
-This multi-dimensional nature invites exploration of how luminosity relates to socioeconomic indicators beyond strictly economic output.
 In this section, we examine the association between luminosity and cultural participation patterns across Indian states.
 
 A growing literature argues that regional cultural attitudes constitute an independent factor in economic development, not merely a by-product of income or institutions.
 In particular, @tubadji_cultural_entropy applies the Culture-Based Development framework, whose central claim is a directional one.
 Cultural attitudes and the participation patterns that reveal them are treated as a factor shaping local development, rather than as an outcome that development produces.
-That direction is what distinguishes the framework from accounts in which culture is a by-product of income, and it also marks the limit of what the exercise below can establish.[^direction]
+That direction also marks the limit of what the exercise below can establish.[^direction]
 
 [^direction]: A cross-sectional association is consistent with either direction, and with both operating at once.
     What it can do is establish that the two are related, and describe the form that relationship takes.
@@ -609,21 +612,19 @@ Given the small sample size (N = 32) and the potential leverage of small territo
 {{< embed notebooks/c06_spatial_culture.ipynb#fig-culture-scatter >}}
 
 Cultural telecast (TV/media) exhibits a positive association with nighttime light luminosity, with a Spearman rank correlation of 0.370 ($p$ = 0.037).
-States with higher luminosity therefore consume more culture through television and media.
-This link is intuitive, because access to television depends on electrification and urbanization, which are closely tied to luminosity.
+More luminous states therefore tend to rank higher on the cultural telecast dimension.
 
 In contrast, socio-cultural participation shows a significant negative association, with a Spearman rank correlation of $-$0.404 ($p$ = 0.022).
-Community-based cultural engagement is therefore stronger in states with less luminosity.
+Less luminous states therefore tend to rank higher on socio-cultural participation.
 This suggests that less urbanized regions rely more on collective, in-person forms of cultural participation than on media infrastructure.
 
 @fig-culture-lisa presents the spatial distribution of these two cultural variables through the lens of a LISA analysis.
-Both dimensions exhibit significant spatial autocorrelation, which indicates that cultural participation is not randomly distributed across Indian states.
 The low-low cluster of cultural telecast in the northeast coincides with the low-low cluster in the nighttime lights data, although the high-high clusters of the two variables do not coincide.
 The significant high-high cluster in cultural telecast is confined to the southern states, while the northeastern states form a distinct high-high cluster in community-based participation.
 
 {{< embed notebooks/c06_spatial_culture.ipynb#fig-culture-lisa >}}
 
-Together, these two results reveal a contrast in how regions engage with culture: more luminous states favor media-based consumption, while less luminous states sustain community-based participation.
+Together, the two correlations describe a pattern in which luminosity ranks positively with media-based cultural participation and negatively with community-based participation across states.
 The remaining four cultural dimensions show no statistically significant association with luminosity.
 These findings rest on a small cross-section of 32 states observed at a single point in time, so larger datasets covering more regions and periods would be needed to establish whether the patterns are robust.
 
@@ -655,7 +656,7 @@ The net effect is ambiguous in sign, and we do not claim to sign it.
 Measurement error is also unlikely to be homogeneous across the sample, because the association between luminosity and economic outcomes is stronger in urban than in rural areas and Indian districts differ considerably in how urbanized they are.
 Blooming has a clearer implication for the spillover estimates that are central to this article.
 Because light spills across district boundaries, part of what we measure as the luminosity of a district originates with its neighbors, which mechanically raises the apparent correlation between adjacent districts and could therefore inflate the estimated indirect effects.
-That the direct and total effects hold across all seven definitions of the neighborhood, and the indirect effect under most of them (@tbl-altw), shows they are not an artifact of any particular neighbor definition, but it does not rule out blooming; deblurring methods such as those of @abrahams_etal_deblurring offer one route to addressing it directly.
+That the direct and total effects hold across all seven definitions of the neighborhood, and the indirect effect under five of the seven (@tbl-altw), indicates they are not an artifact of any particular neighbor definition, but it does not rule out blooming; deblurring methods such as those of @abrahams_etal_deblurring offer one route to addressing it directly.
 
 The Visible Infrared Imaging Radiometer Suite (VIIRS), operational since 2012, improves on DMSP-OLS in spatial resolution (roughly 750 meters against 2.7 kilometers), in on-board radiometric calibration, and in dynamic range, avoiding saturation in bright areas while detecting dim lights in rural settlements [@elvidge_etal_viirs; @gibson_etal_ntl_measurement].
 The discontinuity between the DMSP (1992--2013) and VIIRS (2012--present) sensor eras remains an obstacle to long-run work, which harmonization efforts have begun to address [@li_etal_harmonization], and recent global series adjust explicitly for top-coding, blooming, and changes of satellite system [@chiovelli_global_south].
@@ -756,7 +757,7 @@ The authors declare no conflict of interest.
 
 All data and computational code used in this study are available in the project repository at <https://github.com/quarcs-lab/project2025s-py>.
 The interactive HTML version of this manuscript (<https://quarcs-lab.github.io/project2025s-py/>) embeds the computational notebooks, allowing readers to inspect the complete analytical pipeline from raw data to published results.
-Every analytical notebook can be executed in the cloud using Google Colaboratory without any local software installation: readers open the notebook and run it, and the results, figures, and tables of this article are regenerated from the raw data.
+Every analytical notebook can be executed in the cloud using Google Colaboratory without any local software installation: readers open the notebook and run it, and the empirical results, figures, and tables of this article are regenerated from the raw data.
 The computational notebooks are implemented entirely in Python.
 An earlier implementation of the same analysis used R and Stata, and the present Python results reproduce it.
 The AIC values differ by a few units because the two packages count parameters differently: Stata treats the error variance of the spatial model as a free parameter, and its information criterion for the fixed-effects regressions uses the rank of the robust covariance matrix, which two single-district states leave short by two.

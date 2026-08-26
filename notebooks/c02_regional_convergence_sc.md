@@ -92,6 +92,22 @@ print("Annual speed of convergence:    {:.2%}".format(speed))
 print("Implied half-life:              {:.1f} years".format(half_life))
 ```
 
+## Sigma convergence
+
+$\beta$-convergence is necessary but not sufficient for a fall in the cross-district dispersion of
+luminosity. We therefore check $\sigma$-convergence directly, comparing the standard deviation of
+log per-capita luminosity at the two endpoints. The 2010 value is reconstructed from the 1996 level
+and the average annual growth rate, which is how the dependent variable is defined.
+
+```{code-cell} ipython3
+# Sigma convergence: cross-district dispersion of log per-capita luminosity
+sd96 = data["log_light96_rcr_cap"].std()
+sd10 = (data["log_light96_rcr_cap"] + T * data["light_growth96_10rcr_cap"]).std()
+print("SD of log luminosity per capita, 1996: {:.4f}".format(sd96))
+print("SD of log luminosity per capita, 2010: {:.4f}".format(sd10))
+print("Change:                                {:+.4f} ({:+.1%})".format(sd10 - sd96, sd10 / sd96 - 1))
+```
+
 ## Convergence scatterplot
 
 The scatterplot below visualizes the convergence relationship. Outlier districts are labeled to highlight cases that deviate notably from the overall trend---either bright districts that declined or dim districts that grew unusually fast.
