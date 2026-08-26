@@ -455,11 +455,11 @@
 </tbody>
 </table>
 <p>The six cultural factors were extracted via Principal Component Analysis (PCA) with varimax rotation on 20 survey items (B7_q3 through B7_q20) from NSS Schedule 30. Predicted factor scores were then collapsed to state-level means (see <code>data/Cultural_Data_India/CulturalData.do</code>).</p>
-<div class="cell-container"><div class="cell-decorator"><pre>In [1]:</pre></div><div id="cell-3" class="cell">
+<div class="cell-container"><div class="cell-decorator"><pre>In [1]:</pre></div><div id="a149498e" class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Google Colab: install packages not included in the default environment</span></span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="cf">try</span>:</span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>    <span class="im">import</span> google.colab</span>
-<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>    <span class="op">!</span>pip install geopandas libpysal esda splot <span class="op">-</span>q</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>    <span class="op">!</span>pip install contextily <span class="op">-</span>q  <span class="co"># the one import not in Colab's default image</span></span>
 <span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="cf">except</span> <span class="pp">ImportError</span>:</span>
 <span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>    <span class="cf">pass</span>  <span class="co"># Local environment — packages already installed</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div></div>
@@ -748,35 +748,38 @@ centroid distance, which may not reflect meaningful spatial adjacency.</code></p
 </div></div>
 <div class="cell-container"><div class="cell-decorator"><pre>In [10]:</pre></div><div id="a15" class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb14"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Global Moran's I for log NTL and all cultural variables</span></span>
-<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>all_vars <span class="op">=</span> [<span class="st">"ln_ntl_pc"</span>] <span class="op">+</span> variables</span>
-<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a>all_var_labels <span class="op">=</span> {<span class="st">"ln_ntl_pc"</span>: <span class="st">"Log NTL per Capita (1992)"</span>}</span>
-<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a>all_var_labels.update(var_labels)</span>
-<span id="cb14-5"><a href="#cb14-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb14-6"><a href="#cb14-6" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"Global Moran's I </span><span class="ch">\u2014</span><span class="st"> Spatial Autocorrelation"</span>)</span>
-<span id="cb14-7"><a href="#cb14-7" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"="</span> <span class="op">*</span> <span class="dv">65</span>)</span>
-<span id="cb14-8"><a href="#cb14-8" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"</span><span class="sc">{:&lt;35}</span><span class="st"> </span><span class="sc">{:&gt;10}</span><span class="st"> </span><span class="sc">{:&gt;10}</span><span class="st"> </span><span class="sc">{:&gt;12}</span><span class="st">"</span>.<span class="bu">format</span>(</span>
-<span id="cb14-9"><a href="#cb14-9" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Variable"</span>, <span class="st">"Moran I"</span>, <span class="st">"p-value"</span>, <span class="st">"Significant"</span>))</span>
-<span id="cb14-10"><a href="#cb14-10" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"-"</span> <span class="op">*</span> <span class="dv">65</span>)</span>
-<span id="cb14-11"><a href="#cb14-11" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb14-12"><a href="#cb14-12" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> var <span class="kw">in</span> all_vars:</span>
-<span id="cb14-13"><a href="#cb14-13" aria-hidden="true" tabindex="-1"></a>    moran <span class="op">=</span> Moran(gdf[var].values, W, permutations<span class="op">=</span><span class="dv">999</span>)</span>
-<span id="cb14-14"><a href="#cb14-14" aria-hidden="true" tabindex="-1"></a>    sig <span class="op">=</span> <span class="st">"Yes *"</span> <span class="cf">if</span> moran.p_sim <span class="op">&lt;</span> <span class="fl">0.05</span> <span class="cf">else</span> (<span class="st">"Marginal ."</span> <span class="cf">if</span> moran.p_sim <span class="op">&lt;</span> <span class="fl">0.10</span> <span class="cf">else</span> <span class="st">"No"</span>)</span>
-<span id="cb14-15"><a href="#cb14-15" aria-hidden="true" tabindex="-1"></a>    label <span class="op">=</span> all_var_labels[var]</span>
-<span id="cb14-16"><a href="#cb14-16" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="ss">f"</span><span class="sc">{</span>label<span class="sc">:&lt;35}</span><span class="ss"> </span><span class="sc">{</span>moran<span class="sc">.</span>I<span class="sc">:&gt;9.3f}</span><span class="ss"> </span><span class="sc">{</span>moran<span class="sc">.</span>p_sim<span class="sc">:&gt;9.3f}</span><span class="ss"> </span><span class="sc">{</span>sig<span class="sc">:&gt;12}</span><span class="ss">"</span>)</span>
-<span id="cb14-17"><a href="#cb14-17" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb14-18"><a href="#cb14-18" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"-"</span> <span class="op">*</span> <span class="dv">65</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a><span class="co"># esda.Moran has no seed argument, so its permutation p-values draw from the</span></span>
+<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a><span class="co"># global NumPy RNG; seed it here so this table reproduces exactly.</span></span>
+<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a>np.random.seed(<span class="dv">12345</span>)</span>
+<span id="cb14-5"><a href="#cb14-5" aria-hidden="true" tabindex="-1"></a>all_vars <span class="op">=</span> [<span class="st">"ln_ntl_pc"</span>] <span class="op">+</span> variables</span>
+<span id="cb14-6"><a href="#cb14-6" aria-hidden="true" tabindex="-1"></a>all_var_labels <span class="op">=</span> {<span class="st">"ln_ntl_pc"</span>: <span class="st">"Log NTL per Capita (1992)"</span>}</span>
+<span id="cb14-7"><a href="#cb14-7" aria-hidden="true" tabindex="-1"></a>all_var_labels.update(var_labels)</span>
+<span id="cb14-8"><a href="#cb14-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-9"><a href="#cb14-9" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"Global Moran's I </span><span class="ch">\u2014</span><span class="st"> Spatial Autocorrelation"</span>)</span>
+<span id="cb14-10"><a href="#cb14-10" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"="</span> <span class="op">*</span> <span class="dv">65</span>)</span>
+<span id="cb14-11"><a href="#cb14-11" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"</span><span class="sc">{:&lt;35}</span><span class="st"> </span><span class="sc">{:&gt;10}</span><span class="st"> </span><span class="sc">{:&gt;10}</span><span class="st"> </span><span class="sc">{:&gt;12}</span><span class="st">"</span>.<span class="bu">format</span>(</span>
+<span id="cb14-12"><a href="#cb14-12" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Variable"</span>, <span class="st">"Moran I"</span>, <span class="st">"p-value"</span>, <span class="st">"Significant"</span>))</span>
+<span id="cb14-13"><a href="#cb14-13" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"-"</span> <span class="op">*</span> <span class="dv">65</span>)</span>
+<span id="cb14-14"><a href="#cb14-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-15"><a href="#cb14-15" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> var <span class="kw">in</span> all_vars:</span>
+<span id="cb14-16"><a href="#cb14-16" aria-hidden="true" tabindex="-1"></a>    moran <span class="op">=</span> Moran(gdf[var].values, W, permutations<span class="op">=</span><span class="dv">999</span>)</span>
+<span id="cb14-17"><a href="#cb14-17" aria-hidden="true" tabindex="-1"></a>    sig <span class="op">=</span> <span class="st">"Yes *"</span> <span class="cf">if</span> moran.p_sim <span class="op">&lt;</span> <span class="fl">0.05</span> <span class="cf">else</span> (<span class="st">"Marginal ."</span> <span class="cf">if</span> moran.p_sim <span class="op">&lt;</span> <span class="fl">0.10</span> <span class="cf">else</span> <span class="st">"No"</span>)</span>
+<span id="cb14-18"><a href="#cb14-18" aria-hidden="true" tabindex="-1"></a>    label <span class="op">=</span> all_var_labels[var]</span>
+<span id="cb14-19"><a href="#cb14-19" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="ss">f"</span><span class="sc">{</span>label<span class="sc">:&lt;35}</span><span class="ss"> </span><span class="sc">{</span>moran<span class="sc">.</span>I<span class="sc">:&gt;9.3f}</span><span class="ss"> </span><span class="sc">{</span>moran<span class="sc">.</span>p_sim<span class="sc">:&gt;9.3f}</span><span class="ss"> </span><span class="sc">{</span>sig<span class="sc">:&gt;12}</span><span class="ss">"</span>)</span>
+<span id="cb14-20"><a href="#cb14-20" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-21"><a href="#cb14-21" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"-"</span> <span class="op">*</span> <span class="dv">65</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>Global Moran's I — Spatial Autocorrelation
 =================================================================
 Variable                               Moran I    p-value  Significant
 -----------------------------------------------------------------
 Log NTL per Capita (1992)               0.444     0.001        Yes *
-Live Cultural Performance              -0.005     0.310           No
-Cultural Telecast (TV/Media)            0.177     0.016        Yes *
-Socio-Cultural Participation            0.188     0.002        Yes *
-Cultural Heritage &amp; Religion            0.248     0.006        Yes *
-Live Cultural Shows                    -0.083     0.254           No
-Sports Participation                    0.196     0.020        Yes *
+Live Cultural Performance              -0.005     0.336           No
+Cultural Telecast (TV/Media)            0.177     0.012        Yes *
+Socio-Cultural Participation            0.188     0.001        Yes *
+Cultural Heritage &amp; Religion            0.248     0.004        Yes *
+Live Cultural Shows                    -0.083     0.280           No
+Sports Participation                    0.196     0.014        Yes *
 -----------------------------------------------------------------</code></pre>
 </div>
 </div></div>

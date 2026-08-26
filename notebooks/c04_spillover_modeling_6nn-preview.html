@@ -497,83 +497,111 @@
 <span id="cb5-23"><a href="#cb5-23" aria-hidden="true" tabindex="-1"></a>    <span class="cf">raise</span> <span class="pp">ValueError</span>(<span class="st">"unknown impact method: </span><span class="sc">{}</span><span class="st">"</span>.<span class="bu">format</span>(method))</span>
 <span id="cb5-24"><a href="#cb5-24" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb5-25"><a href="#cb5-25" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-26"><a href="#cb5-26" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> full_rank_lag_mask(Xv, Wd):</span>
-<span id="cb5-27"><a href="#cb5-27" aria-hidden="true" tabindex="-1"></a>    <span class="co">"""Boolean mask over X columns indicating which to spatially lag.</span></span>
-<span id="cb5-28"><a href="#cb5-28" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-29"><a href="#cb5-29" aria-hidden="true" tabindex="-1"></a><span class="co">    Greedily keeps only those W*X columns that add rank to [1, X, W*X],</span></span>
-<span id="cb5-30"><a href="#cb5-30" aria-hidden="true" tabindex="-1"></a><span class="co">    dropping redundant spatial lags. This reproduces Stata's automatic</span></span>
-<span id="cb5-31"><a href="#cb5-31" aria-hidden="true" tabindex="-1"></a><span class="co">    omission of collinear lagged terms (e.g. the lag of a small-state FE</span></span>
-<span id="cb5-32"><a href="#cb5-32" aria-hidden="true" tabindex="-1"></a><span class="co">    dummy whose neighbour structure makes its spatial lag collinear).</span></span>
-<span id="cb5-33"><a href="#cb5-33" aria-hidden="true" tabindex="-1"></a><span class="co">    """</span></span>
-<span id="cb5-34"><a href="#cb5-34" aria-hidden="true" tabindex="-1"></a>    n, k <span class="op">=</span> Xv.shape</span>
-<span id="cb5-35"><a href="#cb5-35" aria-hidden="true" tabindex="-1"></a>    WX <span class="op">=</span> Wd <span class="op">@</span> Xv</span>
-<span id="cb5-36"><a href="#cb5-36" aria-hidden="true" tabindex="-1"></a>    design <span class="op">=</span> np.hstack([np.ones((n, <span class="dv">1</span>)), Xv])      <span class="co"># constant + X always kept</span></span>
-<span id="cb5-37"><a href="#cb5-37" aria-hidden="true" tabindex="-1"></a>    rank <span class="op">=</span> np.linalg.matrix_rank(design)</span>
-<span id="cb5-38"><a href="#cb5-38" aria-hidden="true" tabindex="-1"></a>    mask <span class="op">=</span> [<span class="va">True</span>] <span class="op">*</span> k</span>
-<span id="cb5-39"><a href="#cb5-39" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> j <span class="kw">in</span> <span class="bu">range</span>(k):</span>
-<span id="cb5-40"><a href="#cb5-40" aria-hidden="true" tabindex="-1"></a>        test <span class="op">=</span> np.hstack([design, WX[:, [j]]])</span>
-<span id="cb5-41"><a href="#cb5-41" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> np.linalg.matrix_rank(test) <span class="op">&gt;</span> rank:</span>
-<span id="cb5-42"><a href="#cb5-42" aria-hidden="true" tabindex="-1"></a>            design, rank <span class="op">=</span> test, rank <span class="op">+</span> <span class="dv">1</span></span>
-<span id="cb5-43"><a href="#cb5-43" aria-hidden="true" tabindex="-1"></a>        <span class="cf">else</span>:</span>
-<span id="cb5-44"><a href="#cb5-44" aria-hidden="true" tabindex="-1"></a>            mask[j] <span class="op">=</span> <span class="va">False</span>                         <span class="co"># redundant lag -&gt; do not lag</span></span>
-<span id="cb5-45"><a href="#cb5-45" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> mask</span>
+<span id="cb5-26"><a href="#cb5-26" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> _awi(method, rho):</span>
+<span id="cb5-27"><a href="#cb5-27" aria-hidden="true" tabindex="-1"></a>    <span class="co">"""Average own-district multiplier on the spatially lagged regressor,</span></span>
+<span id="cb5-28"><a href="#cb5-28" aria-hidden="true" tabindex="-1"></a><span class="co">    n^-1 tr[(I - rho W)^-1 W], at spatial parameter(s) rho (scalar or array).</span></span>
+<span id="cb5-29"><a href="#cb5-29" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-30"><a href="#cb5-30" aria-hidden="true" tabindex="-1"></a><span class="co">    LeSage and Pace (2009) place this term in the DIRECT effect: for regressor</span></span>
+<span id="cb5-31"><a href="#cb5-31" aria-hidden="true" tabindex="-1"></a><span class="co">    r the impact matrix is S_r(W) = (I - rho W)^-1 (beta_r I + theta_r W), so</span></span>
+<span id="cb5-32"><a href="#cb5-32" aria-hidden="true" tabindex="-1"></a><span class="co">    the average direct impact is adi*beta_r + awi*theta_r. Omitting the second</span></span>
+<span id="cb5-33"><a href="#cb5-33" aria-hidden="true" tabindex="-1"></a><span class="co">    term assigns the whole spatially lagged coefficient to the indirect effect.</span></span>
+<span id="cb5-34"><a href="#cb5-34" aria-hidden="true" tabindex="-1"></a><span class="co">    'simple' = 0 (Kim, Phipps and Anselin); 'full' via the eigenvalues of W;</span></span>
+<span id="cb5-35"><a href="#cb5-35" aria-hidden="true" tabindex="-1"></a><span class="co">    'power' = truncated series sum_p rho^(p-1) tr(W^p)/n.</span></span>
+<span id="cb5-36"><a href="#cb5-36" aria-hidden="true" tabindex="-1"></a><span class="co">    """</span></span>
+<span id="cb5-37"><a href="#cb5-37" aria-hidden="true" tabindex="-1"></a>    rho <span class="op">=</span> np.atleast_1d(np.asarray(rho, dtype<span class="op">=</span><span class="bu">float</span>))</span>
+<span id="cb5-38"><a href="#cb5-38" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> method <span class="op">==</span> <span class="st">"simple"</span>:</span>
+<span id="cb5-39"><a href="#cb5-39" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> np.zeros_like(rho)</span>
+<span id="cb5-40"><a href="#cb5-40" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> method <span class="op">==</span> <span class="st">"full"</span>:</span>
+<span id="cb5-41"><a href="#cb5-41" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> (EIGS_W <span class="op">/</span> (<span class="fl">1.0</span> <span class="op">-</span> np.outer(rho, EIGS_W))).real.mean(axis<span class="op">=</span><span class="dv">1</span>)</span>
+<span id="cb5-42"><a href="#cb5-42" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> method <span class="op">==</span> <span class="st">"power"</span>:</span>
+<span id="cb5-43"><a href="#cb5-43" aria-hidden="true" tabindex="-1"></a>        powers <span class="op">=</span> rho[:, <span class="va">None</span>] <span class="op">**</span> np.arange(<span class="dv">0</span>, _P_POW)</span>
+<span id="cb5-44"><a href="#cb5-44" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> (powers <span class="op">*</span> TR_WP).<span class="bu">sum</span>(axis<span class="op">=</span><span class="dv">1</span>) <span class="op">/</span> N_W</span>
+<span id="cb5-45"><a href="#cb5-45" aria-hidden="true" tabindex="-1"></a>    <span class="cf">raise</span> <span class="pp">ValueError</span>(<span class="st">"unknown impact method: </span><span class="sc">{}</span><span class="st">"</span>.<span class="bu">format</span>(method))</span>
 <span id="cb5-46"><a href="#cb5-46" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb5-47"><a href="#cb5-47" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-48"><a href="#cb5-48" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> run_ols(y, Xdf):</span>
-<span id="cb5-49"><a href="#cb5-49" aria-hidden="true" tabindex="-1"></a>    <span class="co">"""OLS with heteroskedasticity-robust (HC1 = Stata 'robust') errors."""</span></span>
-<span id="cb5-50"><a href="#cb5-50" aria-hidden="true" tabindex="-1"></a>    XX <span class="op">=</span> sm.add_constant(Xdf.astype(<span class="bu">float</span>))</span>
-<span id="cb5-51"><a href="#cb5-51" aria-hidden="true" tabindex="-1"></a>    res <span class="op">=</span> sm.OLS(y.ravel(), XX).fit(cov_type<span class="op">=</span><span class="st">"HC1"</span>)</span>
-<span id="cb5-52"><a href="#cb5-52" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> {</span>
-<span id="cb5-53"><a href="#cb5-53" aria-hidden="true" tabindex="-1"></a>        <span class="st">"direct"</span>: res.params[XKEY], <span class="st">"direct_se"</span>: res.bse[XKEY],</span>
-<span id="cb5-54"><a href="#cb5-54" aria-hidden="true" tabindex="-1"></a>        <span class="st">"indirect"</span>: <span class="va">None</span>, <span class="st">"indirect_se"</span>: <span class="va">None</span>,</span>
-<span id="cb5-55"><a href="#cb5-55" aria-hidden="true" tabindex="-1"></a>        <span class="st">"total"</span>: res.params[XKEY], <span class="st">"total_se"</span>: res.bse[XKEY],</span>
-<span id="cb5-56"><a href="#cb5-56" aria-hidden="true" tabindex="-1"></a>        <span class="st">"aic"</span>: res.aic,</span>
-<span id="cb5-57"><a href="#cb5-57" aria-hidden="true" tabindex="-1"></a>    }</span>
-<span id="cb5-58"><a href="#cb5-58" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-59"><a href="#cb5-59" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-60"><a href="#cb5-60" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> run_sdm(y, Xdf, w, Wd):</span>
-<span id="cb5-61"><a href="#cb5-61" aria-hidden="true" tabindex="-1"></a>    <span class="co">"""Spatial Durbin Model via ML_Lag(slx_lags=1); impacts use the 'full'</span></span>
-<span id="cb5-62"><a href="#cb5-62" aria-hidden="true" tabindex="-1"></a><span class="co">    (LeSage-Pace) method based on the exact spatial multiplier matrix</span></span>
-<span id="cb5-63"><a href="#cb5-63" aria-hidden="true" tabindex="-1"></a><span class="co">    (I - rho W)^-1 -- the same decomposition Stata's `estat impact` reports.</span></span>
-<span id="cb5-64"><a href="#cb5-64" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-65"><a href="#cb5-65" aria-hidden="true" tabindex="-1"></a><span class="co">    For the key regressor with own coefficient b, spatial-lag coefficient g,</span></span>
-<span id="cb5-66"><a href="#cb5-66" aria-hidden="true" tabindex="-1"></a><span class="co">    spatial parameter rho, and average direct-impact multiplier adi:</span></span>
-<span id="cb5-67"><a href="#cb5-67" aria-hidden="true" tabindex="-1"></a><span class="co">        Direct   = adi * b</span></span>
-<span id="cb5-68"><a href="#cb5-68" aria-hidden="true" tabindex="-1"></a><span class="co">        Total    = (b + g) / (1 - rho)</span></span>
-<span id="cb5-69"><a href="#cb5-69" aria-hidden="true" tabindex="-1"></a><span class="co">        Indirect = Total - Direct</span></span>
-<span id="cb5-70"><a href="#cb5-70" aria-hidden="true" tabindex="-1"></a><span class="co">    Because the weights are row-standardised the Total impact is invariant to</span></span>
-<span id="cb5-71"><a href="#cb5-71" aria-hidden="true" tabindex="-1"></a><span class="co">    the multiplier method (ati = 1 / (1 - rho)); only the Direct/Indirect split</span></span>
-<span id="cb5-72"><a href="#cb5-72" aria-hidden="true" tabindex="-1"></a><span class="co">    depends on adi. Inference is obtained by Monte-Carlo simulation from the ML</span></span>
-<span id="cb5-73"><a href="#cb5-73" aria-hidden="true" tabindex="-1"></a><span class="co">    parameter covariance matrix, with adi recomputed for each rho draw.</span></span>
-<span id="cb5-74"><a href="#cb5-74" aria-hidden="true" tabindex="-1"></a><span class="co">    """</span></span>
-<span id="cb5-75"><a href="#cb5-75" aria-hidden="true" tabindex="-1"></a>    Xv <span class="op">=</span> Xdf.astype(<span class="bu">float</span>).values</span>
-<span id="cb5-76"><a href="#cb5-76" aria-hidden="true" tabindex="-1"></a>    mask <span class="op">=</span> full_rank_lag_mask(Xv, Wd)</span>
-<span id="cb5-77"><a href="#cb5-77" aria-hidden="true" tabindex="-1"></a>    slx_vars <span class="op">=</span> <span class="st">"All"</span> <span class="cf">if</span> <span class="bu">all</span>(mask) <span class="cf">else</span> mask</span>
-<span id="cb5-78"><a href="#cb5-78" aria-hidden="true" tabindex="-1"></a>    <span class="cf">with</span> redirect_stdout(<span class="bu">open</span>(os.devnull, <span class="st">"w"</span>)):</span>
-<span id="cb5-79"><a href="#cb5-79" aria-hidden="true" tabindex="-1"></a>        mod <span class="op">=</span> ML_Lag(y<span class="op">=</span>y, x<span class="op">=</span>Xv, w<span class="op">=</span>w, slx_lags<span class="op">=</span><span class="dv">1</span>, slx_vars<span class="op">=</span>slx_vars,</span>
-<span id="cb5-80"><a href="#cb5-80" aria-hidden="true" tabindex="-1"></a>                     spat_impacts<span class="op">=</span><span class="st">"full"</span>)</span>
+<span id="cb5-48"><a href="#cb5-48" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> full_rank_lag_mask(Xv, Wd):</span>
+<span id="cb5-49"><a href="#cb5-49" aria-hidden="true" tabindex="-1"></a>    <span class="co">"""Boolean mask over X columns indicating which to spatially lag.</span></span>
+<span id="cb5-50"><a href="#cb5-50" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-51"><a href="#cb5-51" aria-hidden="true" tabindex="-1"></a><span class="co">    Greedily keeps only those W*X columns that add rank to [1, X, W*X],</span></span>
+<span id="cb5-52"><a href="#cb5-52" aria-hidden="true" tabindex="-1"></a><span class="co">    dropping redundant spatial lags. This reproduces Stata's automatic</span></span>
+<span id="cb5-53"><a href="#cb5-53" aria-hidden="true" tabindex="-1"></a><span class="co">    omission of collinear lagged terms (e.g. the lag of a small-state FE</span></span>
+<span id="cb5-54"><a href="#cb5-54" aria-hidden="true" tabindex="-1"></a><span class="co">    dummy whose neighbour structure makes its spatial lag collinear).</span></span>
+<span id="cb5-55"><a href="#cb5-55" aria-hidden="true" tabindex="-1"></a><span class="co">    """</span></span>
+<span id="cb5-56"><a href="#cb5-56" aria-hidden="true" tabindex="-1"></a>    n, k <span class="op">=</span> Xv.shape</span>
+<span id="cb5-57"><a href="#cb5-57" aria-hidden="true" tabindex="-1"></a>    WX <span class="op">=</span> Wd <span class="op">@</span> Xv</span>
+<span id="cb5-58"><a href="#cb5-58" aria-hidden="true" tabindex="-1"></a>    design <span class="op">=</span> np.hstack([np.ones((n, <span class="dv">1</span>)), Xv])      <span class="co"># constant + X always kept</span></span>
+<span id="cb5-59"><a href="#cb5-59" aria-hidden="true" tabindex="-1"></a>    rank <span class="op">=</span> np.linalg.matrix_rank(design)</span>
+<span id="cb5-60"><a href="#cb5-60" aria-hidden="true" tabindex="-1"></a>    mask <span class="op">=</span> [<span class="va">True</span>] <span class="op">*</span> k</span>
+<span id="cb5-61"><a href="#cb5-61" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> j <span class="kw">in</span> <span class="bu">range</span>(k):</span>
+<span id="cb5-62"><a href="#cb5-62" aria-hidden="true" tabindex="-1"></a>        test <span class="op">=</span> np.hstack([design, WX[:, [j]]])</span>
+<span id="cb5-63"><a href="#cb5-63" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> np.linalg.matrix_rank(test) <span class="op">&gt;</span> rank:</span>
+<span id="cb5-64"><a href="#cb5-64" aria-hidden="true" tabindex="-1"></a>            design, rank <span class="op">=</span> test, rank <span class="op">+</span> <span class="dv">1</span></span>
+<span id="cb5-65"><a href="#cb5-65" aria-hidden="true" tabindex="-1"></a>        <span class="cf">else</span>:</span>
+<span id="cb5-66"><a href="#cb5-66" aria-hidden="true" tabindex="-1"></a>            mask[j] <span class="op">=</span> <span class="va">False</span>                         <span class="co"># redundant lag -&gt; do not lag</span></span>
+<span id="cb5-67"><a href="#cb5-67" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> mask</span>
+<span id="cb5-68"><a href="#cb5-68" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-69"><a href="#cb5-69" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-70"><a href="#cb5-70" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> run_ols(y, Xdf):</span>
+<span id="cb5-71"><a href="#cb5-71" aria-hidden="true" tabindex="-1"></a>    <span class="co">"""OLS with heteroskedasticity-robust (HC1 = Stata 'robust') errors."""</span></span>
+<span id="cb5-72"><a href="#cb5-72" aria-hidden="true" tabindex="-1"></a>    XX <span class="op">=</span> sm.add_constant(Xdf.astype(<span class="bu">float</span>))</span>
+<span id="cb5-73"><a href="#cb5-73" aria-hidden="true" tabindex="-1"></a>    res <span class="op">=</span> sm.OLS(y.ravel(), XX).fit(cov_type<span class="op">=</span><span class="st">"HC1"</span>)</span>
+<span id="cb5-74"><a href="#cb5-74" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> {</span>
+<span id="cb5-75"><a href="#cb5-75" aria-hidden="true" tabindex="-1"></a>        <span class="st">"direct"</span>: res.params[XKEY], <span class="st">"direct_se"</span>: res.bse[XKEY],</span>
+<span id="cb5-76"><a href="#cb5-76" aria-hidden="true" tabindex="-1"></a>        <span class="st">"indirect"</span>: <span class="va">None</span>, <span class="st">"indirect_se"</span>: <span class="va">None</span>,</span>
+<span id="cb5-77"><a href="#cb5-77" aria-hidden="true" tabindex="-1"></a>        <span class="st">"total"</span>: res.params[XKEY], <span class="st">"total_se"</span>: res.bse[XKEY],</span>
+<span id="cb5-78"><a href="#cb5-78" aria-hidden="true" tabindex="-1"></a>        <span class="st">"aic"</span>: res.aic,</span>
+<span id="cb5-79"><a href="#cb5-79" aria-hidden="true" tabindex="-1"></a>    }</span>
+<span id="cb5-80"><a href="#cb5-80" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb5-81"><a href="#cb5-81" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-82"><a href="#cb5-82" aria-hidden="true" tabindex="-1"></a>    b <span class="op">=</span> mod.betas.flatten()</span>
-<span id="cb5-83"><a href="#cb5-83" aria-hidden="true" tabindex="-1"></a>    k <span class="op">=</span> Xv.shape[<span class="dv">1</span>]</span>
-<span id="cb5-84"><a href="#cb5-84" aria-hidden="true" tabindex="-1"></a>    i_b <span class="op">=</span> <span class="dv">1</span>                       <span class="co"># const at 0; XKEY is first X column -&gt; index 1</span></span>
-<span id="cb5-85"><a href="#cb5-85" aria-hidden="true" tabindex="-1"></a>    i_g <span class="op">=</span> <span class="dv">1</span> <span class="op">+</span> k                   <span class="co"># first W*X column (XKEY is always lagged)</span></span>
-<span id="cb5-86"><a href="#cb5-86" aria-hidden="true" tabindex="-1"></a>    i_r <span class="op">=</span> <span class="bu">len</span>(b) <span class="op">-</span> <span class="dv">1</span>              <span class="co"># rho is last</span></span>
-<span id="cb5-87"><a href="#cb5-87" aria-hidden="true" tabindex="-1"></a>    rho <span class="op">=</span> b[i_r]</span>
-<span id="cb5-88"><a href="#cb5-88" aria-hidden="true" tabindex="-1"></a>    direct <span class="op">=</span> _adi(<span class="st">"full"</span>, rho)[<span class="dv">0</span>] <span class="op">*</span> b[i_b]</span>
-<span id="cb5-89"><a href="#cb5-89" aria-hidden="true" tabindex="-1"></a>    total <span class="op">=</span> (b[i_b] <span class="op">+</span> b[i_g]) <span class="op">/</span> (<span class="dv">1</span> <span class="op">-</span> rho)</span>
-<span id="cb5-90"><a href="#cb5-90" aria-hidden="true" tabindex="-1"></a>    indirect <span class="op">=</span> total <span class="op">-</span> direct</span>
-<span id="cb5-91"><a href="#cb5-91" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-92"><a href="#cb5-92" aria-hidden="true" tabindex="-1"></a>    draws <span class="op">=</span> np.random.multivariate_normal(b, mod.vm, size<span class="op">=</span>N_MC)</span>
-<span id="cb5-93"><a href="#cb5-93" aria-hidden="true" tabindex="-1"></a>    D, G, R <span class="op">=</span> draws[:, i_b], draws[:, i_g], draws[:, i_r]</span>
-<span id="cb5-94"><a href="#cb5-94" aria-hidden="true" tabindex="-1"></a>    Deff <span class="op">=</span> _adi(<span class="st">"full"</span>, R) <span class="op">*</span> D</span>
-<span id="cb5-95"><a href="#cb5-95" aria-hidden="true" tabindex="-1"></a>    T <span class="op">=</span> (D <span class="op">+</span> G) <span class="op">/</span> (<span class="dv">1</span> <span class="op">-</span> R)</span>
-<span id="cb5-96"><a href="#cb5-96" aria-hidden="true" tabindex="-1"></a>    I <span class="op">=</span> T <span class="op">-</span> Deff</span>
-<span id="cb5-97"><a href="#cb5-97" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> {</span>
-<span id="cb5-98"><a href="#cb5-98" aria-hidden="true" tabindex="-1"></a>        <span class="st">"direct"</span>: direct, <span class="st">"direct_se"</span>: Deff.std(),</span>
-<span id="cb5-99"><a href="#cb5-99" aria-hidden="true" tabindex="-1"></a>        <span class="st">"indirect"</span>: indirect, <span class="st">"indirect_se"</span>: I.std(),</span>
-<span id="cb5-100"><a href="#cb5-100" aria-hidden="true" tabindex="-1"></a>        <span class="st">"total"</span>: total, <span class="st">"total_se"</span>: T.std(),</span>
-<span id="cb5-101"><a href="#cb5-101" aria-hidden="true" tabindex="-1"></a>        <span class="st">"aic"</span>: mod.aic, <span class="st">"rho"</span>: rho,</span>
-<span id="cb5-102"><a href="#cb5-102" aria-hidden="true" tabindex="-1"></a>    }</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb5-82"><a href="#cb5-82" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> run_sdm(y, Xdf, w, Wd):</span>
+<span id="cb5-83"><a href="#cb5-83" aria-hidden="true" tabindex="-1"></a>    <span class="co">"""Spatial Durbin Model via ML_Lag(slx_lags=1), with the LeSage-Pace</span></span>
+<span id="cb5-84"><a href="#cb5-84" aria-hidden="true" tabindex="-1"></a><span class="co">    impact decomposition computed from the exact spatial multiplier matrix</span></span>
+<span id="cb5-85"><a href="#cb5-85" aria-hidden="true" tabindex="-1"></a><span class="co">    (I - rho W)^-1 -- the same decomposition Stata's `estat impact` reports.</span></span>
+<span id="cb5-86"><a href="#cb5-86" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-87"><a href="#cb5-87" aria-hidden="true" tabindex="-1"></a><span class="co">    For the key regressor with own coefficient b, spatial-lag coefficient g and</span></span>
+<span id="cb5-88"><a href="#cb5-88" aria-hidden="true" tabindex="-1"></a><span class="co">    spatial parameter rho, writing adi = n^-1 tr[(I - rho W)^-1] and</span></span>
+<span id="cb5-89"><a href="#cb5-89" aria-hidden="true" tabindex="-1"></a><span class="co">    awi = n^-1 tr[(I - rho W)^-1 W]:</span></span>
+<span id="cb5-90"><a href="#cb5-90" aria-hidden="true" tabindex="-1"></a><span class="co">        Direct   = adi * b + awi * g</span></span>
+<span id="cb5-91"><a href="#cb5-91" aria-hidden="true" tabindex="-1"></a><span class="co">        Total    = (b + g) / (1 - rho)</span></span>
+<span id="cb5-92"><a href="#cb5-92" aria-hidden="true" tabindex="-1"></a><span class="co">        Indirect = Total - Direct</span></span>
+<span id="cb5-93"><a href="#cb5-93" aria-hidden="true" tabindex="-1"></a><span class="co">    The awi * g term is the own-district share of the spatially lagged</span></span>
+<span id="cb5-94"><a href="#cb5-94" aria-hidden="true" tabindex="-1"></a><span class="co">    regressor. `spreg` omits it (sputils._sp_effects: "Assumes all SLX effects</span></span>
+<span id="cb5-95"><a href="#cb5-95" aria-hidden="true" tabindex="-1"></a><span class="co">    are indirect effects"), which understates Direct and overstates Indirect by</span></span>
+<span id="cb5-96"><a href="#cb5-96" aria-hidden="true" tabindex="-1"></a><span class="co">    awi * g; the gap grows with rho. Because the weights are row-standardised</span></span>
+<span id="cb5-97"><a href="#cb5-97" aria-hidden="true" tabindex="-1"></a><span class="co">    the Total impact is invariant to the multiplier method (ati = 1/(1 - rho));</span></span>
+<span id="cb5-98"><a href="#cb5-98" aria-hidden="true" tabindex="-1"></a><span class="co">    only the Direct/Indirect split depends on adi and awi. Inference is obtained</span></span>
+<span id="cb5-99"><a href="#cb5-99" aria-hidden="true" tabindex="-1"></a><span class="co">    by Monte-Carlo simulation from the ML parameter covariance matrix, with both</span></span>
+<span id="cb5-100"><a href="#cb5-100" aria-hidden="true" tabindex="-1"></a><span class="co">    multipliers recomputed for each rho draw.</span></span>
+<span id="cb5-101"><a href="#cb5-101" aria-hidden="true" tabindex="-1"></a><span class="co">    """</span></span>
+<span id="cb5-102"><a href="#cb5-102" aria-hidden="true" tabindex="-1"></a>    Xv <span class="op">=</span> Xdf.astype(<span class="bu">float</span>).values</span>
+<span id="cb5-103"><a href="#cb5-103" aria-hidden="true" tabindex="-1"></a>    mask <span class="op">=</span> full_rank_lag_mask(Xv, Wd)</span>
+<span id="cb5-104"><a href="#cb5-104" aria-hidden="true" tabindex="-1"></a>    <span class="cf">assert</span> mask[<span class="dv">0</span>], <span class="st">"the key regressor's spatial lag must be retained"</span></span>
+<span id="cb5-105"><a href="#cb5-105" aria-hidden="true" tabindex="-1"></a>    slx_vars <span class="op">=</span> <span class="st">"All"</span> <span class="cf">if</span> <span class="bu">all</span>(mask) <span class="cf">else</span> mask</span>
+<span id="cb5-106"><a href="#cb5-106" aria-hidden="true" tabindex="-1"></a>    <span class="cf">with</span> redirect_stdout(<span class="bu">open</span>(os.devnull, <span class="st">"w"</span>)):</span>
+<span id="cb5-107"><a href="#cb5-107" aria-hidden="true" tabindex="-1"></a>        mod <span class="op">=</span> ML_Lag(y<span class="op">=</span>y, x<span class="op">=</span>Xv, w<span class="op">=</span>w, slx_lags<span class="op">=</span><span class="dv">1</span>, slx_vars<span class="op">=</span>slx_vars,</span>
+<span id="cb5-108"><a href="#cb5-108" aria-hidden="true" tabindex="-1"></a>                     spat_impacts<span class="op">=</span><span class="st">"full"</span>)</span>
+<span id="cb5-109"><a href="#cb5-109" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-110"><a href="#cb5-110" aria-hidden="true" tabindex="-1"></a>    b <span class="op">=</span> mod.betas.flatten()</span>
+<span id="cb5-111"><a href="#cb5-111" aria-hidden="true" tabindex="-1"></a>    k <span class="op">=</span> Xv.shape[<span class="dv">1</span>]</span>
+<span id="cb5-112"><a href="#cb5-112" aria-hidden="true" tabindex="-1"></a>    i_b <span class="op">=</span> <span class="dv">1</span>                       <span class="co"># const at 0; XKEY is first X column -&gt; index 1</span></span>
+<span id="cb5-113"><a href="#cb5-113" aria-hidden="true" tabindex="-1"></a>    i_g <span class="op">=</span> <span class="dv">1</span> <span class="op">+</span> k                   <span class="co"># first W*X column (XKEY is always lagged)</span></span>
+<span id="cb5-114"><a href="#cb5-114" aria-hidden="true" tabindex="-1"></a>    i_r <span class="op">=</span> <span class="bu">len</span>(b) <span class="op">-</span> <span class="dv">1</span>              <span class="co"># rho is last</span></span>
+<span id="cb5-115"><a href="#cb5-115" aria-hidden="true" tabindex="-1"></a>    rho <span class="op">=</span> b[i_r]</span>
+<span id="cb5-116"><a href="#cb5-116" aria-hidden="true" tabindex="-1"></a>    direct <span class="op">=</span> _adi(<span class="st">"full"</span>, rho)[<span class="dv">0</span>] <span class="op">*</span> b[i_b] <span class="op">+</span> _awi(<span class="st">"full"</span>, rho)[<span class="dv">0</span>] <span class="op">*</span> b[i_g]</span>
+<span id="cb5-117"><a href="#cb5-117" aria-hidden="true" tabindex="-1"></a>    total <span class="op">=</span> (b[i_b] <span class="op">+</span> b[i_g]) <span class="op">/</span> (<span class="dv">1</span> <span class="op">-</span> rho)</span>
+<span id="cb5-118"><a href="#cb5-118" aria-hidden="true" tabindex="-1"></a>    indirect <span class="op">=</span> total <span class="op">-</span> direct</span>
+<span id="cb5-119"><a href="#cb5-119" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-120"><a href="#cb5-120" aria-hidden="true" tabindex="-1"></a>    draws <span class="op">=</span> np.random.multivariate_normal(b, mod.vm, size<span class="op">=</span>N_MC)</span>
+<span id="cb5-121"><a href="#cb5-121" aria-hidden="true" tabindex="-1"></a>    D, G, R <span class="op">=</span> draws[:, i_b], draws[:, i_g], draws[:, i_r]</span>
+<span id="cb5-122"><a href="#cb5-122" aria-hidden="true" tabindex="-1"></a>    Deff <span class="op">=</span> _adi(<span class="st">"full"</span>, R) <span class="op">*</span> D <span class="op">+</span> _awi(<span class="st">"full"</span>, R) <span class="op">*</span> G</span>
+<span id="cb5-123"><a href="#cb5-123" aria-hidden="true" tabindex="-1"></a>    T <span class="op">=</span> (D <span class="op">+</span> G) <span class="op">/</span> (<span class="dv">1</span> <span class="op">-</span> R)</span>
+<span id="cb5-124"><a href="#cb5-124" aria-hidden="true" tabindex="-1"></a>    I <span class="op">=</span> T <span class="op">-</span> Deff</span>
+<span id="cb5-125"><a href="#cb5-125" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> {</span>
+<span id="cb5-126"><a href="#cb5-126" aria-hidden="true" tabindex="-1"></a>        <span class="st">"direct"</span>: direct, <span class="st">"direct_se"</span>: Deff.std(),</span>
+<span id="cb5-127"><a href="#cb5-127" aria-hidden="true" tabindex="-1"></a>        <span class="st">"indirect"</span>: indirect, <span class="st">"indirect_se"</span>: I.std(),</span>
+<span id="cb5-128"><a href="#cb5-128" aria-hidden="true" tabindex="-1"></a>        <span class="st">"total"</span>: total, <span class="st">"total_se"</span>: T.std(),</span>
+<span id="cb5-129"><a href="#cb5-129" aria-hidden="true" tabindex="-1"></a>        <span class="st">"aic"</span>: mod.aic, <span class="st">"rho"</span>: rho,</span>
+<span id="cb5-130"><a href="#cb5-130" aria-hidden="true" tabindex="-1"></a>    }</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div></div>
 </section>
 <section id="main-analysis" class="level2">
@@ -654,7 +682,7 @@ Model 4: estimated (OLS + SDM), rho=0.199</code></pre>
 </section>
 <section id="results-table" class="level2">
 <h2 class="anchored" data-anchor-id="results-table">4. Results Table</h2>
-<p>The table below reports the convergence estimates. Each model column shows the OLS benchmark beside the SDM. SDM rows give the Direct, Indirect, and Total spatial impacts of initial luminosity, computed with the full (LeSage–Pace) method from the exact spatial multiplier matrix <span class="math inline">\((I-\rho W)^{-1}\)</span>, with Monte-Carlo standard errors in parentheses; OLS reports the coefficient as both Direct and Total. Significance stars are derived from z-statistics (<code>***</code> p&lt;0.01, <code>**</code> p&lt;0.05, <code>*</code> p&lt;0.10), and AIC is reported for model comparison.</p>
+<p>The table below reports the convergence estimates. Each model column shows the OLS benchmark beside the SDM. SDM rows give the Direct, Indirect, and Total spatial impacts of initial luminosity, computed with the full (LeSage–Pace) decomposition <span class="math inline">\(S_r(W) = (I-\rho W)^{-1}(\beta_r I + \theta_r W)\)</span>, so that the direct effect carries the own-district share of the spatially lagged regressor, with Monte-Carlo standard errors in parentheses; OLS reports the coefficient as both Direct and Total. Significance stars are derived from z-statistics (<code>***</code> p&lt;0.01, <code>**</code> p&lt;0.05, <code>*</code> p&lt;0.10), and AIC is reported for model comparison.</p>
 <div class="cell-container"><div class="cell-decorator"><pre>In [6]:</pre></div><div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> IPython.display <span class="im">import</span> Markdown</span>
 <span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a></span>
@@ -755,7 +783,7 @@ Table&nbsp;1: Unconditional and conditional convergence across districts.
 <tr class="even">
 <td>Direct</td>
 <td>-0.020***</td>
-<td>-0.026***</td>
+<td>-0.021***</td>
 <td>-0.022***</td>
 <td>-0.021***</td>
 <td>-0.025***</td>
@@ -777,13 +805,13 @@ Table&nbsp;1: Unconditional and conditional convergence across districts.
 <tr class="even">
 <td>Indirect</td>
 <td>–</td>
-<td>0.004</td>
+<td>-0.001</td>
 <td>–</td>
 <td>-0.001</td>
 <td>–</td>
 <td>-0.015*</td>
 <td>–</td>
-<td>-0.013*</td>
+<td>-0.012*</td>
 </tr>
 <tr class="odd">
 <td></td>
@@ -792,7 +820,7 @@ Table&nbsp;1: Unconditional and conditional convergence across districts.
 <td></td>
 <td>(0.005)</td>
 <td></td>
-<td>(0.009)</td>
+<td>(0.008)</td>
 <td></td>
 <td>(0.007)</td>
 </tr>
@@ -940,7 +968,7 @@ Table&nbsp;2: Implied annual speed of convergence and half-life by model, from t
 </section>
 <section id="robustness-alternative-spatial-impact-methods" class="level2">
 <h2 class="anchored" data-anchor-id="robustness-alternative-spatial-impact-methods">5. Robustness: alternative spatial-impact methods</h2>
-<p>Table 1 reports the spatial impacts using the <strong>full</strong> (LeSage–Pace) method, which builds the average direct, indirect, and total effects from the exact spatial multiplier matrix <span class="math inline">\((I-\rho W)^{-1}\)</span>. As a robustness check, the table below recomputes the impacts of initial luminosity for the preferred Model 4 (conditional + state FE) under three alternative computations of that multiplier:</p>
+<p>Table 1 reports the spatial impacts using the <strong>full</strong> (LeSage–Pace) method, which builds the average direct, indirect, and total effects from the exact spatial multiplier matrix <span class="math inline">\((I-\rho W)^{-1}\)</span>. Note that <code>spreg</code>’s own <code>spat_impacts</code> output assigns the whole spatially lagged coefficient to the indirect effect, so it does not agree with the decomposition used here; the values below reproduce Stata’s <code>estat impact</code>. As a robustness check, the table below recomputes the impacts of initial luminosity for the preferred Model 4 (conditional + state FE) under three alternative computations of that multiplier:</p>
 <ul>
 <li><strong>full</strong> — exact average of the diagonal of <span class="math inline">\((I-\rho W)^{-1}\)</span> (the main result reported in Table 1).</li>
 <li><strong>simple</strong> — the Kim–Phipps–Anselin scalar approximation (average direct impact fixed at 1).</li>
@@ -953,39 +981,40 @@ Table&nbsp;2: Implied annual speed of convergence and half-life by model, from t
 <span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>Xdf4 <span class="op">=</span> pd.concat([m[[XKEY] <span class="op">+</span> CONTROLS], fe], axis<span class="op">=</span><span class="dv">1</span>)</span>
 <span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a>Xv4 <span class="op">=</span> Xdf4.astype(<span class="bu">float</span>).values</span>
 <span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a>mask4 <span class="op">=</span> full_rank_lag_mask(Xv4, Wd)</span>
-<span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a>slx4 <span class="op">=</span> <span class="st">"All"</span> <span class="cf">if</span> <span class="bu">all</span>(mask4) <span class="cf">else</span> mask4</span>
-<span id="cb10-7"><a href="#cb10-7" aria-hidden="true" tabindex="-1"></a><span class="cf">with</span> redirect_stdout(<span class="bu">open</span>(os.devnull, <span class="st">"w"</span>)):</span>
-<span id="cb10-8"><a href="#cb10-8" aria-hidden="true" tabindex="-1"></a>    mod4 <span class="op">=</span> ML_Lag(y<span class="op">=</span>y, x<span class="op">=</span>Xv4, w<span class="op">=</span>w, slx_lags<span class="op">=</span><span class="dv">1</span>, slx_vars<span class="op">=</span>slx4,</span>
-<span id="cb10-9"><a href="#cb10-9" aria-hidden="true" tabindex="-1"></a>                  spat_impacts<span class="op">=</span>[<span class="st">"simple"</span>, <span class="st">"full"</span>, <span class="st">"power"</span>])</span>
-<span id="cb10-10"><a href="#cb10-10" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb10-11"><a href="#cb10-11" aria-hidden="true" tabindex="-1"></a>b4 <span class="op">=</span> mod4.betas.flatten()</span>
-<span id="cb10-12"><a href="#cb10-12" aria-hidden="true" tabindex="-1"></a>k4 <span class="op">=</span> Xv4.shape[<span class="dv">1</span>]</span>
-<span id="cb10-13"><a href="#cb10-13" aria-hidden="true" tabindex="-1"></a>i_b, i_g, i_r <span class="op">=</span> <span class="dv">1</span>, <span class="dv">1</span> <span class="op">+</span> k4, <span class="bu">len</span>(b4) <span class="op">-</span> <span class="dv">1</span></span>
-<span id="cb10-14"><a href="#cb10-14" aria-hidden="true" tabindex="-1"></a>rho4 <span class="op">=</span> b4[i_r]</span>
-<span id="cb10-15"><a href="#cb10-15" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb10-16"><a href="#cb10-16" aria-hidden="true" tabindex="-1"></a>np.random.seed(<span class="dv">20250620</span>)</span>
-<span id="cb10-17"><a href="#cb10-17" aria-hidden="true" tabindex="-1"></a>draws4 <span class="op">=</span> np.random.multivariate_normal(b4, mod4.vm, size<span class="op">=</span>N_MC)</span>
-<span id="cb10-18"><a href="#cb10-18" aria-hidden="true" tabindex="-1"></a>D4, G4, R4 <span class="op">=</span> draws4[:, i_b], draws4[:, i_g], draws4[:, i_r]</span>
-<span id="cb10-19"><a href="#cb10-19" aria-hidden="true" tabindex="-1"></a>T4 <span class="op">=</span> (D4 <span class="op">+</span> G4) <span class="op">/</span> (<span class="dv">1</span> <span class="op">-</span> R4)            <span class="co"># Total is identical across methods</span></span>
-<span id="cb10-20"><a href="#cb10-20" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb10-21"><a href="#cb10-21" aria-hidden="true" tabindex="-1"></a>rob <span class="op">=</span> [</span>
-<span id="cb10-22"><a href="#cb10-22" aria-hidden="true" tabindex="-1"></a>    <span class="st">"| Method | Direct | Indirect | Total |"</span>,</span>
-<span id="cb10-23"><a href="#cb10-23" aria-hidden="true" tabindex="-1"></a>    <span class="st">"|--------|--------|----------|-------|"</span>,</span>
-<span id="cb10-24"><a href="#cb10-24" aria-hidden="true" tabindex="-1"></a>]</span>
-<span id="cb10-25"><a href="#cb10-25" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> method <span class="kw">in</span> [<span class="st">"full"</span>, <span class="st">"simple"</span>, <span class="st">"power"</span>]:</span>
-<span id="cb10-26"><a href="#cb10-26" aria-hidden="true" tabindex="-1"></a>    direct <span class="op">=</span> _adi(method, rho4)[<span class="dv">0</span>] <span class="op">*</span> b4[i_b]</span>
-<span id="cb10-27"><a href="#cb10-27" aria-hidden="true" tabindex="-1"></a>    total <span class="op">=</span> (b4[i_b] <span class="op">+</span> b4[i_g]) <span class="op">/</span> (<span class="dv">1</span> <span class="op">-</span> rho4)</span>
-<span id="cb10-28"><a href="#cb10-28" aria-hidden="true" tabindex="-1"></a>    indirect <span class="op">=</span> total <span class="op">-</span> direct</span>
-<span id="cb10-29"><a href="#cb10-29" aria-hidden="true" tabindex="-1"></a>    Deff <span class="op">=</span> _adi(method, R4) <span class="op">*</span> D4</span>
-<span id="cb10-30"><a href="#cb10-30" aria-hidden="true" tabindex="-1"></a>    Ieff <span class="op">=</span> T4 <span class="op">-</span> Deff</span>
-<span id="cb10-31"><a href="#cb10-31" aria-hidden="true" tabindex="-1"></a>    label <span class="op">=</span> method <span class="op">+</span> (<span class="st">" (main)"</span> <span class="cf">if</span> method <span class="op">==</span> <span class="st">"full"</span> <span class="cf">else</span> <span class="st">""</span>)</span>
-<span id="cb10-32"><a href="#cb10-32" aria-hidden="true" tabindex="-1"></a>    rob.append(<span class="st">"| </span><span class="sc">{}</span><span class="st"> | </span><span class="sc">{}</span><span class="st">&lt;br&gt;</span><span class="sc">{}</span><span class="st"> | </span><span class="sc">{}</span><span class="st">&lt;br&gt;</span><span class="sc">{}</span><span class="st"> | </span><span class="sc">{}</span><span class="st">&lt;br&gt;</span><span class="sc">{}</span><span class="st"> |"</span>.<span class="bu">format</span>(</span>
-<span id="cb10-33"><a href="#cb10-33" aria-hidden="true" tabindex="-1"></a>        label,</span>
-<span id="cb10-34"><a href="#cb10-34" aria-hidden="true" tabindex="-1"></a>        _est(direct, Deff.std()), _se(Deff.std()),</span>
-<span id="cb10-35"><a href="#cb10-35" aria-hidden="true" tabindex="-1"></a>        _est(indirect, Ieff.std()), _se(Ieff.std()),</span>
-<span id="cb10-36"><a href="#cb10-36" aria-hidden="true" tabindex="-1"></a>        _est(total, T4.std()), _se(T4.std()),</span>
-<span id="cb10-37"><a href="#cb10-37" aria-hidden="true" tabindex="-1"></a>    ))</span>
-<span id="cb10-38"><a href="#cb10-38" aria-hidden="true" tabindex="-1"></a>Markdown(<span class="st">"</span><span class="ch">\n</span><span class="st">"</span>.join(rob))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a><span class="cf">assert</span> mask4[<span class="dv">0</span>], <span class="st">"the key regressor's spatial lag must be retained"</span></span>
+<span id="cb10-7"><a href="#cb10-7" aria-hidden="true" tabindex="-1"></a>slx4 <span class="op">=</span> <span class="st">"All"</span> <span class="cf">if</span> <span class="bu">all</span>(mask4) <span class="cf">else</span> mask4</span>
+<span id="cb10-8"><a href="#cb10-8" aria-hidden="true" tabindex="-1"></a><span class="cf">with</span> redirect_stdout(<span class="bu">open</span>(os.devnull, <span class="st">"w"</span>)):</span>
+<span id="cb10-9"><a href="#cb10-9" aria-hidden="true" tabindex="-1"></a>    mod4 <span class="op">=</span> ML_Lag(y<span class="op">=</span>y, x<span class="op">=</span>Xv4, w<span class="op">=</span>w, slx_lags<span class="op">=</span><span class="dv">1</span>, slx_vars<span class="op">=</span>slx4,</span>
+<span id="cb10-10"><a href="#cb10-10" aria-hidden="true" tabindex="-1"></a>                  spat_impacts<span class="op">=</span>[<span class="st">"simple"</span>, <span class="st">"full"</span>, <span class="st">"power"</span>])</span>
+<span id="cb10-11"><a href="#cb10-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-12"><a href="#cb10-12" aria-hidden="true" tabindex="-1"></a>b4 <span class="op">=</span> mod4.betas.flatten()</span>
+<span id="cb10-13"><a href="#cb10-13" aria-hidden="true" tabindex="-1"></a>k4 <span class="op">=</span> Xv4.shape[<span class="dv">1</span>]</span>
+<span id="cb10-14"><a href="#cb10-14" aria-hidden="true" tabindex="-1"></a>i_b, i_g, i_r <span class="op">=</span> <span class="dv">1</span>, <span class="dv">1</span> <span class="op">+</span> k4, <span class="bu">len</span>(b4) <span class="op">-</span> <span class="dv">1</span></span>
+<span id="cb10-15"><a href="#cb10-15" aria-hidden="true" tabindex="-1"></a>rho4 <span class="op">=</span> b4[i_r]</span>
+<span id="cb10-16"><a href="#cb10-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-17"><a href="#cb10-17" aria-hidden="true" tabindex="-1"></a>np.random.seed(<span class="dv">20250620</span>)</span>
+<span id="cb10-18"><a href="#cb10-18" aria-hidden="true" tabindex="-1"></a>draws4 <span class="op">=</span> np.random.multivariate_normal(b4, mod4.vm, size<span class="op">=</span>N_MC)</span>
+<span id="cb10-19"><a href="#cb10-19" aria-hidden="true" tabindex="-1"></a>D4, G4, R4 <span class="op">=</span> draws4[:, i_b], draws4[:, i_g], draws4[:, i_r]</span>
+<span id="cb10-20"><a href="#cb10-20" aria-hidden="true" tabindex="-1"></a>T4 <span class="op">=</span> (D4 <span class="op">+</span> G4) <span class="op">/</span> (<span class="dv">1</span> <span class="op">-</span> R4)            <span class="co"># Total is identical across methods</span></span>
+<span id="cb10-21"><a href="#cb10-21" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-22"><a href="#cb10-22" aria-hidden="true" tabindex="-1"></a>rob <span class="op">=</span> [</span>
+<span id="cb10-23"><a href="#cb10-23" aria-hidden="true" tabindex="-1"></a>    <span class="st">"| Method | Direct | Indirect | Total |"</span>,</span>
+<span id="cb10-24"><a href="#cb10-24" aria-hidden="true" tabindex="-1"></a>    <span class="st">"|--------|--------|----------|-------|"</span>,</span>
+<span id="cb10-25"><a href="#cb10-25" aria-hidden="true" tabindex="-1"></a>]</span>
+<span id="cb10-26"><a href="#cb10-26" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> method <span class="kw">in</span> [<span class="st">"full"</span>, <span class="st">"simple"</span>, <span class="st">"power"</span>]:</span>
+<span id="cb10-27"><a href="#cb10-27" aria-hidden="true" tabindex="-1"></a>    direct <span class="op">=</span> _adi(method, rho4)[<span class="dv">0</span>] <span class="op">*</span> b4[i_b] <span class="op">+</span> _awi(method, rho4)[<span class="dv">0</span>] <span class="op">*</span> b4[i_g]</span>
+<span id="cb10-28"><a href="#cb10-28" aria-hidden="true" tabindex="-1"></a>    total <span class="op">=</span> (b4[i_b] <span class="op">+</span> b4[i_g]) <span class="op">/</span> (<span class="dv">1</span> <span class="op">-</span> rho4)</span>
+<span id="cb10-29"><a href="#cb10-29" aria-hidden="true" tabindex="-1"></a>    indirect <span class="op">=</span> total <span class="op">-</span> direct</span>
+<span id="cb10-30"><a href="#cb10-30" aria-hidden="true" tabindex="-1"></a>    Deff <span class="op">=</span> _adi(method, R4) <span class="op">*</span> D4 <span class="op">+</span> _awi(method, R4) <span class="op">*</span> G4</span>
+<span id="cb10-31"><a href="#cb10-31" aria-hidden="true" tabindex="-1"></a>    Ieff <span class="op">=</span> T4 <span class="op">-</span> Deff</span>
+<span id="cb10-32"><a href="#cb10-32" aria-hidden="true" tabindex="-1"></a>    label <span class="op">=</span> method <span class="op">+</span> (<span class="st">" (main)"</span> <span class="cf">if</span> method <span class="op">==</span> <span class="st">"full"</span> <span class="cf">else</span> <span class="st">""</span>)</span>
+<span id="cb10-33"><a href="#cb10-33" aria-hidden="true" tabindex="-1"></a>    rob.append(<span class="st">"| </span><span class="sc">{}</span><span class="st"> | </span><span class="sc">{}</span><span class="st">&lt;br&gt;</span><span class="sc">{}</span><span class="st"> | </span><span class="sc">{}</span><span class="st">&lt;br&gt;</span><span class="sc">{}</span><span class="st"> | </span><span class="sc">{}</span><span class="st">&lt;br&gt;</span><span class="sc">{}</span><span class="st"> |"</span>.<span class="bu">format</span>(</span>
+<span id="cb10-34"><a href="#cb10-34" aria-hidden="true" tabindex="-1"></a>        label,</span>
+<span id="cb10-35"><a href="#cb10-35" aria-hidden="true" tabindex="-1"></a>        _est(direct, Deff.std()), _se(Deff.std()),</span>
+<span id="cb10-36"><a href="#cb10-36" aria-hidden="true" tabindex="-1"></a>        _est(indirect, Ieff.std()), _se(Ieff.std()),</span>
+<span id="cb10-37"><a href="#cb10-37" aria-hidden="true" tabindex="-1"></a>        _est(total, T4.std()), _se(T4.std()),</span>
+<span id="cb10-38"><a href="#cb10-38" aria-hidden="true" tabindex="-1"></a>    ))</span>
+<span id="cb10-39"><a href="#cb10-39" aria-hidden="true" tabindex="-1"></a>Markdown(<span class="st">"</span><span class="ch">\n</span><span class="st">"</span>.join(rob))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-container"><div class="cell-decorator"><pre>In [11]:</pre></div><div id="tbl-impacts-robustness" class="cell quarto-float quarto-figure quarto-figure-center anchored">
 <figure class="quarto-float quarto-float-tbl figure">
 <figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-impacts-robustness-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
@@ -1012,7 +1041,7 @@ Table&nbsp;3: Robustness of the Model 4 spatial impacts of initial luminosity to
 <tr class="odd">
 <td>full (main)</td>
 <td>-0.025***<br>(0.002)</td>
-<td>-0.013*<br>(0.007)</td>
+<td>-0.012*<br>(0.007)</td>
 <td>-0.037***<br>(0.007)</td>
 </tr>
 <tr class="even">
@@ -1024,7 +1053,7 @@ Table&nbsp;3: Robustness of the Model 4 spatial impacts of initial luminosity to
 <tr class="odd">
 <td>power</td>
 <td>-0.025***<br>(0.002)</td>
-<td>-0.013*<br>(0.007)</td>
+<td>-0.012*<br>(0.007)</td>
 <td>-0.037***<br>(0.007)</td>
 </tr>
 </tbody>
@@ -1034,7 +1063,7 @@ Table&nbsp;3: Robustness of the Model 4 spatial impacts of initial luminosity to
 </figure>
 </div></div>
 </div></div>
-<p>The three methods agree to within about 0.0002 on the Direct and Indirect impacts and give an identical Total impact, confirming that the estimated spillovers are not an artifact of the impact-computation method.</p>
+<p>The three methods agree to within about 0.0003 on the Direct and Indirect impacts and give an identical Total impact, confirming that the estimated spillovers are not an artifact of the impact-computation method.</p>
 </section>
      </main>
 <!-- /main column -->  <script id="quarto-html-after-body" type="application/javascript">
