@@ -63,3 +63,6 @@ notebooks/c04_spillover_modeling_table.md
 # index_files/
 # images/
 # notebooks/
+
+# Quantitative audit workspace (local only, regenerable)
+/audit-scratch/

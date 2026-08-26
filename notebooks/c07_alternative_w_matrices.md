@@ -139,7 +139,7 @@ for name, w in WMATS:
 
 ## 3. Re-estimate Model 4 under each weight matrix
 
-We reuse the manuscript's estimation logic: a Spatial Durbin Model via `ML_Lag(slx_lags=1)`, with Direct/Indirect/Total impacts of initial luminosity computed by the full (LeSage–Pace) method from the exact spatial multiplier matrix $(I-\rho W)^{-1}$, and Monte-Carlo standard errors.
+We reuse the manuscript's estimation logic: a Spatial Durbin Model via `ML_Lag(slx_lags=1)`, with Direct/Indirect/Total impacts of initial luminosity computed by the full (LeSage–Pace) decomposition $S_r(W) = (I-\rho W)^{-1}(\beta_r I + \theta_r W)$, and Monte-Carlo standard errors.
 
 ```{code-cell} ipython3
 def stars(est, se):
@@ -168,14 +168,18 @@ def full_rank_lag_mask(Xv, Wd):
 def run_sdm(y, Xdf, w):
     """SDM (full LeSage-Pace impacts) of the key regressor for one weight matrix.
 
-    Direct = adi*b, Total = (b+g)/(1-rho), Indirect = Total - Direct, where
-    adi = mean diag((I-rho W)^-1) via the eigenvalues of W. Monte-Carlo SEs
-    recompute adi for each rho draw.
+    Direct = adi*b + awi*g, Total = (b+g)/(1-rho), Indirect = Total - Direct,
+    where adi = n^-1 tr[(I-rho W)^-1] and awi = n^-1 tr[(I-rho W)^-1 W], both
+    from the eigenvalues of W. The awi*g term is the own-district share of the
+    spatially lagged regressor; `spreg` omits it and assigns the whole SLX
+    coefficient to the indirect effect. Monte-Carlo SEs recompute both
+    multipliers for each rho draw.
     """
     Wd = w.full()[0]
     eigs = np.linalg.eigvals(Wd)
     Xv = Xdf.astype(float).values
     mask = full_rank_lag_mask(Xv, Wd)
+    assert mask[0], "the key regressor's spatial lag must be retained"
     slx_vars = "All" if all(mask) else mask
     with redirect_stdout(open(os.devnull, "w")):
         mod = ML_Lag(y=y, x=Xv, w=w, slx_lags=1, slx_vars=slx_vars, spat_impacts="full")
@@ -189,13 +193,17 @@ def run_sdm(y, Xdf, w):
         R = np.atleast_1d(np.asarray(R, dtype=float))
         return (1.0 / (1.0 - np.outer(R, eigs))).real.mean(axis=1)
 
-    direct = adi(rho)[0] * b[i_b]
+    def awi(R):
+        R = np.atleast_1d(np.asarray(R, dtype=float))
+        return (eigs / (1.0 - np.outer(R, eigs))).real.mean(axis=1)
+
+    direct = adi(rho)[0] * b[i_b] + awi(rho)[0] * b[i_g]
     total = (b[i_b] + b[i_g]) / (1 - rho)
     indirect = total - direct
 
     draws = np.random.multivariate_normal(b, mod.vm, size=N_MC)
     D, G, R = draws[:, i_b], draws[:, i_g], draws[:, i_r]
-    Deff = adi(R) * D
+    Deff = adi(R) * D + awi(R) * G
     T = (D + G) / (1 - R)
     I = T - Deff
     return {

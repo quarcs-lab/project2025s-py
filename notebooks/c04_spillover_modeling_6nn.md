@@ -159,6 +159,28 @@ def _adi(method, rho):
     raise ValueError("unknown impact method: {}".format(method))
 
 
+def _awi(method, rho):
+    """Average own-district multiplier on the spatially lagged regressor,
+    n^-1 tr[(I - rho W)^-1 W], at spatial parameter(s) rho (scalar or array).
+
+    LeSage and Pace (2009) place this term in the DIRECT effect: for regressor
+    r the impact matrix is S_r(W) = (I - rho W)^-1 (beta_r I + theta_r W), so
+    the average direct impact is adi*beta_r + awi*theta_r. Omitting the second
+    term assigns the whole spatially lagged coefficient to the indirect effect.
+    'simple' = 0 (Kim, Phipps and Anselin); 'full' via the eigenvalues of W;
+    'power' = truncated series sum_p rho^(p-1) tr(W^p)/n.
+    """
+    rho = np.atleast_1d(np.asarray(rho, dtype=float))
+    if method == "simple":
+        return np.zeros_like(rho)
+    if method == "full":
+        return (EIGS_W / (1.0 - np.outer(rho, EIGS_W))).real.mean(axis=1)
+    if method == "power":
+        powers = rho[:, None] ** np.arange(0, _P_POW)
+        return (powers * TR_WP).sum(axis=1) / N_W
+    raise ValueError("unknown impact method: {}".format(method))
+
+
 def full_rank_lag_mask(Xv, Wd):
     """Boolean mask over X columns indicating which to spatially lag.
 
@@ -194,22 +216,28 @@ def run_ols(y, Xdf):
 
 
 def run_sdm(y, Xdf, w, Wd):
-    """Spatial Durbin Model via ML_Lag(slx_lags=1); impacts use the 'full'
-    (LeSage-Pace) method based on the exact spatial multiplier matrix
+    """Spatial Durbin Model via ML_Lag(slx_lags=1), with the LeSage-Pace
+    impact decomposition computed from the exact spatial multiplier matrix
     (I - rho W)^-1 -- the same decomposition Stata's `estat impact` reports.
 
-    For the key regressor with own coefficient b, spatial-lag coefficient g,
-    spatial parameter rho, and average direct-impact multiplier adi:
-        Direct   = adi * b
+    For the key regressor with own coefficient b, spatial-lag coefficient g and
+    spatial parameter rho, writing adi = n^-1 tr[(I - rho W)^-1] and
+    awi = n^-1 tr[(I - rho W)^-1 W]:
+        Direct   = adi * b + awi * g
         Total    = (b + g) / (1 - rho)
         Indirect = Total - Direct
-    Because the weights are row-standardised the Total impact is invariant to
-    the multiplier method (ati = 1 / (1 - rho)); only the Direct/Indirect split
-    depends on adi. Inference is obtained by Monte-Carlo simulation from the ML
-    parameter covariance matrix, with adi recomputed for each rho draw.
+    The awi * g term is the own-district share of the spatially lagged
+    regressor. `spreg` omits it (sputils._sp_effects: "Assumes all SLX effects
+    are indirect effects"), which understates Direct and overstates Indirect by
+    awi * g; the gap grows with rho. Because the weights are row-standardised
+    the Total impact is invariant to the multiplier method (ati = 1/(1 - rho));
+    only the Direct/Indirect split depends on adi and awi. Inference is obtained
+    by Monte-Carlo simulation from the ML parameter covariance matrix, with both
+    multipliers recomputed for each rho draw.
     """
     Xv = Xdf.astype(float).values
     mask = full_rank_lag_mask(Xv, Wd)
+    assert mask[0], "the key regressor's spatial lag must be retained"
     slx_vars = "All" if all(mask) else mask
     with redirect_stdout(open(os.devnull, "w")):
         mod = ML_Lag(y=y, x=Xv, w=w, slx_lags=1, slx_vars=slx_vars,
@@ -221,13 +249,13 @@ def run_sdm(y, Xdf, w, Wd):
     i_g = 1 + k                   # first W*X column (XKEY is always lagged)
     i_r = len(b) - 1              # rho is last
     rho = b[i_r]
-    direct = _adi("full", rho)[0] * b[i_b]
+    direct = _adi("full", rho)[0] * b[i_b] + _awi("full", rho)[0] * b[i_g]
     total = (b[i_b] + b[i_g]) / (1 - rho)
     indirect = total - direct
 
     draws = np.random.multivariate_normal(b, mod.vm, size=N_MC)
     D, G, R = draws[:, i_b], draws[:, i_g], draws[:, i_r]
-    Deff = _adi("full", R) * D
+    Deff = _adi("full", R) * D + _awi("full", R) * G
     T = (D + G) / (1 - R)
     I = T - Deff
     return {
@@ -287,7 +315,7 @@ for tag, sp in specs.items():
 
 ## 4. Results Table
 
-The table below reports the convergence estimates. Each model column shows the OLS benchmark beside the SDM. SDM rows give the Direct, Indirect, and Total spatial impacts of initial luminosity, computed with the full (LeSage–Pace) method from the exact spatial multiplier matrix $(I-\rho W)^{-1}$, with Monte-Carlo standard errors in parentheses; OLS reports the coefficient as both Direct and Total. Significance stars are derived from z-statistics (`***` p<0.01, `**` p<0.05, `*` p<0.10), and AIC is reported for model comparison.
+The table below reports the convergence estimates. Each model column shows the OLS benchmark beside the SDM. SDM rows give the Direct, Indirect, and Total spatial impacts of initial luminosity, computed with the full (LeSage–Pace) decomposition $S_r(W) = (I-\rho W)^{-1}(\beta_r I + \theta_r W)$, so that the direct effect carries the own-district share of the spatially lagged regressor, with Monte-Carlo standard errors in parentheses; OLS reports the coefficient as both Direct and Total. Significance stars are derived from z-statistics (`***` p<0.01, `**` p<0.05, `*` p<0.10), and AIC is reported for model comparison.
 
 ```{code-cell} ipython3
 #| label: tbl-models
@@ -380,6 +408,7 @@ In the preferred Model 4 the implied annual speed of convergence rises from the 
 ## 5. Robustness: alternative spatial-impact methods
 
 Table 1 reports the spatial impacts using the **full** (LeSage–Pace) method, which builds the average direct, indirect, and total effects from the exact spatial multiplier matrix $(I-\rho W)^{-1}$.
+Note that `spreg`'s own `spat_impacts` output assigns the whole spatially lagged coefficient to the indirect effect, so it does not agree with the decomposition used here; the values below reproduce Stata's `estat impact`.
 As a robustness check, the table below recomputes the impacts of initial luminosity for the preferred Model 4 (conditional + state FE) under three alternative computations of that multiplier:
 
 - **full** — exact average of the diagonal of $(I-\rho W)^{-1}$ (the main result reported in Table 1).
@@ -396,6 +425,7 @@ Because the weights are row-standardised, the **Total** impact is invariant to t
 Xdf4 = pd.concat([m[[XKEY] + CONTROLS], fe], axis=1)
 Xv4 = Xdf4.astype(float).values
 mask4 = full_rank_lag_mask(Xv4, Wd)
+assert mask4[0], "the key regressor's spatial lag must be retained"
 slx4 = "All" if all(mask4) else mask4
 with redirect_stdout(open(os.devnull, "w")):
     mod4 = ML_Lag(y=y, x=Xv4, w=w, slx_lags=1, slx_vars=slx4,
@@ -416,10 +446,10 @@ rob = [
     "|--------|--------|----------|-------|",
 ]
 for method in ["full", "simple", "power"]:
-    direct = _adi(method, rho4)[0] * b4[i_b]
+    direct = _adi(method, rho4)[0] * b4[i_b] + _awi(method, rho4)[0] * b4[i_g]
     total = (b4[i_b] + b4[i_g]) / (1 - rho4)
     indirect = total - direct
-    Deff = _adi(method, R4) * D4
+    Deff = _adi(method, R4) * D4 + _awi(method, R4) * G4
     Ieff = T4 - Deff
     label = method + (" (main)" if method == "full" else "")
     rob.append("| {} | {}<br>{} | {}<br>{} | {}<br>{} |".format(
@@ -431,4 +461,4 @@ for method in ["full", "simple", "power"]:
 Markdown("\n".join(rob))
 ```
 
-The three methods agree to within about 0.0002 on the Direct and Indirect impacts and give an identical Total impact, confirming that the estimated spillovers are not an artifact of the impact-computation method.
+The three methods agree to within about 0.0003 on the Direct and Indirect impacts and give an identical Total impact, confirming that the estimated spillovers are not an artifact of the impact-computation method.

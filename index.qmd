@@ -160,7 +160,8 @@ We use the radiance-calibrated series throughout.[^1]
     To match districts across the two census files, we merged newly split districts back with their parent districts in the 2011 census.
     Eight of the 47 new districts were created by splitting areas from multiple parent districts.
     Those new districts along with their multiple-origin districts were dropped from our sample.
-    We dropped all the districts in the state of Assam where more than 50% of districts were created in that manner.
+    We dropped all the districts in the state of Assam, where more than half of the new districts were created in that manner.
+    The 73 districts not in our sample are the 23 of Assam, the 4 of Tripura, the 10 union-territory districts outside Delhi, the 8 by which Delhi's nine districts are collapsed to a single unit, and 28 multiple-origin districts and their parents spread across ten further states.
 
 
 ### Jupyter and Quarto for reproducible open science
@@ -426,21 +427,19 @@ This consistency across specifications and estimation methods suggests that poor
 The progression from unconditional to conditional specifications reveals how the estimated convergence process is shaped by the inclusion of additional covariates.
 In the OLS specifications, the direct effect is -0.020 in Model 1 and -0.022 in Model 2, and it strengthens to -0.025 once district characteristics are added in Models 3 and 4.
 Omitting these characteristics therefore attenuates the estimated speed of convergence.
-The spatial Durbin direct effects match this pattern in the conditional models, at -0.026 in Model 3 and -0.025 in Model 4.[^uncond]
+The spatial Durbin direct effects match this pattern in the conditional models, at -0.026 in Model 3 and -0.025 in Model 4.
 Once we account for structural differences across districts, the underlying tendency for poorer districts to catch up becomes more pronounced.
 State fixed effects absorb unobserved state-level heterogeneity, such as differences in governance and institutional quality, that might otherwise confound the convergence relationship.
-They tighten the standard errors and moderate the spatial total effect rather than strengthening it further.
-
-[^uncond]: The impact decomposition is unreliable in Model 1, where the spatial autoregressive parameter is very large, at about 0.80, which inflates the direct effect to -0.026.
-    In Model 2 the indirect effect is indistinguishable from zero.
+They tighten the standard errors on the spatial impacts and moderate the spatial total effect rather than strengthening it further.
 
 The spatial Durbin model also reveals spatial spillover effects that are not captured by traditional OLS estimations.
 These indirect effects, which capture the influence of the initial conditions of neighboring districts on the growth rate of a district, follow a notable pattern across specifications.
-In the unconditional models (Models 1 and 2), the estimated indirect effects are statistically insignificant and erratic, negative in Model 2 but positive in Model 1.[^erratic]
-Once district-level controls are introduced (Models 3 and 4), the indirect effects become both larger in magnitude and statistically significant at the 10% level, reaching -0.015 in Model 3 and -0.013 in our most comprehensive Model 4.
+In the unconditional models (Models 1 and 2), the estimated indirect effects are negative but small and statistically insignificant, at -0.001 in both.[^erratic]
+Once district-level controls are introduced (Models 3 and 4), the indirect effects become both larger in magnitude and statistically significant at the 10% level, reaching -0.015 in Model 3 and -0.012 in our most comprehensive Model 4.
 The spatial channels of convergence therefore become discernible only after accounting for district-specific characteristics.
 
 [^erratic]: Without controls, the strong residual spatial dependence confounds the spillover estimates with omitted variables.
+    The spatial autoregressive parameter also reaches about 0.80 in Model 1, so its decomposition is the most sensitive of the four to how the spatial multiplier is computed.
 
 The total impact of initial conditions on growth, combining both direct and spillover effects, is substantially larger when we account for spatial dependence.
 In our fully specified model (Model 4), the total convergence effect in the spatial Durbin model (-0.037) is approximately 51% larger in magnitude than the OLS estimate (-0.025).
@@ -759,6 +758,6 @@ All data and computational code used in this study are available in the project 
 The interactive HTML version of this manuscript (<https://quarcs-lab.github.io/project2025s-py/>) embeds the computational notebooks, allowing readers to inspect the complete analytical pipeline from raw data to published results.
 Every analytical notebook can be executed in the cloud using Google Colaboratory without any local software installation: readers open the notebook and run it, and the results, figures, and tables of this article are regenerated from the raw data.
 The computational notebooks are implemented entirely in Python.
-An earlier implementation of the same analysis used R and Stata, and the present Python results are largely consistent with it.
-The impact decomposition of the unconditional spatial Durbin model (Model 1) differs, although its total effect is unchanged, and the AIC values differ by a few units.
+An earlier implementation of the same analysis used R and Stata, and the present Python results reproduce it.
+The AIC values differ by a few units because the two packages count parameters differently: Stata treats the error variance of the spatial model as a free parameter, and its information criterion for the fixed-effects regressions uses the rank of the robust covariance matrix, which two single-district states leave short by two.
 The interactive Earth Engine application linked in the text is a convenience layer for visualizing the underlying imagery; its source code is included in the first notebook, and none of the results reported in this article depend on it.
