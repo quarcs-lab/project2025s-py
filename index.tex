@@ -334,46 +334,50 @@ research. Section 5 offers concluding remarks.
 \subsection{Data: Nighttime lights as a proxy for economic
 activity}\label{data-nighttime-lights-as-a-proxy-for-economic-activity}
 
-A growing literature pioneered by Henderson, Storeygard, and Weil (2012)
-uses satellite nighttime light data as a proxy for economic activity
-below the state level, exploiting the empirical correlation between the
-intensity of artificial light observed from satellites and economic
-output on the ground. X. Chen and Nordhaus (2011) show that the proxy
-carries most information where official statistics are of low quality.
-Nighttime light (hereafter NTL) data have since been widely used to
-investigate economic growth and convergence across national and
-subnational regions.
+Satellite images of nighttime light provide a proxy for economic
+activity below the national level. Henderson, Storeygard, and Weil
+(2012) pioneered this approach in economics. Their work exploits the
+empirical correlation between the intensity of artificial light observed
+from space and economic output on the ground. X. Chen and Nordhaus
+(2011) show that the proxy is most informative where official statistics
+are of low quality. Nighttime light (hereafter NTL) data have therefore
+become a standard tool for the study of growth and convergence across
+national and subnational regions.
 
-Applications include the effect of decentralization on convergence
-(Adhikari and Dhital 2021), the adjudication between national accounts
-and household surveys, which national accounts win (Pinkovskiy and
-Sala-i-Martin 2016), and the global estimation of GDP per capita and
-spatial inequality (Lessmann and Seidel 2017). The Indian literature is
-equally varied, and it covers welfare programs, colonial institutions,
-demonetization, and the pandemic.\footnote{Nighttime lights have been
-  used in India to analyze the impact of public welfare programs (Cook
-  and Shah 2022), the effects of colonial institutions (Jha and Talathi
-  2024), the impact of demonetization (Chanda and Cook 2022), and the
-  effects of COVID-19 (Beyer, Jain, and Sinha 2023).} Chakravarty and
-Dehejia (2017) document significant regional disparities in India using
-NTL data and caution that the goods and services tax may further
-exacerbate them.
+NTL data have been applied to a wide range of questions in development
+economics. One line of work studies the effect of decentralization on
+regional convergence (Adhikari and Dhital 2021). A second line
+adjudicates between national accounts and household surveys, and it
+finds that national accounts track the light data more closely
+(Pinkovskiy and Sala-i-Martin 2016). A third line estimates GDP per
+capita and spatial inequality at the global scale (Lessmann and Seidel
+2017). The Indian literature is equally varied, and it covers welfare
+programs, colonial institutions, demonetization, and the
+pandemic.\footnote{Nighttime lights have been used in India to analyze
+  the impact of public welfare programs (Cook and Shah 2022), the
+  effects of colonial institutions (Jha and Talathi 2024), the impact of
+  demonetization (Chanda and Cook 2022), and the effects of COVID-19
+  (Beyer, Jain, and Sinha 2023).} Chakravarty and Dehejia (2017)
+document large regional disparities in India and caution that the goods
+and services tax may widen them further. Taken together, these studies
+show that NTL data are well suited to the analysis of subnational
+disparities.
 
-Our study builds on Chanda and Kabiraj (2020). Following their approach,
-we use per capita growth in nighttime lights as the dependent variable
-and initial nighttime lights per capita as the primary explanatory
-variable. For 520 districts in India, these variables derive from NTL
-data released by the National Geophysical Data Center (NGDC), based on
-observations from the DMSP-OLS satellites over the period from 1996 to
-2010. To mitigate top-coding, the NGDC released radiance-calibrated
-nighttime lights for eight specific years, using high magnification
-settings for low-light regions and low magnification settings for
-brightly lit areas. Six of those eight fall inside our sample window,
-and we use the radiance-calibrated series throughout.\footnote{Following
-  Chanda and Kabiraj (2020), our sample consists of 520 districts (out
-  of a possible 593). There were 593 districts in 2001, which rose to
-  640 districts in the 2011 census. To match districts across the two
-  census files, we merged newly split districts back with their parent
+Our empirical design follows Chanda and Kabiraj (2020). The dependent
+variable is the growth rate of nighttime lights per capita. The primary
+explanatory variable is the initial level of nighttime lights per
+capita. We construct both variables for 520 districts in India from data
+released by the National Geophysical Data Center (NGDC). These data
+record observations from the DMSP-OLS satellites over the period from
+1996 to 2010. To mitigate top-coding in brightly lit areas, the NGDC
+also released a radiance-calibrated series for eight years, which
+combines high magnification settings for low-light regions with low
+magnification settings for bright ones. In this article, we use the
+radiance-calibrated series throughout.\footnote{Following Chanda and
+  Kabiraj (2020), our sample consists of 520 districts (out of a
+  possible 593). There were 593 districts in 2001, which rose to 640
+  districts in the 2011 census. To match districts across the two census
+  files, we merged newly split districts back with their parent
   districts in the 2011 census. Eight of the 47 new districts were
   created by splitting areas from multiple parent districts. Those new
   districts along with their multiple-origin districts were dropped from
@@ -387,73 +391,78 @@ and we use the radiance-calibrated series throughout.\footnote{Following
 \subsection{A reproducible workflow and interactive
 visualization}\label{a-reproducible-workflow-and-interactive-visualization}
 
-Jupyter notebooks integrate executable code, explanatory narrative, and
-computational outputs in a single document (Kluyver et al. 2016), which
+We implement the entire study in a reproducible workflow. Jupyter
+notebooks combine executable code, explanatory narrative, and
+computational output in a single document (Kluyver et al. 2016), which
 is the practical expression of literate programming (Knuth 1984). We
-document our data processing, analysis, and visualization in notebooks
-running one Python kernel, so that each result can be traced to the code
-that produced it. Quarto extends those notebooks into a manuscript
-framework (Allaire et al. 2024), in which every figure and table is
-embedded from an identified notebook cell and one source file generates
-the HTML, PDF, Word, and JATS XML versions without discrepancies between
-them. The toolchain is open source and the data and code are public, so
-the whole pipeline can be re-executed without proprietary software (Peng
-2011).
+document the data processing, the estimation, and the visualization in
+notebooks that run on a single Python kernel. Each result can therefore
+be traced to the code that produced it. Quarto then extends those
+notebooks into a manuscript framework (Allaire et al. 2024). Every
+figure and table is embedded from an identified notebook cell, and one
+source file generates the HTML, PDF, Word, and JATS XML versions without
+discrepancies between them. The toolchain is open source, and the data
+and code are public (Peng 2011). Each notebook also runs in the cloud on
+Google Colaboratory, which requires no local installation. Readers can
+therefore re-execute the whole pipeline in a browser and without
+proprietary software.
 
 Satellite data have opened new dimensions of economic measurement
-(Donaldson and Storeygard 2016), and interactive visualization reveals
-spatial and temporal heterogeneity that static maps obscure. Google
-Earth Engine lowers the computational barriers to building such
-visualizations (Gorelick et al. 2017), since its browser-based
-environment needs no local software and its catalog already holds the
-DMSP-OLS and VIIRS nighttime lights collections (Tamiminia et al. 2020).
-The platform lets readers track light intensity across regions over
-time, and therefore see where initially dim regions brightened fastest,
-which is the visual counterpart of the convergence relationship
+(Donaldson and Storeygard 2016). Interactive visualization complements
+that measurement, because it reveals spatial and temporal heterogeneity
+that static maps obscure. Google Earth Engine lowers the computational
+barriers to such visualization (Gorelick et al. 2017). Its browser-based
+environment requires no local software, and its catalog already holds
+the DMSP-OLS and VIIRS nighttime lights collections (Tamiminia et al.
+2020). Readers can therefore track light intensity across regions over
+time, and they can see where initially dim regions brightened fastest.
+That pattern is the visual counterpart of the convergence relationship
 estimated in Section 3.
 
 \subsection{Regional convergence
 modeling}\label{regional-convergence-modeling}
 
-In neoclassical growth models the per capita growth rate is negatively
-correlated with the initial endowment of a region, because of
-diminishing returns to capital accumulation (Solow 1956). Regions that
-share technology and preferences should therefore converge over the long
-run to a common steady state. We examine that hypothesis within the
-growth regression framework of Barro and Sala-i-Martin (1992), and
-Equation~\ref{eq-matrix-form-abs} presents the convergence process in
-its simplest unconditional form.
+Neoclassical growth theory predicts that poor regions grow faster than
+rich ones. Diminishing returns to capital accumulation make the per
+capita growth rate of a region negatively correlated with its initial
+endowment (Solow 1956). Regions that share technology and preferences
+should therefore converge to a common steady state in the long run. We
+test that prediction within the growth regression framework of Barro and
+Sala-i-Martin (1992). Equation~\ref{eq-matrix-form-abs} states the
+convergence process in its simplest unconditional form.
 
 \begin{equation}\phantomsection\label{eq-matrix-form-abs}{
 \boldsymbol{g_t} =  \beta_1 \boldsymbol{x_{t-1}} +  \boldsymbol{\varepsilon_t}
 }\end{equation}
 
 where \(\boldsymbol{g_t}\) is an \(N\text{-by-}1\) vector of per-capita
-NTL growth for each of the \(N\) regions over the period \(t\),
-\(\boldsymbol{x_{t-1}}\) is the corresponding vector of initial (log)
-per-capita NTL, and \(\boldsymbol{\varepsilon_t}\) is a vector of
-idiosyncratic error terms. The parameter \(\beta_1\) indicates the
-direction and strength of regional convergence. A negative value implies
-that regions with lower initial NTL levels grow faster, which is the
-convergence hypothesis.
+NTL growth for the \(N\) regions over the period \(t\). The vector
+\(\boldsymbol{x_{t-1}}\) collects the initial (log) per-capita NTL of
+the same regions, and \(\boldsymbol{\varepsilon_t}\) collects
+idiosyncratic error terms. The parameter \(\beta_1\) measures the
+direction and the strength of regional convergence. A negative value
+implies that regions with lower initial NTL levels grow faster, which is
+the convergence hypothesis.
 
-The estimated convergence coefficient translates into an annual speed of
-convergence and a half-life (Barro and Sala-i-Martin 1992). Because the
-dependent variable is average annual growth over \(T\) years, the
-implied speed is \(\lambda = -\ln(1 + \beta_1 T)/T\), and the half-life,
-the time required to close half of the initial gap to the steady state,
-is \(\ln(2)/\lambda\). In our application \(T = 14\) years, and the same
-transformation is applied to the total effect of initial luminosity in
-the spatial models.
+The estimated convergence coefficient translates into two quantities
+that are easier to interpret (Barro and Sala-i-Martin 1992). The first
+is the annual speed of convergence, and the second is the half-life.
+Because the dependent variable is average annual growth over \(T\)
+years, the implied convergence speed is
+\(\lambda = -\ln(1 + \beta_1 T)/T\). The half-life is
+\(\ln(2)/\lambda\), which is the time required to close half of the
+initial gap to the steady state. In our application \(T = 14\) years. We
+apply the same transformation to the total effect of initial luminosity
+in the spatial models.
 
-Because this simple framework contains no control variables, it implies
-a common steady state, whereas regions differ in geography,
-socio-economic conditions, and policy implementation. To account for
-these differences, we include state fixed effects that control for
-state-specific institutions and policies, and we add a range of
-geo-climatic controls alongside district-specific conditions related to
+The unconditional framework contains no control variables, so it imposes
+a common steady state on every region. That assumption is restrictive,
+because regions differ in geography, in socio-economic conditions, and
+in policy implementation. We therefore add state fixed effects, which
+absorb state-specific institutions and policies. We also add
+geo-climatic controls and district-specific conditions related to
 demographics, human capital, and infrastructure.
-Equation~\ref{eq-matrix-form-cond} summarizes this conditional
+Equation~\ref{eq-matrix-form-cond} summarizes the resulting conditional
 convergence framework.
 
 \begin{equation}\phantomsection\label{eq-matrix-form-cond}{
@@ -461,14 +470,16 @@ convergence framework.
 }\end{equation}
 
 Here, the matrix \(\boldsymbol{X_t}\) is an \(N\text{-by-}k\) collection
-of observations on control variables (including state fixed effects) for
-each district in our sample, and the vector \(\boldsymbol{\alpha}\),
-with dimensions \(k \times 1\), captures their regression coefficients.
-The conditioning set is adopted unchanged from Chanda and Kabiraj
-(2020), and this is deliberate: because the present analysis extends
-that study rather than replacing it, holding the controls fixed ensures
-that any difference between our estimates and theirs is attributable to
-the spatial specification and not to a different choice of covariates.
+of observations on control variables for each district in our sample,
+and it includes the state fixed effects. The vector
+\(\boldsymbol{\alpha}\), with dimensions \(k \times 1\), collects the
+associated regression coefficients. The conditioning set is adopted
+unchanged from Chanda and Kabiraj (2020). That choice is deliberate,
+because the present analysis extends that study rather than replacing
+it. Holding the controls fixed ensures that any difference between our
+estimates and their estimates comes from the spatial specification and
+not from a different choice of covariates.
+
 The 16 district-level controls fall into three groups.\footnote{Geography
   and agro-climate comprise agricultural suitability, rainfall,
   temperature, a malaria ecology index, terrain ruggedness, latitude,
@@ -481,152 +492,165 @@ The 16 district-level controls fall into three groups.\footnote{Geography
 capture slow-moving determinants of the steady state that do not vary
 over the sample period. Demographics and human capital capture the
 factor endowments through which districts accumulate. Infrastructure
-captures access to the grid and to markets, which matters here because
-luminosity is itself partly a measure of electrification, so the
-conditional models compare districts that began the period with similar
-levels of grid access. The demographic, human-capital, and
-electrification controls are measured in 1996, at the start of the
-growth period, and are therefore predetermined with respect to
-subsequent growth. The paved-roads variable is measured in 2000. The
-full list of control variables, with their measurement years and summary
-statistics, is given in Table A.1 of Chanda and Kabiraj (2020).
+captures access to the electricity grid and to markets. This last group
+matters here, because luminosity is itself partly a measure of
+electrification. The conditional models therefore compare districts that
+began the period with similar levels of grid access.
 
-Both specifications are estimated on a single long difference: average
-annual growth between 1996 and 2010, regressed on conditions at the
-start of that period. This is the design of Chanda and Kabiraj (2020)
-and we retain it, but it should be stated plainly what it does and does
-not allow. It identifies the average rate at which districts converged
-over fourteen years, but it cannot speak to how that rate evolved within
-the period. We return to this limitation, and to what a panel design
-would require, in the discussion.
+The demographic, human-capital, and electrification controls are
+measured in 1996, at the start of the growth period. They are therefore
+predetermined with respect to subsequent growth. The paved-roads
+variable is measured in 2000. The full list of control variables, with
+their measurement years and summary statistics, is given in Table A.1 of
+Chanda and Kabiraj (2020).
+
+We estimate both specifications on a single long difference. The
+dependent variable is average annual growth between 1996 and 2010, and
+the regressors are measured at the start of that period. This is the
+design of Chanda and Kabiraj (2020), and we retain it. The design
+identifies the average rate at which districts converged over fourteen
+years. It is silent, however, on how that rate evolved within the
+period. We return to this limitation, and to what a panel design would
+require, in the discussion.
 
 \subsection{Spatial dependence
 testing}\label{spatial-dependence-testing}
 
 Spatial dependence is the tendency for observations at nearby locations
-to be more similar than those at distant locations, and it can arise
-from spatial spillovers, shared geographic conditions, or inter-regional
-economic linkages (Anselin 1988). If present and unaccounted for, it can
-lead to biased parameter estimates and invalid inference in standard
-regression models. To test for such spatial relationships, we employ the
-Global Moran's I statistic and Local Indicators of Spatial Association
-(LISA), applied to the main variables of
+to be more similar than observations at distant locations. It can arise
+from spatial spillovers, from shared geographic conditions, or from
+inter-regional economic linkages (Anselin 1988). When it is present and
+left unmodeled, standard regressions yield biased parameter estimates
+and invalid inference. We therefore test for spatial dependence with the
+Global Moran's I statistic and with Local Indicators of Spatial
+Association (LISA). We apply both tests to the main variables of
 Equation~\ref{eq-matrix-form-cond}.
 
-The Global Moran's I statistic (Moran 1950) quantifies the overall
-degree of spatial clustering among geographic units, and is given by
-Equation~\ref{eq-moran}:
+The Global Moran's I statistic quantifies the overall degree of spatial
+clustering among geographic units (Moran 1950). It compares the
+deviation of each observation from the mean with the deviations of its
+neighbors. Equation~\ref{eq-moran} gives the formula.
 
 \begin{equation}\phantomsection\label{eq-moran}{
 I=\frac{n}{\sum_i \sum_j w_{ij}} \cdot \frac{\sum_i \sum_j w_{ij} \, z_i \, z_j}{\sum_i z_i^2}
 }\end{equation}
 
-where \(z_i\) represents the deviation of observation \(i\) from the
-mean, \(w_{ij}\) denotes the spatial connection (weight) between units
-\(i\) and \(j\), and \(n\) is the total number of observations. The
-statistic typically ranges from \(-1\) to \(+1\), with positive values
-indicating that similar values tend to be located near each
-other,\footnote{Values near zero suggest spatial randomness, and
-  negative values indicate spatial dispersion, where dissimilar values
-  are neighbors.} and significance is assessed through a
-permutation-based inference approach.\footnote{The observed statistic is
-  compared against a reference distribution generated by randomly
-  reassigning values across locations.}
+where \(z_i\) is the deviation of observation \(i\) from the mean, and
+\(w_{ij}\) is the spatial weight that connects units \(i\) and \(j\).
+The term \(n\) denotes the total number of observations. The statistic
+typically ranges from \(-1\) to \(+1\). Positive values indicate that
+similar values tend to be located near each other.\footnote{Values near
+  zero suggest spatial randomness, and negative values indicate spatial
+  dispersion, where dissimilar values are neighbors.} We assess
+significance with a permutation-based inference approach.\footnote{The
+  observed statistic is compared against a reference distribution
+  generated by randomly reassigning values across locations.}
 
-The global statistic does not reveal where significant clusters or
-outliers are located, so Anselin (1995) proposed Local Indicators of
-Spatial Association, which decompose it into contributions from each
-individual observation, as in Equation~\ref{eq-lisa}:
+The global statistic does not reveal where the clusters and outliers are
+located. Anselin (1995) therefore proposed Local Indicators of Spatial
+Association, which decompose the global statistic into a contribution
+from each observation. Equation~\ref{eq-lisa} defines the local
+statistic for observation \(i\).
 
 \begin{equation}\phantomsection\label{eq-lisa}{
 I_i = z_i \sum_j w_{ij} \, z_j
 }\end{equation}
 
-where the summation is over the neighbors of \(i\) as defined by the
-spatial weight matrix. Each observation is classified into one of four
-categories according to how its value relates to those of its neighbors:
-High-High and Low-Low identify spatial clusters, while High-Low and
-Low-High identify spatial outliers.\footnote{High-High (HH) indicates a
-  high-value location surrounded by high-value neighbors, and Low-Low
-  (LL) indicates a low-value location surrounded by low-value neighbors.
-  High-Low (HL) is a spatial outlier where a high-value location is
-  surrounded by low-value neighbors, and Low-High (LH) is the opposite
-  spatial outlier.} Significance is assessed through conditional
-permutation tests, and only significant locations (typically at
-\(p < 0.05\)) are reported in the LISA cluster maps.
+where the summation is over the neighbors of \(i\), as defined by the
+spatial weight matrix. Each observation is then classified into one of
+four categories, according to how its value relates to the values of its
+neighbors. The High-High and Low-Low categories identify spatial
+clusters, and the High-Low and Low-High categories identify spatial
+outliers.\footnote{High-High (HH) indicates a high-value location
+  surrounded by high-value neighbors, and Low-Low (LL) indicates a
+  low-value location surrounded by low-value neighbors. High-Low (HL) is
+  a spatial outlier where a high-value location is surrounded by
+  low-value neighbors, and Low-High (LH) is the opposite spatial
+  outlier.} We assess significance with conditional permutation tests.
+The LISA cluster maps report only the significant locations, typically
+at \(p < 0.05\).
 
-The specification of the spatial weights matrix \(\mathbf{W}\) is
-important for capturing the underlying spatial structure. We employ a
-six-nearest-neighbors (6NN) weight matrix, in which \(w_{ij} = 1\) if
-district \(j\) is among the six nearest districts to \(i\) by centroid
-distance and \(w_{ij} = 0\) otherwise.\footnote{Centroid distances are
-  measured in the geographic coordinates of the source file rather than
-  in a projected metric, and rebuilding the matrix from a metric
-  projection leaves 96.4\% of the neighbor links unchanged.} This gives
-each district a fixed number of connections regardless of the
-heterogeneity in district sizes across the country. Following standard
-practice, we row-normalize the matrix so that each row sums to one,
-which makes the spatial lag \(\mathbf{W} \mathbf{x}\) the average value
-among the neighbors of a district. The choice of \(k = 6\) provides a
-balance between capturing local spatial interactions and avoiding the
-inclusion of geographically distant districts that are unlikely to exert
-meaningful economic influence. This choice is also supported
-empirically: among the seven weight matrices considered in
-Table~\ref{tbl-altw}, the 6NN specification attains the lowest AIC,
-indicating the best fit to the spatial structure of the data.
+The spatial weights matrix \(\mathbf{W}\) determines which districts are
+treated as neighbors, so its specification is central to the analysis.
+We employ a six-nearest-neighbors (6NN) matrix. It sets \(w_{ij} = 1\)
+if district \(j\) is among the six nearest districts to \(i\) by
+centroid distance, and \(w_{ij} = 0\) otherwise.\footnote{Centroid
+  distances are measured in the geographic coordinates of the source
+  file rather than in a projected metric, and rebuilding the matrix from
+  a metric projection leaves 96.4\% of the neighbor links unchanged.}
+Each district therefore has the same number of neighbors, even though
+district sizes vary widely across the country. We then row-normalize the
+matrix, as is standard practice, so that each row sums to one. The
+spatial lag \(\mathbf{W} \mathbf{x}\) is then the average value among
+the neighbors of a district.
 
-The detection of significant spatial dependence would justify the use of
-spatial econometric techniques. In particular, Ertur and Koch (2007)
-argues that the spatial Durbin model (SDM) can appropriately account for
-spatial dependence in the convergence process, and Fischer (2011)
-derives the same specification as the reduced form of a spatially
-interdependent growth model. This methodological choice allows us to
-distinguish between direct effects of district characteristics and
-indirect effects operating through spatial channels (LeSage and Pace
+The choice of \(k = 6\) balances two concerns. It is large enough to
+capture local spatial interactions, and it is small enough to exclude
+distant districts that are unlikely to exert economic influence. The
+data also support this choice. Among the seven weight matrices
+considered in Table~\ref{tbl-altw}, the 6NN specification attains the
+lowest AIC, which indicates the best fit to the spatial structure of the
+data. We nevertheless treat the definition of the neighborhood as an
+open question. In Section 3 we re-estimate the preferred model under six
+alternative weight matrices, which range from contiguity-based schemes
+to inverse-distance schemes. Those results, reported in
+Figure~\ref{fig-altw} and Table~\ref{tbl-altw}, show that the direct and
+total convergence effects do not depend on this choice.
+
+Evidence of significant spatial dependence would justify the use of
+spatial econometric methods. Ertur and Koch (2007) argues that the
+spatial Durbin model (SDM) accounts for such dependence in the
+convergence process. Fischer (2011) derives the same specification as
+the reduced form of a spatially interdependent growth model. The SDM
+also separates the direct effects of district characteristics from the
+indirect effects that operate through spatial channels (LeSage and Pace
 2009).
 
 \subsection{Spatial spillover
 modeling}\label{spatial-spillover-modeling}
 
 Our spatial spillover modeling builds on the spatially augmented Solow
-model of Ertur and Koch (2007), developed for countries, and on its
-regional Mankiw-Romer-Weil extension by Fischer (2011), both of which
-account for technological interdependence across economies. We apply
-that framework to an economy of \(N\) subnational regions, each
-characterized by the Cobb-Douglas production function with constant
-returns to scale in Equation~\ref{eq-production}:
+model of Ertur and Koch (2007), which was developed for countries. It
+also builds on the regional Mankiw-Romer-Weil extension of that model by
+Fischer (2011). Both models account for technological interdependence
+across economies. We apply this framework to an economy of \(N\)
+subnational regions. Each region is characterized by the Cobb-Douglas
+production function with constant returns to scale in
+Equation~\ref{eq-production}.
 
 \begin{equation}\phantomsection\label{eq-production}{
 Y_{i t}=A_{i t} K_{i t}^{\alpha_{K}} H_{i t}^{\alpha_{H}} L_{i t}^{1-\alpha_{K} -\alpha_{H}}
 }\end{equation}
 
-where \(Y_{it}\) is output, \(K_{it}\) physical capital, \(H_{it}\)
-human capital, \(L_{it}\) the labor force, and \(A_{it}\) the level of
-technological knowledge for region \(i\) at time \(t\), while
-\(\alpha_K\) and \(\alpha_H\) are the output elasticities with respect
-to physical and human capital. The framework models technological
-knowledge as in Equation~\ref{eq-technology}, incorporating both
-internal and external factors:
+where \(Y_{it}\) is output, \(K_{it}\) is physical capital, \(H_{it}\)
+is human capital, \(L_{it}\) is the labor force, and \(A_{it}\) is the
+level of technological knowledge for region \(i\) at time \(t\). The
+parameters \(\alpha_K\) and \(\alpha_H\) are the output elasticities
+with respect to physical and human capital. Technological knowledge is
+not exogenous in this framework, because it depends on internal and on
+external factors. Equation~\ref{eq-technology} states that relation.
 
 \begin{equation}\phantomsection\label{eq-technology}{
 A_{i t}=\Omega_{t} k_{i t}^{\theta} h_{i t}^{\phi} \prod_{j \neq i}^{N} A_{j t}^{\rho W_{i j}}
 }\end{equation}
 
-This specification captures three distinct components of technological
-progress:
+The specification captures three components of technological progress:
 
 \begin{itemize}
 \tightlist
 \item
-  An exogenous component (\(\Omega_t\)) representing the common stock of
-  knowledge across regions
+  An exogenous component (\(\Omega_t\)) that represents the common stock
+  of knowledge across regions
 \item
-  An embodied component (\(k_{i t}^{\theta} h_{i t}^{\phi}\)) reflecting
-  technology embedded in physical and human capital per worker
+  An embodied component (\(k_{i t}^{\theta} h_{i t}^{\phi}\)) that
+  reflects technology embedded in physical and human capital per worker
 \item
   A spatial component (\(\prod_{j \neq i}^{N} A_{j t}^{\rho W_{i j}}\))
-  capturing technological interdependence between regions
+  that captures technological interdependence between regions
 \end{itemize}
+
+The third component is absent from the standard Solow model, and it is
+the source of the spatial spillovers in growth.
 
 From this framework Ertur and Koch (2007) derived a spatial Durbin model
 that accounts for spillovers in the convergence process, with the
