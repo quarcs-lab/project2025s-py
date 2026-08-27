@@ -256,133 +256,100 @@ coverage, and theory that this line of work must close next.
 
 \section{Introduction}\label{introduction}
 
-Regional growth and convergence are central concerns in developing
-countries, and above all in large federal states such as India, where
-spatial inequalities can threaten social cohesion and political
-stability. Consistent economic data are rarely available below the state
-level, which has long made convergence difficult to study. Satellite
-nighttime lights, used as a proxy for economic activity, have relaxed
-that constraint and opened a literature on regional growth at granular
-scales.
+Regional growth and convergence matter most in large federal states such
+as India, where spatial inequalities can threaten social cohesion and
+political stability. Consistent economic data are rarely available below
+the state level, and satellite nighttime lights have relaxed that
+constraint as a proxy for economic activity. Using those data,
+\citet{chanda_kabiraj_district_convergence} document convergence across
+520 Indian districts between 1996 and 2010. Their approach, however, did
+not model spatial dependence: neighboring luminosity enters only as a
+robustness control, with no spatially lagged dependent variable and no
+impact decomposition. The growth of a district may nevertheless depend
+on the initial conditions of its neighbors.
 
-\citet{chanda_kabiraj_district_convergence} used nighttime light data to
-document regional convergence across 520 districts in India between 1996
-and 2010, with poorer districts growing faster than richer ones. Their
-econometric approach, however, did not model spatial dependence. The
-initial luminosity of neighboring districts enters only as a robustness
-control, with no spatially lagged dependent variable and no impact
-decomposition. The growth of a district may nevertheless depend on the
-initial conditions of its neighbors as well as on its own.
-
-This article extends that analysis in three methodological directions,
-and each of them yields a substantive result. First, we develop an
-interactive visualization tool for the spatial and temporal patterns of
-regional convergence in nighttime lights, which identifies converging
-regions and growth hotspots that static visualizations obscure. It
-reveals clear spatial patterns in both the initial distribution and the
-subsequent growth of luminosity. Second, we test formally for spatial
-dependence in the dependent and the independent variables of the
-convergence equation, and find that district-level economic trajectories
-are not independent of their neighbors. Third, we employ a spatial
-Durbin model to measure how much of the estimated convergence is
-associated with the initial conditions of neighboring districts, and
-find that catch-up across Indian districts has a neighborhood dimension
-as well as a district one. The indirect effect of initial luminosity is
+This article extends that analysis, and its contribution has three
+dimensions. It is in part a replication and extension, adopting the
+data, the sample, and the conditioning set of
+\citet{chanda_kabiraj_district_convergence} unchanged, so that any
+difference in the estimates reflects the spatial specification alone. It
+is in part substantive: we build an interactive visualization of
+convergence, test formally for spatial dependence in both variables of
+the convergence equation, and estimate a spatial Durbin model showing
+that catch-up across Indian districts has a neighborhood dimension as
+well as a district one. The indirect effect of initial luminosity is
 negative and statistically significant at the 10\% level, so districts
 whose neighbors started from a lower base grew faster than their own
 initial conditions alone would predict.
 
-These contributions have three dimensions, and it is worth stating which
-of them carries the most weight. The article is in part a replication
-and extension, since it adopts the data, the sample, and the
-conditioning set of \citet{chanda_kabiraj_district_convergence}
-unchanged, so that any difference in the estimates reflects the spatial
-specification and not a different research design. It is also in part a
-substantive contribution to what is known about convergence across
-Indian districts. Its primary contribution, however, is methodological:
-a complete spatial econometric study of regional convergence, from raw
-satellite imagery through the weight matrix and the impact decomposition
-to the robustness checks, can be published in a form that any reader can
-re-execute in a browser. This journal has argued for that form of
-publication in a special issue on computational notebooks
-\citep{rowe_etal_notebooks_region}, which includes one for acquiring and
-processing satellite imagery \citep{chen_etal_satellite_notebook}. A
-Python notebook for nighttime lights has appeared here since
-\citep{mendez_patnaik_notebook}, as has a study of spatial inequality
-using the same combination of Python and Quarto that we use here
-\citep{rey_spatial_inequality}. What this article adds to that line of
-work is a complete applied study rather than a tool or a demonstration
-dataset.
+Its primary contribution, however, is methodological: a complete spatial
+econometric study, from satellite imagery through the weight matrix and
+the impact decomposition to the robustness checks, can be published so
+that any reader can re-execute it in a browser. This journal has argued
+for that form of publication
+\citep{rowe_etal_notebooks_region, chen_etal_satellite_notebook}, and
+both a Python notebook for nighttime lights
+\citep{mendez_patnaik_notebook} and a study of spatial inequality in
+Python and Quarto \citep{rey_spatial_inequality} have appeared here
+since. What this article adds is a complete applied study rather than a
+tool or a demonstration dataset.
 
 That the spatial specification raises rather than lowers the measured
-speed of convergence is a substantive result and not merely a
-methodological one. That convergence estimates respond to spatial
-dependence is well established, but the direction of the response is
-not, and on that point the published evidence divides. Allowing for it
-lowers the estimated speed across European regions and Indonesian
-districts, and reduces the estimated role of initial income across
-Indian states at a more aggregated level
+speed is itself a substantive result. Convergence estimates are known to
+respond to spatial dependence, but the direction of the response is not
+settled: allowing for it lowers the estimated speed across European
+regions and Indonesian districts, and reduces the estimated role of
+initial income across Indian states
 \citep{isla_castillo_etal_eu_cohesion, santos_marquez_etal_indonesia_spatial, lolayekar_mukhopadhyay_india_spatial}.
-Across Indian districts it raises the estimated speed, from about 3.0\%
-to about 5.2\% per year, because here the spillover works with
-within-district catch-up rather than against it. What the article adds
-on this point is therefore a signed estimate of that effect for a
-specific setting, benchmarked against the comparable literature in the
-results section.
+Across Indian districts it raises the speed, from about 3.0\% to about
+5.2\% per year, so the article adds a signed estimate for a specific
+setting, benchmarked against the comparable literature in the results
+section.
 
-Beyond these three contributions, we illustrate the wider potential of
-luminosity data with an exploratory analysis of how it relates to
-cultural participation across Indian states. That exercise relies on
-state-level data for an adjacent period, and on rank correlations rather
-than on the district-level convergence framework. We present it as a
-demonstration of what the workflow makes possible rather than as
-additional evidence on the convergence process itself.
+We also illustrate the wider potential of these data with an exploratory
+analysis of luminosity and cultural participation across Indian states.
+That exercise uses state-level data for an adjacent period and rank
+correlations rather than the district-level convergence framework. We
+present it as a demonstration of what the workflow makes possible, not
+as evidence on convergence.
 
-These findings carry implications for methodology and for policy.
-Methodologically, they suggest that in settings of this kind
-conventional non-spatial approaches understate the speed of regional
-convergence because they omit the spatial structure of the growth
-process. For policy, the implied half-life of regional disparities falls
-from roughly 23 years to 13, and if the indirect effects reflect genuine
-spillovers, place-based policies would benefit more districts than they
-target and be more cost-effective than conventional estimates imply. The
-Indian evidence, however, also carries a warning: a district-targeted
-tax program has been found to raise activity partly by displacing it
-from neighboring districts that narrowly missed qualifying
-\citep{hasan_etal_backward_districts}. Displaced activity would appear
-in our framework as a spillover, so we weigh both readings in the
-discussion.
+These findings carry implications for methodology and for policy:
+non-spatial approaches understate the speed of convergence in settings
+of this kind, because they omit the spatial structure of growth. For
+policy, the implied half-life of regional disparities falls from roughly
+23 years to 13, and if the indirect effects reflect genuine spillovers,
+place-based policies would reach more districts than they target and be
+more cost-effective than conventional estimates imply. The Indian
+evidence also carries a warning, since a district-targeted tax program
+raised activity partly by displacing it from neighbors that narrowly
+missed qualifying \citep{hasan_etal_backward_districts}. Displaced
+activity would appear in our framework as a spillover, so we weigh both
+readings in the discussion.
 
 Every empirical figure and table in this article is produced by one of
 the six computational notebooks listed in Table~\ref{tbl-notebooks}. The
-five analytical notebooks are written in Python and run directly in
-Google Colaboratory, so that a reader needs no local installation, no
-environment configuration, and no software licenses. Opening a notebook
-through its Colab badge and clicking \emph{Run all} downloads the raw
-data from the repository and re-executes the analysis, regenerating
-every figure and table that the notebook contributes. The remaining
-notebook, N1, hosts the interactive visualization and its Google Earth
-Engine source code, which runs in the Earth Engine Code Editor. The
-notebooks, the data, and the manuscript source are in the project
-repository at \url{https://github.com/quarcs-lab/project2025s-py}, and
-their rendered versions are embedded in the online edition at
+five analytical notebooks are written in Python and run in Google
+Colaboratory, so a reader needs no local installation and no licensed
+software: clicking \emph{Run all} downloads the data and re-executes the
+analysis. The sixth, N1, hosts the interactive visualization and its
+Google Earth Engine source code. The notebooks, the data, and the
+manuscript source are in the project repository at
+\url{https://github.com/quarcs-lab/project2025s-py}, and their rendered
+versions are embedded in the online edition at
 \url{https://quarcs-lab.github.io/project2025s-py/}.
 
 \begin{longtable}[]{@{}
-  >{\raggedright\arraybackslash}p{(\linewidth - 4\tabcolsep) * \real{0.3571}}
-  >{\raggedright\arraybackslash}p{(\linewidth - 4\tabcolsep) * \real{0.3214}}
-  >{\raggedright\arraybackslash}p{(\linewidth - 4\tabcolsep) * \real{0.3214}}@{}}
-\caption{Computational notebooks underlying this article. Each
-analytical notebook carries a Colab badge that opens it in the browser,
-ready to run without any local
-setup.}\label{tbl-notebooks}\tabularnewline
+  >{\raggedright\arraybackslash}p{(\linewidth - 2\tabcolsep) * \real{0.5263}}
+  >{\raggedright\arraybackslash}p{(\linewidth - 2\tabcolsep) * \real{0.4737}}@{}}
+\caption{Computational notebooks underlying this article. N2 to N6 open
+in the browser through a Colab badge and run without local setup; N1
+runs in the Earth Engine Code
+Editor.}\label{tbl-notebooks}\tabularnewline
 \toprule\noalign{}
 \begin{minipage}[b]{\linewidth}\raggedright
 Notebook
 \end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
 Content
-\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
-Runs in
 \end{minipage} \\
 \midrule\noalign{}
 \endfirsthead
@@ -391,75 +358,60 @@ Runs in
 Notebook
 \end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
 Content
-\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
-Runs in
 \end{minipage} \\
 \midrule\noalign{}
 \endhead
 \bottomrule\noalign{}
 \endlastfoot
-N1. View from outer space & Interactive visualization of regional
-luminosity and its Earth Engine source code & Earth Engine Code
-Editor \\
-N2. Regional convergence & Bivariate convergence of luminosity growth on
-initial luminosity, with the implied speed and half-life & Google
-Colaboratory \\
-N3. Spatial dependence & Spatial weight matrices, Global Moran's I, and
-LISA cluster maps & Google Colaboratory \\
-N4. Spillover modeling & OLS and spatial Durbin estimates, the
-decomposition into direct and indirect impacts, and convergence speeds &
-Google Colaboratory \\
-N5. Robustness & Model 4 re-estimated under seven spatial weight
-matrices & Google Colaboratory \\
+N1. View from outer space & Interactive luminosity map with Earth Engine
+source code \\
+N2. Regional convergence & Luminosity growth on initial luminosity, with
+speed and half-life \\
+N3. Spatial dependence & Weight matrices, Global Moran's I, and LISA
+cluster maps \\
+N4. Spillover modeling & OLS and spatial Durbin estimates, impacts, and
+convergence speeds \\
+N5. Robustness & Model 4 under seven alternative weight matrices \\
 N6. Spatial culture & Luminosity and cultural participation across
-Indian states & Google Colaboratory \\
+Indian states \\
 \end{longtable}
 
-Setting out what this approach can do also makes clear what it cannot do
-yet, and three constraints stand out. The first concerns the data, since
-the DMSP-OLS series on which this literature rests is coarse, saturates
-in bright urban cores, and blurs light across administrative boundaries.
-The second concerns geography, since lights record only development that
-is illuminated, so they are least informative exactly where conventional
-statistics are weakest. The third concerns theory, since luminosity is
-now applied well beyond convergence analysis, yet it discriminates
-differences across places far better than changes over time, which
-limits what short-horizon studies can credibly claim. We return to each
-in the discussion, where they define a research agenda rather than a
-list of caveats.
+Three constraints on what this approach can do yet stand out. The first
+is the data, since the DMSP-OLS series is coarse, saturates in bright
+urban cores, and blurs light across administrative boundaries. The
+second is geography, since lights record only development that is
+illuminated, so they are least informative where conventional statistics
+are weakest. The third is theory, since luminosity is now applied well
+beyond convergence analysis, yet it discriminates across places far
+better than over time. We return to each in the discussion, where they
+define a research agenda rather than a list of caveats.
 
 The rest of this article is organized as follows. Section 2 describes
-the data and methods, and Section 3 presents the empirical results.
-Section 4 discusses what the estimates imply for regional policy, what a
-single growth period cannot show, an exploratory extension beyond
-economic output, the gaps in data, geography, and theory that remain
-open, and what reproducible practice contributes. Section 5 offers some
-concluding remarks.
+the data and methods and Section 3 the empirical results. Section 4
+takes up the policy implications, the single growth period, the cultural
+extension, and the three gaps above. Section 5 offers concluding
+remarks.
 
 \section{Data and methods}\label{data-and-methods}
 
 \subsection{Data: Nighttime lights as a proxy for economic
 activity}\label{data-nighttime-lights-as-a-proxy-for-economic-activity}
 
-One of the key challenges in studying economic growth in developing
-countries such as India is the limited availability and reliability of
-data on aggregate economic activity below the state level. To address
-this problem, a growing body of literature pioneered by
-\citet{henderson_storeygard_weil_lights} has used satellite nighttime
-light data as a proxy for economic activity at subnational levels. This
-approach exploits the empirical correlation between the intensity of
-artificial light observed from satellites and the level of economic
-output on the ground. \citet{chen_nordhaus_luminosity_gdp} show that the
-proxy carries most information where official statistics are of low
-quality.
+A growing literature pioneered by
+\citet{henderson_storeygard_weil_lights} uses satellite nighttime light
+data as a proxy for economic activity below the state level, exploiting
+the empirical correlation between the intensity of artificial light
+observed from satellites and economic output on the ground.
+\citet{chen_nordhaus_luminosity_gdp} show that the proxy carries most
+information where official statistics are of low quality. Nighttime
+light (hereafter NTL) data have since been widely used to investigate
+economic growth and convergence across national and subnational regions.
 
-Nighttime light (hereafter NTL) data have been widely used to
-investigate economic growth and convergence across national and
-subnational regions. Applications include the effect of decentralization
-on convergence \citep{adhikari_dhital_decentralization}, the
-adjudication between national accounts and household surveys, which
-national accounts win \citep{pinkovskiy_salaimartin_lights_poverty}, and
-the global estimation of GDP per capita and spatial inequality
+Applications include the effect of decentralization on convergence
+\citep{adhikari_dhital_decentralization}, the adjudication between
+national accounts and household surveys, which national accounts win
+\citep{pinkovskiy_salaimartin_lights_poverty}, and the global estimation
+of GDP per capita and spatial inequality
 \citep{lessmann_seidel_regional_inequality}. The Indian literature is
 equally varied, and it covers welfare programs, colonial institutions,
 demonetization, and the pandemic.\footnote{Nighttime lights have been
@@ -467,23 +419,21 @@ demonetization, and the pandemic.\footnote{Nighttime lights have been
   \citep{cook_shah_nregs}, the effects of colonial institutions
   \citep{jha_talathi_colonial_india}, the impact of demonetization
   \citep{chanda_cook_demonetization}, and the effects of COVID-19
-  \citep{beyer_jain_sinha_covid}.} In the context of convergence
-studies, \citet{chakravarty_dehejia_gst} document significant regional
-disparities in India using NTL data and caution that the goods and
-services tax may further exacerbate them.
+  \citep{beyer_jain_sinha_covid}.} \citet{chakravarty_dehejia_gst}
+document significant regional disparities in India using NTL data and
+caution that the goods and services tax may further exacerbate them.
 
 Our study builds on \citet{chanda_kabiraj_district_convergence}.
-Following their approach, we use the per capita growth in nighttime
-lights as the dependent variable and the initial nighttime lights per
-capita as the primary explanatory variable. For 520 districts in India,
-these variables are derived from NTL data released by the National
-Geophysical Data Center (NGDC), based on observations from the DMSP-OLS
-satellites over the period from 1996 to 2010. To mitigate the issue of
-top-coding, the NGDC released radiance-calibrated nighttime lights for
-eight specific years, using high magnification settings for low-light
-regions and low magnification settings for brightly lit areas. Six of
-those eight fall inside our sample window, and they are the dates our
-dataset holds. We use the radiance-calibrated series
+Following their approach, we use per capita growth in nighttime lights
+as the dependent variable and initial nighttime lights per capita as the
+primary explanatory variable. For 520 districts in India, these
+variables derive from NTL data released by the National Geophysical Data
+Center (NGDC), based on observations from the DMSP-OLS satellites over
+the period from 1996 to 2010. To mitigate top-coding, the NGDC released
+radiance-calibrated nighttime lights for eight specific years, using
+high magnification settings for low-light regions and low magnification
+settings for brightly lit areas. Six of those eight fall inside our
+sample window, and we use the radiance-calibrated series
 throughout.\footnote{Following
   \citet{chanda_kabiraj_district_convergence}, our sample consists of
   520 districts (out of a possible 593). There were 593 districts in
@@ -496,97 +446,78 @@ throughout.\footnote{Following
   in the state of Assam, where more than half of the new districts were
   created in that manner. The 73 districts not in our sample are those
   of Assam and Tripura, the union-territory districts outside Delhi, the
-  eight by which Delhi's nine are collapsed to one, and 28
-  multiple-origin districts and their parents.}
+  eight by which the nine districts of Delhi are collapsed to one, and
+  28 multiple-origin districts and their parents.}
 
-\subsection{Jupyter and Quarto for reproducible open
-science}\label{jupyter-and-quarto-for-reproducible-open-science}
+\subsection{A reproducible workflow and interactive
+visualization}\label{a-reproducible-workflow-and-interactive-visualization}
 
 Jupyter notebooks integrate executable code, explanatory narrative, and
-computational outputs within a single self-contained document
-\citep{kluyver_jupyter}, which is the practical expression of literate
-programming \citep{knuth_literate}. We employ notebooks running a single
-Python kernel to document our data processing, analysis, and
-visualization steps, so that each result can be traced back to the code
-that produced it. Relying on an open-source toolchain also means that
-the entire pipeline can be re-executed without proprietary software.
-
-Quarto extends these notebooks into a manuscript framework
-\citep{allaire_quarto}. The figures and tables in this article are
-embedded programmatically from specific notebook cells, so that every
-empirical claim in the text is traceable to the computation behind it. A
-single source file generates the HTML, PDF, Word, and JATS XML versions
-of the article without discrepancies between them. The raw data and code
-are available in a public repository, so that other researchers can
-verify the analysis and build upon it \citep{peng_reproducible}.
-
-\subsection{Google Earth Engine for interactive spatial
-visualizations}\label{google-earth-engine-for-interactive-spatial-visualizations}
+computational outputs in a single document \citep{kluyver_jupyter},
+which is the practical expression of literate programming
+\citep{knuth_literate}. We document our data processing, analysis, and
+visualization in notebooks running one Python kernel, so that each
+result can be traced to the code that produced it. Quarto extends those
+notebooks into a manuscript framework \citep{allaire_quarto}, in which
+every figure and table is embedded from an identified notebook cell and
+one source file generates the HTML, PDF, Word, and JATS XML versions
+without discrepancies between them. The toolchain is open source and the
+data and code are public, so the whole pipeline can be re-executed
+without proprietary software \citep{peng_reproducible}.
 
 Satellite data have opened new dimensions of economic measurement
-\citep{donaldson_storeygard_remotesensing}. Interactive visualizations
-of nighttime lights imagery offer further methodological advantages over
-static representations, especially when the analysis concerns temporal
-and spatial heterogeneity in economic activity. Google Earth Engine
-(GEE) lowers the computational and technical barriers to creating such
-visualizations and provides an accessible platform for analyzing
-satellite data \citep{gorelick_gee}. Its browser-based development
-environment supports interactive web applications without specialized
-local software, and its extensive catalog of pre-processed datasets,
-including the DMSP-OLS and VIIRS nighttime lights collections, reduces
-the storage and processing burden \citep{tamiminia_gee_review}. For the
-purposes of this article, the platform allows readers to track the
-evolution of light intensity across regions over time, and therefore to
-see where initially dim regions brightened fastest, which is the visual
-counterpart of the convergence relationship estimated in Section 3.
+\citep{donaldson_storeygard_remotesensing}, and interactive
+visualization reveals spatial and temporal heterogeneity that static
+maps obscure. Google Earth Engine lowers the computational barriers to
+building such visualizations \citep{gorelick_gee}, since its
+browser-based environment needs no local software and its catalog
+already holds the DMSP-OLS and VIIRS nighttime lights collections
+\citep{tamiminia_gee_review}. The platform lets readers track light
+intensity across regions over time, and therefore see where initially
+dim regions brightened fastest, which is the visual counterpart of the
+convergence relationship estimated in Section 3.
 
 \subsection{Regional convergence
 modeling}\label{regional-convergence-modeling}
 
-In neoclassical growth models, the per capita growth rate is predicted
-to be negatively correlated with the initial endowment of a region,
-primarily because of diminishing returns to capital accumulation
-\citep{solow_growth}. Poorer regions, assuming similar technology and
-preferences, are expected to experience higher growth rates than their
-wealthier counterparts. Over the long run, regions with similar
-characteristics should therefore converge to a common steady state. We
-examine this convergence hypothesis within the growth regression
-framework of \citet{barro_sala_convergence}, and
-Equation~\ref{eq-matrix-form-abs} presents the convergence process in
-its simplest unconditional form.
+In neoclassical growth models the per capita growth rate is negatively
+correlated with the initial endowment of a region, because of
+diminishing returns to capital accumulation \citep{solow_growth}.
+Regions that share technology and preferences should therefore converge
+over the long run to a common steady state. We examine that hypothesis
+within the growth regression framework of
+\citet{barro_sala_convergence}, and Equation~\ref{eq-matrix-form-abs}
+presents the convergence process in its simplest unconditional form.
 
 \begin{equation}\phantomsection\label{eq-matrix-form-abs}{
 \boldsymbol{g_t} =  \beta_1 \boldsymbol{x_{t-1}} +  \boldsymbol{\varepsilon_t}
 }\end{equation}
 
-where \(\boldsymbol{g_t}\) represents an \(N\text{-by-}1\) vector of
-observations on per-capita NTL growth for each of the \(N\) regions over
-the period \(t\). The vector \(\boldsymbol{x_{t-1}}\) represents an
-\(N\text{-by-}1\) vector of observations on the initial (log) level of
-per-capita NTL. The parameter \(\beta_1\) is a regression coefficient
-that indicates the direction and strength of regional convergence. A
-negative value of \(\beta_1\) would suggest that regions with lower
-initial NTL levels grow faster, consistent with the convergence
-hypothesis. Finally, \(\boldsymbol{\varepsilon_t}\) represents a vector
-of idiosyncratic error terms.
+where \(\boldsymbol{g_t}\) is an \(N\text{-by-}1\) vector of per-capita
+NTL growth for each of the \(N\) regions over the period \(t\),
+\(\boldsymbol{x_{t-1}}\) is the corresponding vector of initial (log)
+per-capita NTL, and \(\boldsymbol{\varepsilon_t}\) is a vector of
+idiosyncratic error terms. The parameter \(\beta_1\) indicates the
+direction and strength of regional convergence. A negative value implies
+that regions with lower initial NTL levels grow faster, which is the
+convergence hypothesis.
 
-To facilitate interpretation, the estimated convergence coefficient can
-be translated into an annual speed of convergence and a half-life
-\citep{barro_sala_convergence}. The dependent variable is the average
-annual growth rate over a period of \(T\) years, so the implied speed of
-convergence is \(\lambda = -\ln(1 + \beta_1 T)/T\). The corresponding
-half-life, which is the time required to close half of the initial gap
-to the steady state, is \(\ln(2)/\lambda\). In our application
-\(T = 14\) years, and the same transformation is applied to the total
-effect of initial luminosity in the spatial models.
+The estimated convergence coefficient translates into an annual speed of
+convergence and a half-life \citep{barro_sala_convergence}. Because the
+dependent variable is average annual growth over \(T\) years, the
+implied speed is \(\lambda = -\ln(1 + \beta_1 T)/T\), and the half-life,
+the time required to close half of the initial gap to the steady state,
+is \(\ln(2)/\lambda\). In our application \(T = 14\) years, and the same
+transformation is applied to the total effect of initial luminosity in
+the spatial models.
 
 Because this simple framework contains no control variables, it implies
-that districts converge to a common steady state. Regions may
-nevertheless differ in geography, socio-economic conditions, and policy
-implementation. To account for these differences, we include state fixed
-effects that control for state-specific institutions and policies, and
-we add a range of geo-climatic controls alongside district-specific
-conditions related to demographics, human capital, and infrastructure.
+a common steady state, whereas regions differ in geography,
+socio-economic conditions, and policy implementation. To account for
+these differences, we include state fixed effects that control for
+state-specific institutions and policies, and we add a range of
+geo-climatic controls alongside district-specific conditions related to
+demographics, human capital, and infrastructure.
 Equation~\ref{eq-matrix-form-cond} summarizes this conditional
 convergence framework.
 
@@ -596,9 +527,9 @@ convergence framework.
 
 Here, the matrix \(\boldsymbol{X_t}\) is an \(N\text{-by-}k\) collection
 of observations on control variables (including state fixed effects) for
-each district in our sample. The vector \(\boldsymbol{\alpha}\), with
-dimensions \(k \times 1\), captures the regression coefficients for
-these variables. The conditioning set is adopted unchanged from
+each district in our sample, and the vector \(\boldsymbol{\alpha}\),
+with dimensions \(k \times 1\), captures their regression coefficients.
+The conditioning set is adopted unchanged from
 \citet{chanda_kabiraj_district_convergence}, and this is deliberate:
 because the present analysis extends that study rather than replacing
 it, holding the controls fixed ensures that any difference between our
@@ -640,23 +571,19 @@ discussion.
 \subsection{Spatial dependence
 testing}\label{spatial-dependence-testing}
 
-The analysis of regional convergence using nighttime light data requires
-explicit consideration of spatial dependencies across districts. Spatial
-dependence is the tendency for observations at nearby locations to be
-more similar than those at distant locations, and it can arise from
-spatial spillovers, shared geographic conditions, or inter-regional
+Spatial dependence is the tendency for observations at nearby locations
+to be more similar than those at distant locations, and it can arise
+from spatial spillovers, shared geographic conditions, or inter-regional
 economic linkages \citep{anselin_spatial_analysis}. If present and
-unaccounted for, spatial dependence can lead to biased parameter
-estimates and invalid inference in standard regression models. To
-formally test for such spatial relationships, we employ the Global
-Moran's I statistic and Local Indicators of Spatial Association (LISA),
-applied to the main variables of Equation~\ref{eq-matrix-form-cond}.
+unaccounted for, it can lead to biased parameter estimates and invalid
+inference in standard regression models. To test for such spatial
+relationships, we employ the Global Moran's I statistic and Local
+Indicators of Spatial Association (LISA), applied to the main variables
+of Equation~\ref{eq-matrix-form-cond}.
 
-The Global Moran's I statistic, originally proposed by
-\citet{moran_spatial_autocorrelation}, is the most widely used measure
-of spatial autocorrelation. It quantifies the overall degree of spatial
-clustering among geographic units. It can be expressed as
-Equation~\ref{eq-moran}:
+The Global Moran's I statistic \citep{moran_spatial_autocorrelation}
+quantifies the overall degree of spatial clustering among geographic
+units, and is given by Equation~\ref{eq-moran}:
 
 \begin{equation}\phantomsection\label{eq-moran}{
 I=\frac{n}{\sum_i \sum_j w_{ij}} \cdot \frac{\sum_i \sum_j w_{ij} \, z_i \, z_j}{\sum_i z_i^2}
@@ -667,70 +594,54 @@ mean, \(w_{ij}\) denotes the spatial connection (weight) between units
 \(i\) and \(j\), and \(n\) is the total number of observations. The
 statistic typically ranges from \(-1\) to \(+1\), with positive values
 indicating that similar values tend to be located near each
-other.\footnote{Values near zero suggest spatial randomness, and
+other,\footnote{Values near zero suggest spatial randomness, and
   negative values indicate spatial dispersion, where dissimilar values
-  are neighbors.} Statistical significance is assessed through a
+  are neighbors.} and significance is assessed through a
 permutation-based inference approach.\footnote{The observed statistic is
   compared against a reference distribution generated by randomly
   reassigning values across locations.}
 
-While the Global Moran's I provides a single summary measure of overall
-spatial dependence, it does not reveal where significant clusters or
-outliers are located. To address this limitation, \citet{anselin_lisa}
-proposed Local Indicators of Spatial Association, which decompose the
-global statistic into contributions from each individual observation.
-The local Moran's I for observation \(i\) is defined in
-Equation~\ref{eq-lisa}:
+The global statistic does not reveal where significant clusters or
+outliers are located, so \citet{anselin_lisa} proposed Local Indicators
+of Spatial Association, which decompose it into contributions from each
+individual observation, as in Equation~\ref{eq-lisa}:
 
 \begin{equation}\phantomsection\label{eq-lisa}{
 I_i = z_i \sum_j w_{ij} \, z_j
 }\end{equation}
 
 where the summation is over the neighbors of \(i\) as defined by the
-spatial weight matrix. This local statistic classifies each observation
-into one of four categories, according to the relationship between the
-value at a location and the values of its neighbors.\footnote{High-High
-  (HH) indicates a high-value location surrounded by high-value
-  neighbors, and Low-Low (LL) indicates a low-value location surrounded
-  by low-value neighbors. High-Low (HL) is a spatial outlier where a
-  high-value location is surrounded by low-value neighbors, and Low-High
-  (LH) is the opposite spatial outlier.} The High-High (HH) and Low-Low
-(LL) categories identify spatial clusters, while the High-Low (HL) and
-Low-High (LH) categories identify spatial outliers. Statistical
-significance of each local statistic is assessed through conditional
-permutation tests, and only statistically significant locations
-(typically at \(p < 0.05\)) are reported in the LISA cluster maps.
+spatial weight matrix. Each observation is classified into one of four
+categories according to how its value relates to those of its neighbors:
+High-High and Low-Low identify spatial clusters, while High-Low and
+Low-High identify spatial outliers.\footnote{High-High (HH) indicates a
+  high-value location surrounded by high-value neighbors, and Low-Low
+  (LL) indicates a low-value location surrounded by low-value neighbors.
+  High-Low (HL) is a spatial outlier where a high-value location is
+  surrounded by low-value neighbors, and Low-High (LH) is the opposite
+  spatial outlier.} Significance is assessed through conditional
+permutation tests, and only significant locations (typically at
+\(p < 0.05\)) are reported in the LISA cluster maps.
 
 The specification of the spatial weights matrix \(\mathbf{W}\) is
 important for capturing the underlying spatial structure. We employ a
-six-nearest-neighbors (6NN) weight matrix, so that for each district the
-six nearest districts by centroid distance are identified as its
-neighbors.\footnote{Centroid distances are measured in the geographic
-  coordinates of the source file rather than in a projected metric;
-  rebuilding the matrix from a metric projection leaves 96.4\% of the
-  neighbor links unchanged.{[}\^{}rownorm{]} The choice of \(k = 6\)
-  provides a balance between capturing local spatial interactions and
-  avoiding the inclusion of geographically distant districts that are
-  unlikely to exert meaningful economic influence. This choice is also
-  supported empirically: among the seven weight matrices considered in
-  Table~\ref{tbl-altw}, the 6NN specification attains the lowest AIC,
-  indicating the best fit to the spatial structure of the data.} This
-specification ensures a fixed number of connections per district
-regardless of the heterogeneity in district sizes across the country:
-
-\[
-\mathbf{W}=\left[\begin{array}{ccccc}
-w_{11} & w_{12} & w_{13} & \cdots & w_{1n} \\
-w_{21} & w_{22} & w_{23} & \cdots & w_{2n} \\
-\vdots & \vdots & \vdots & w_{ij} & \vdots \\
-w_{n1} & w_{n2} & w_{n3} & \cdots & w_{nn}
-\end{array}\right]
-\]
-
-where \(w_{ij} = 1\) if district \(j\) is among the six nearest
-neighbors of district \(i\), and \(w_{ij} = 0\) otherwise. Following
-standard practice, we row-normalize the weights matrix so that each row
-sums to one.
+six-nearest-neighbors (6NN) weight matrix, in which \(w_{ij} = 1\) if
+district \(j\) is among the six nearest districts to \(i\) by centroid
+distance and \(w_{ij} = 0\) otherwise.\footnote{Centroid distances are
+  measured in the geographic coordinates of the source file rather than
+  in a projected metric, and rebuilding the matrix from a metric
+  projection leaves 96.4\% of the neighbor links unchanged.} This gives
+each district a fixed number of connections regardless of the
+heterogeneity in district sizes across the country. Following standard
+practice, we row-normalize the matrix so that each row sums to one,
+which makes the spatial lag \(\mathbf{W} \mathbf{x}\) the average value
+among the neighbors of a district. The choice of \(k = 6\) provides a
+balance between capturing local spatial interactions and avoiding the
+inclusion of geographically distant districts that are unlikely to exert
+meaningful economic influence. This choice is also supported
+empirically: among the seven weight matrices considered in
+Table~\ref{tbl-altw}, the 6NN specification attains the lowest AIC,
+indicating the best fit to the spatial structure of the data.
 
 The detection of significant spatial dependence would justify the use of
 spatial econometric techniques. In particular,
@@ -746,10 +657,10 @@ operating through spatial channels
 \subsection{Spatial spillover
 modeling}\label{spatial-spillover-modeling}
 
-Our spatial spillover modeling builds upon the spatially augmented Solow
+Our spatial spillover modeling builds on the spatially augmented Solow
 model of \citet{ertur_koch_spatial_growth}, developed for countries, and
-its regional Mankiw-Romer-Weil extension by \citet{fischer_spatial_mrw}.
-Both extend the traditional Solow framework to account for technological
+on its regional Mankiw-Romer-Weil extension by
+\citet{fischer_spatial_mrw}, both of which account for technological
 interdependence across economies. We apply that framework to an economy
 of \(N\) subnational regions, each characterized by the Cobb-Douglas
 production function with constant returns to scale in
@@ -759,14 +670,13 @@ Equation~\ref{eq-production}:
 Y_{i t}=A_{i t} K_{i t}^{\alpha_{K}} H_{i t}^{\alpha_{H}} L_{i t}^{1-\alpha_{K} -\alpha_{H}}
 }\end{equation}
 
-where \(Y_{it}\) represents output, \(K_{it}\) physical capital,
-\(H_{it}\) human capital, \(L_{it}\) labor force, and \(A_{it}\) the
-level of technological knowledge for region \(i\) at time \(t\). The
-parameters \(\alpha_K\) and \(\alpha_H\) denote the output elasticities
-with respect to physical and human capital, respectively. A key
-innovation of this framework is the modeling of technological knowledge
-in Equation~\ref{eq-technology}, which incorporates both internal and
-external factors:
+where \(Y_{it}\) is output, \(K_{it}\) physical capital, \(H_{it}\)
+human capital, \(L_{it}\) the labor force, and \(A_{it}\) the level of
+technological knowledge for region \(i\) at time \(t\), while
+\(\alpha_K\) and \(\alpha_H\) are the output elasticities with respect
+to physical and human capital. The framework models technological
+knowledge as in Equation~\ref{eq-technology}, incorporating both
+internal and external factors:
 
 \begin{equation}\phantomsection\label{eq-technology}{
 A_{i t}=\Omega_{t} k_{i t}^{\theta} h_{i t}^{\phi} \prod_{j \neq i}^{N} A_{j t}^{\rho W_{i j}}
@@ -788,14 +698,13 @@ progress:
   capturing technological interdependence between regions
 \end{itemize}
 
-Based on this theoretical framework, \citet{ertur_koch_spatial_growth}
-derived a spatial Durbin model that accounts for spillovers in the
-convergence process, with the human-capital terms following
-\citet{fischer_spatial_mrw}. The model augments the conditional
-specification of Equation~\ref{eq-matrix-form-cond} with spatial lags of
-the dependent variable, of initial luminosity, and of the control
-variables. It can be compactly written in matrix notation as
-Equation~\ref{eq-matrix-form-sdm}:
+From this framework \citet{ertur_koch_spatial_growth} derived a spatial
+Durbin model that accounts for spillovers in the convergence process,
+with the human-capital terms following \citet{fischer_spatial_mrw}. The
+model augments the conditional specification of
+Equation~\ref{eq-matrix-form-cond} with spatial lags of the dependent
+variable, of initial luminosity, and of the control variables, and can
+be written compactly as Equation~\ref{eq-matrix-form-sdm}:
 
 \begin{equation}\phantomsection\label{eq-matrix-form-sdm}{
 \boldsymbol{g_t} =  \beta_1 \boldsymbol{x_{t-1}} + \boldsymbol{X_t} \boldsymbol{\alpha} + \beta_2 \boldsymbol{W} \boldsymbol{x_{t-1}} + \boldsymbol{W} \boldsymbol{X_t} \boldsymbol{\gamma} + \rho \boldsymbol{W} \boldsymbol{g_t}  + \boldsymbol{\varepsilon_t}
@@ -821,20 +730,14 @@ neighborhood averages enters the growth of a district.\footnote{We
 \subsection{Regional convergence: An interactive exploration from outer
 space}\label{regional-convergence-an-interactive-exploration-from-outer-space}
 
-Before presenting the regression results, we visually illustrate the
-concepts of growth and convergence in nighttime lights. First, we create
-an interactive map of India displaying regional luminosity in 1996 and
-2010.\footnote{The interactive web application is available at
-  \url{https://bit.ly/india-rc-ntl}. It was developed using Google Earth
-  Engine, and the source code is available in the
+Before presenting the regression results, we illustrate growth and
+convergence in nighttime lights visually, through an interactive map of
+India, a convergence scatterplot, and case studies of some of the
+poorest regions of the country.\footnote{The interactive web application
+  is available at \url{https://bit.ly/india-rc-ntl}. It was developed
+  using Google Earth Engine, and the source code is available in the
   \href{https://quarcs-lab.github.io/project2025s-py/notebooks/c01_view_from_space.html}{View
-  from outer space} notebook.} Second, we examine absolute convergence
-by constructing a convergence scatterplot, which relates per-capita
-growth rates in nighttime lights over 1996--2010 to initial per-capita
-nighttime light levels in 1996 for each district. Finally, we present
-case studies of some of the poorest regions in the country. These cases
-show an increase in nighttime lights that visually aligns with the
-convergence hypothesis.
+  from outer space} notebook.}
 
 \begin{figure}
 
@@ -858,12 +761,11 @@ from outer space} notebook for source code.}
 Figure~\ref{fig-map} presents static maps of luminosity in the initial
 and final years, 1996 and 2010, captured from our interactive
 application. The maps show a noticeable increase in brightness across
-most parts of India in 2010. Because nighttime lights serve as a proxy
-for economic activity, this increase in luminosity reflects economic
-growth over the period. Figure~\ref{fig-convergence} then illustrates
-the relationship between per-capita growth in nighttime lights and
-initial per-capita nighttime light. The scatterplot shows an inverse
-relationship: the estimated \(\beta\)-convergence coefficient of about
+most of India by 2010, which, since nighttime lights proxy for economic
+activity, reflects economic growth over the period.
+Figure~\ref{fig-convergence} then relates per-capita growth in nighttime
+lights to initial per-capita luminosity, and the relationship is
+inverse: the estimated \(\beta\)-convergence coefficient of about
 \(-0.02\) implies an annual speed of convergence of roughly 2.3\% and a
 half-life of about 30 years, consistent with the seminal finding of
 \citet{barro_sala_convergence}. Because \(\beta\)-convergence need not
@@ -890,21 +792,18 @@ notebook for source code.}
 
 \end{figure}%
 
-Next, we examine case studies of three economically disadvantaged states
-in India to illustrate their growth patterns over the study period.
-Among these, Bihar is the poorest, with a per-capita income at 31.2\% of
-the national average, while Uttar Pradesh and Chhattisgarh stand at
-55.3\% and 59.9\% respectively.\footnote{The figures are relative per
-  capita income for 2000--01, the census year closest to the start of
-  our study period, measured as per capita net state domestic product
-  divided by per capita net national income. They are taken from Table 4
-  of Sanyal and Arora, ``Relative Economic Performance of Indian States:
-  1960-61 to 2023-24'', Economic Advisory Council to the Prime Minister,
-  Working Paper EAC-PM/WP/31/2024, September 2024.}
-Figure~\ref{fig-map2} displays the change in luminosity in these three
-states during our study period. Although these states remain among the
-poorest, there is a noticeable increase in luminosity over the course of
-the study.
+Figure~\ref{fig-map2} displays the change in luminosity over the study
+period in three economically disadvantaged states. Bihar is the poorest
+of them, with a per-capita income at 31.2\% of the national average,
+while Uttar Pradesh and Chhattisgarh stand at 55.3\% and 59.9\%
+respectively.\footnote{The figures are relative per capita income for
+  2000--01, the census year closest to the start of our study period,
+  measured as per capita net state domestic product divided by per
+  capita net national income. They are taken from Table 4 of Sanyal and
+  Arora, ``Relative Economic Performance of Indian States: 1960-61 to
+  2023-24'', Economic Advisory Council to the Prime Minister, Working
+  Paper EAC-PM/WP/31/2024, September 2024.} All three remain among the
+poorest states, but all three brightened noticeably over the period.
 
 \begin{figure}
 
@@ -928,14 +827,11 @@ from outer space} notebook for source code.}
 \subsection{Spatial dependence is a feature of the convergence
 process}\label{spatial-dependence-is-a-feature-of-the-convergence-process}
 
-Before proceeding with the formal econometric analysis, we examine the
-spatial distribution of the variables under study. Choropleth maps are a
-natural tool for this purpose, because they show how a variable of
-interest varies across geographic units and reveal patterns that summary
-statistics alone would hide. Figure~\ref{fig-chorophleths} presents the
-spatial distribution of initial luminosity in 1996 and of the subsequent
-growth rate of luminosity over the 1996--2010 period across the 520
-districts in our sample.
+Before the formal econometric analysis, we examine the spatial
+distribution of the variables under study. Figure~\ref{fig-chorophleths}
+maps initial luminosity in 1996 and the subsequent growth rate of
+luminosity over the 1996--2010 period across the 520 districts in our
+sample.
 
 \begin{figure}[H]
 
@@ -955,30 +851,20 @@ notebook for source code.}
 
 \end{figure}%
 
-The choropleth maps in Figure~\ref{fig-chorophleths} reveal a distinct
-spatial pattern. Panel (a) shows that initial luminosity levels are
-concentrated in specific geographic corridors, with higher values
-clustered in western and north-western India, while large portions of
-eastern and northern India exhibit markedly lower luminosity. Panel (b),
-which displays the growth rate of luminosity per capita over the study
-period, presents a pattern that is largely the inverse of the initial
-distribution. Districts that were initially bright tend to exhibit lower
-growth rates, whereas districts that were initially dim tend to grow at
-a faster rate. This spatial inversion provides a first visual indication
-that regional convergence in India may have an important spatial
-dimension.
+Panel (a) shows initial luminosity concentrated in specific geographic
+corridors, with higher values clustered in western and north-western
+India and markedly lower values across large parts of eastern and
+northern India. Panel (b) shows a pattern that is largely the inverse:
+districts that were initially bright grew more slowly, and districts
+that were initially dim grew faster. This spatial inversion provides a
+first visual indication that regional convergence in India may have an
+important spatial dimension.
 
-While the choropleth maps suggest the presence of spatial structure in
-both variables, a formal analysis of spatial dependence requires a
-definition of the neighborhood of each district. This neighborhood
-structure is specified through a spatial weight matrix, which encodes
-the connectivity between geographic units. In this study, we adopt a six
-nearest neighbors weight matrix, so that for each of the 520 districts
-the six nearest districts by centroid distance are identified as its
-neighbors. This connectivity structure is visualized as a network in
-Figure~\ref{fig-wmatrix6nn}, where each node represents a district
-centroid and each edge connects a district to one of its six nearest
-neighbors.
+A formal analysis of spatial dependence requires the neighborhood of
+each district, which the 6NN weight matrix described above supplies.
+Figure~\ref{fig-wmatrix6nn} visualizes that connectivity as a network,
+in which each node represents a district centroid and each edge connects
+a district to one of its six nearest neighbors.
 
 \begin{figure}[H]
 
@@ -998,30 +884,25 @@ notebook for source code.}
 
 \end{figure}%
 
-With the neighborhood of each district defined, we can formally assess
-the degree of spatial dependence in the variables. Spatial dependence
-can be understood through two complementary concepts: the overall degree
-of clustering in the data, and the specific locations of statistically
-significant clusters and spatial outliers. The Global Moran's I
-statistic captures the first of these concepts. In our data, the Moran's
-I for initial luminosity per capita is 0.73 (\(p = 0.001\)), which
-indicates strong positive spatial autocorrelation: districts with high
-(low) initial luminosity tend to be surrounded by districts that are
-also bright (dim). The Moran's I for luminosity growth is 0.60
+Spatial dependence can be understood through two complementary concepts:
+the overall degree of clustering in the data, and the specific locations
+of statistically significant clusters and spatial outliers. The Global
+Moran's I statistic captures the first of these concepts. In our data,
+the Moran's I for initial luminosity per capita is 0.73 (\(p = 0.001\)),
+which indicates strong positive spatial autocorrelation: districts with
+high (low) initial luminosity tend to be surrounded by districts that
+are also bright (dim). The Moran's I for luminosity growth is 0.60
 (\(p = 0.001\)), which confirms that the growth rates of neighboring
-districts are also significantly correlated. Both the initial level and
-the subsequent growth of luminosity therefore exhibit substantial
-spatial clustering.
+districts are also significantly correlated.
 
 We now turn to the LISA statistics, which locate the significant
 clusters and outliers behind these global measures.
 Figure~\ref{fig-dependence-initial} presents the Moran scatterplot and
-LISA cluster map for initial luminosity per capita. The cluster map
-identifies distinct geographic concentrations. HH clusters mark the most
-luminous regions and their bright neighbors, while LL clusters highlight
-contiguous areas of low luminosity. These are predominantly in eastern
-and northern India, in Bihar, eastern Uttar Pradesh, and Jharkhand,
-together with the Himalayan north and the northeast.
+LISA cluster map for initial luminosity per capita. HH clusters mark the
+most luminous regions and their bright neighbors, while LL clusters
+highlight contiguous areas of low luminosity. These are predominantly in
+eastern and northern India, in Bihar, eastern Uttar Pradesh, and
+Jharkhand, together with the Himalayan north and the northeast.
 
 \begin{figure}[H]
 
@@ -1041,21 +922,13 @@ notebook for source code.}
 
 \end{figure}%
 
-The same LISA analysis applied to luminosity growth rates reveals a
-geographic pattern that is largely the inverse of the initial luminosity
-clusters, as shown in Figure~\ref{fig-dependence-growth}. Districts that
-formed HH clusters in initial luminosity tend to appear as LL clusters
-in luminosity growth, and the dimmest clusters tend to emerge as HH
-clusters in growth.\footnote{The initially prosperous areas therefore
-  experienced relatively slower growth over the study period, while the
-  initially lagging areas grew faster.} This spatial inversion between
-the initial level and the subsequent growth of luminosity is the spatial
-signature of the convergence process: red regions in the initial
-luminosity map become blue regions in the growth map, and vice versa.
-These local spatial patterns provide visual evidence that spatial
-dependence is a prominent feature of the regional convergence process
-observed in India, and they motivate the use of spatial econometric
-methods.
+The same analysis applied to luminosity growth rates reveals a pattern
+that is largely the inverse of the initial clusters, as
+Figure~\ref{fig-dependence-growth} shows. Districts that formed HH
+clusters in initial luminosity appear as LL clusters in luminosity
+growth, and the dimmest clusters emerge as HH clusters in growth. That
+inversion is the spatial signature of the convergence process, and it
+motivates the use of spatial econometric methods.
 
 \begin{figure}[H]
 
@@ -1080,15 +953,13 @@ convergence}\label{evidence-of-spatial-spillovers-in-regional-convergence}
 
 The regression results of Table~\ref{tbl-models} provide evidence of
 both unconditional and conditional convergence across districts in
-India. Both conventional ordinary least squares (OLS) and spatial
-econometric approaches indicate significant negative relationships
-between initial luminosity levels and subsequent growth rates. The
-direct effects, which represent within-district convergence, remain
-negative and of similar order across specifications, ranging from -0.020
-to -0.026. This consistency across specifications and estimation methods
-suggests that poorer districts are catching up to their wealthier
-counterparts, even after controlling for district characteristics and
-state-level fixed effects.
+India, under ordinary least squares (OLS) and under the spatial
+specifications alike. The direct effects, which represent
+within-district convergence, remain negative and of similar order across
+specifications, ranging from -0.020 to -0.026. This consistency across
+specifications and estimation methods suggests that poorer districts are
+catching up to their wealthier counterparts, even after controlling for
+district characteristics and state-level fixed effects.
 
 \begingroup\footnotesize\setlength{\tabcolsep}{3pt}
 
@@ -1146,39 +1017,33 @@ AIC & −1945 & −2292 & −2409 & −2468 & −2211 & −2358 & −2465 & −2
 
 \endgroup
 
-The progression from unconditional to conditional specifications reveals
-how the estimated convergence process is shaped by the inclusion of
-additional covariates. In the OLS specifications, the direct effect is
--0.020 in Model 1 and -0.022 in Model 2, and it strengthens to -0.025
-once district characteristics are added in Models 3 and 4. Omitting
-these characteristics therefore attenuates the estimated speed of
-convergence. The spatial Durbin direct effects match this pattern in the
-conditional models, at -0.026 in Model 3 and -0.025 in Model 4. Once we
-account for structural differences across districts, the underlying
-tendency for poorer districts to catch up becomes more pronounced. State
+In the OLS specifications, the direct effect is -0.020 in Model 1 and
+-0.022 in Model 2, and it strengthens to -0.025 once district
+characteristics are added in Models 3 and 4. Omitting these
+characteristics therefore attenuates the estimated speed of convergence,
+and the spatial Durbin direct effects match this pattern in the
+conditional models, at -0.026 in Model 3 and -0.025 in Model 4. State
 fixed effects absorb unobserved state-level heterogeneity, such as
-differences in governance and institutional quality, that might
-otherwise confound the convergence relationship. They tighten the
-standard errors on the spatial impacts and moderate the spatial total
+differences in governance and institutional quality, which tightens the
+standard errors on the spatial impacts and moderates the spatial total
 effect rather than strengthening it further.
 
-The spatial Durbin model also reveals spatial spillover effects that are
-not captured by traditional OLS estimations. These indirect effects,
-which capture the influence of the initial conditions of neighboring
-districts on the growth rate of a district, follow a notable pattern
-across specifications. In the unconditional models (Models 1 and 2), the
-estimated indirect effects are negative but small and statistically
-insignificant, at -0.001 in both.\footnote{Without controls, the strong
-  residual spatial dependence confounds the spillover estimates with
-  omitted variables. The spatial autoregressive parameter also reaches
-  about 0.80 in Model 1, so its decomposition is the most sensitive of
-  the four to how the spatial multiplier is computed.} Once
-district-level controls are introduced (Models 3 and 4), the indirect
-effects become both larger in magnitude and statistically significant at
-the 10\% level, reaching -0.015 in Model 3 and -0.012 in our most
-comprehensive Model 4. The spatial channels of convergence therefore
-become discernible only after accounting for district-specific
-characteristics.
+The spatial Durbin model also reveals spillover effects that OLS does
+not capture, and these indirect effects, which measure the influence of
+the initial conditions of neighboring districts on the growth rate of a
+district, follow a notable pattern across specifications. In the
+unconditional models (Models 1 and 2), the estimated indirect effects
+are negative but small and statistically insignificant, at -0.001 in
+both.\footnote{Without controls, the strong residual spatial dependence
+  confounds the spillover estimates with omitted variables. The spatial
+  autoregressive parameter also reaches about 0.80 in Model 1, so its
+  decomposition is the most sensitive of the four to how the spatial
+  multiplier is computed.} Once district-level controls are introduced
+(Models 3 and 4), the indirect effects become both larger in magnitude
+and statistically significant at the 10\% level, reaching -0.015 in
+Model 3 and -0.012 in our most comprehensive Model 4. The spatial
+channels of convergence therefore become discernible only after
+accounting for district-specific characteristics.
 
 The total impact of initial conditions on growth, combining both direct
 and spillover effects, is substantially larger when we account for
@@ -1224,104 +1089,93 @@ from 3.0\% to 6.2\% and 5.2\%, shortening the half-life from 23 years to
 11 and 13 years respectively.\footnote{The unconditional speeds are
   2.3\% against 2.6\% in Model 1 and 2.6\% against 2.7\% in Model 2.}
 
-The model fit statistics further support the spatial econometric
-approach. The Akaike Information Criterion (AIC) consistently favors the
-spatial Durbin model over OLS across all four specifications, and the
-most comprehensive model (Model 4 SDM) achieves the lowest AIC value of
--2501 compared to -2465 for the corresponding OLS.\footnote{The
-  improvement from incorporating spatial structure is most pronounced in
-  the unconditional specification, where the AIC drops by 347 units when
+The Akaike Information Criterion (AIC) consistently favors the spatial
+Durbin model over OLS across all four specifications, and the most
+comprehensive model (Model 4 SDM) achieves the lowest AIC value of -2501
+compared to -2465 for the corresponding OLS.\footnote{The improvement
+  from incorporating spatial structure is most pronounced in the
+  unconditional specification, where the AIC drops by 347 units when
   moving from OLS to SDM in Model 1, reflecting the large amount of
-  spatial dependence left unmodeled by ordinary regressions. Even in the
-  fully specified model, where state fixed effects already absorb much
-  of the spatial heterogeneity, the SDM retains a meaningful advantage.}
-Overall, these results suggest that regional convergence in India
-operates not only through district-specific factors but also through
-spatial interactions between neighboring districts. In this setting,
-ignoring these interactions leads to both underestimated convergence
-speeds and inferior model performance.
+  spatial dependence left unmodeled by ordinary regressions.} These
+results suggest that regional convergence in India operates not only
+through district-specific factors but also through spatial interactions
+between neighboring districts, so that ignoring those interactions
+yields both underestimated convergence speeds and inferior model
+performance.
 
 A word of caution is in order about how the indirect effects should be
 read. The spatial Durbin model identifies spatial dependence in reduced
 form: it establishes that the growth of a district covaries with the
 initial conditions of its neighbors, conditional on its own
 characteristics, but it does not establish why. Several distinct
-processes generate the same reduced-form pattern. Neighboring districts
-share geographic and agro-climatic conditions. They are often governed
-by the same state, and so inherit common institutional and policy
-environments that our state fixed effects absorb only in part. They are
-connected by infrastructure whose effects do not stop at administrative
-boundaries. Any omitted determinant of growth that is itself spatially
-clustered will also be absorbed into the spatial terms of the model. The
-measurement issues discussed below point in the same direction, since
-blooming spreads light across district boundaries and can raise the
-apparent correlation between neighbors for reasons unrelated to economic
-interaction. We therefore read the indirect effects as evidence that
-spatial structure is a feature of the convergence process, and not as an
-estimate of the causal effect of the conditions of one district on the
-growth of another. Establishing which channels are at work, and whether
-they are causal, would require research designs built for that purpose,
-a point we return to in the discussion.
+processes generate the same reduced-form pattern, since neighboring
+districts share geographic and agro-climatic conditions, are often
+governed by the same state and so inherit common institutional and
+policy environments that our state fixed effects absorb only in part,
+are connected by infrastructure whose effects do not stop at
+administrative boundaries, and are exposed to any omitted determinant of
+growth that is itself spatially clustered. The measurement issues
+discussed below point in the same direction, since blooming spreads
+light across district boundaries and can raise the apparent correlation
+between neighbors for reasons unrelated to economic interaction. We
+therefore read the indirect effects as evidence that spatial structure
+is a feature of the convergence process, and not as an estimate of the
+causal effect of the conditions of one district on the growth of
+another. Establishing which channels are at work, and whether they are
+causal, would require research designs built for that purpose, a point
+we return to in the discussion.
 
 \subsection{How these estimates compare with the convergence
 literature}\label{how-these-estimates-compare-with-the-convergence-literature}
 
-The speeds reported above can be placed against three sets of
-benchmarks. The first is other work on Indian districts using the same
-proxy: \citet{beyer_yamada_district_banks} report 2.4\% absolute and
-3.7\% conditional convergence for India over 2013--2019, against our own
-2.3\% and 3.0\%. That two independent applications of the same
-measurement strategy recover similar non-spatial rates, despite
-different periods and different generations of the sensor, is reassuring
-about the proxy.
+The speeds reported above can be placed against three benchmarks. The
+first is other work on Indian districts using the same proxy.
+\citet{beyer_yamada_district_banks} report 2.4\% absolute and 3.7\%
+conditional convergence for India over 2013--2019, against our own 2.3\%
+and 3.0\%. That two independent applications of the same measurement
+strategy recover similar non-spatial rates, despite different periods
+and different generations of the sensor, is reassuring about the proxy.
 
-The second comparison is with convergence estimated from luminosity
-elsewhere. \citet{basher_etal_bangladesh_lights} find absolute
-convergence of 4.57\% per year across the 64 districts of Bangladesh,
-implying a half-life of 15 years, roughly double the 2.3\% we obtain on
-the same unconditional basis. \citet{carrington_jimenez_ecuador_lights}
-report a speed near the 2\% benchmark for Ecuadorian provinces, while
-\citet{kacou_africa_convergence} finds multiple equilibria in
-within-country regional inequality across 49 African countries. Our
-unconditional non-spatial estimate therefore sits near the familiar 2\%
-regularity, and the conditional spatial estimates well above
-it.\footnote{The regularity is about 2\% per year across 1,528 regions
-  in 83 countries \citep{gennaioli_etal_growth_regions}, and similar
-  across regions of the United States, Japan, and five European
-  countries \citep{salaimartin_regional_cohesion}.} That regularity
-should not be treated as a law: a meta-analysis of some 600 published
-estimates concludes that it is misleading to speak of a natural
-convergence rate, since estimates from different specifications are
-drawn from different populations \citep{abreu_etal_meta_convergence}.
-These comparisons therefore locate our estimates rather than validate
-them.
+The second benchmark is convergence measured from luminosity elsewhere.
+\citet{basher_etal_bangladesh_lights} find absolute convergence of
+4.57\% per year across the 64 districts of Bangladesh, roughly double
+the 2.3\% we obtain on the same unconditional basis.
+\citet{carrington_jimenez_ecuador_lights} report a speed near 2\% for
+Ecuadorian provinces, and \citet{kacou_africa_convergence} finds
+multiple equilibria across 49 African countries. Our own unconditional
+non-spatial estimate therefore sits near the familiar 2\% regularity,
+while the conditional spatial estimates lie well above it.\footnote{The
+  regularity is about 2\% per year across 1,528 regions in 83 countries
+  \citep{gennaioli_etal_growth_regions}, and similar across regions of
+  the United States, Japan, and five European countries
+  \citep{salaimartin_regional_cohesion}. The meta-analytic objection is
+  that estimates from different specifications are drawn from different
+  populations, so there is no single natural rate to be estimated.} A
+meta-analysis of some 600 published estimates nevertheless warns against
+treating that regularity as a law \citep{abreu_etal_meta_convergence}.
+These comparisons locate our estimates rather than validate them.
 
-The third comparison bears most directly on what this article adds. That
+The third benchmark bears most directly on what this article adds. That
 convergence estimates are sensitive to spatial dependence is
-established; the direction in which allowing for it moves the estimated
-speed is not. Our own rise from 3.0\% to 5.2\% agrees with
-\citet{diop_africa_spillovers}, who finds a substantially higher speed
-in a spatial Durbin specification and concludes that earlier estimates
-may have been considerably understated. Other studies find the opposite.
-\citet{isla_castillo_etal_eu_cohesion} report lower estimated speeds for
-European regions once spatial dependence is allowed for, and
-\citet{santos_marquez_etal_indonesia_spatial} conclude that neighbor
-effects have slowed convergence across Indonesian districts. Within
-India, \citet{lolayekar_mukhopadhyay_india_spatial} find a considerably
-smaller impact of initial income across states, and divergence rather
-than convergence.
-
-The arithmetic is straightforward in our own case: the indirect effect
-carries the same negative sign as the direct effect, so the two
-reinforce one another and the total effect exceeds the OLS coefficient
-in magnitude. Where the initial conditions of neighbors enter with the
-opposite sign, or where the spatial terms absorb variation the
-non-spatial model had attributed to initial luminosity, the same
-exercise reduces the estimated speed. The substantive point is therefore
-not that spatial dependence matters, which is already known, but that
-here it works in the direction of faster measured convergence, and the
-contrast with Indian states suggests that the scale of analysis is part
-of what determines the answer.
+established, but the direction of the adjustment is not. Our own rise
+from 3.0\% to 5.2\% agrees with \citet{diop_africa_spillovers}, who
+concludes that non-spatial estimates may be considerably understated.
+Others find the opposite: lower speeds for European regions
+\citep{isla_castillo_etal_eu_cohesion}, neighbor effects that slow
+convergence across Indonesian districts
+\citep{santos_marquez_etal_indonesia_spatial}, and divergence rather
+than convergence across Indian states
+\citep{lolayekar_mukhopadhyay_india_spatial}. The substantive point is
+therefore not that spatial dependence matters, which is already known,
+but that here it works in the direction of faster measured convergence,
+and that the scale of analysis is part of what determines the
+answer.\footnote{In our own case the indirect effect carries the same
+  negative sign as the direct effect, so the two reinforce one another
+  and the total effect exceeds the OLS coefficient in magnitude. Where
+  the initial conditions of neighbors enter with the opposite sign, or
+  where the spatial terms absorb variation the non-spatial model had
+  attributed to initial luminosity, the same exercise reduces the
+  estimated speed.}
 
 \subsection{Robustness to alternative spatial weight
 matrices}\label{robustness-to-alternative-spatial-weight-matrices}
@@ -1418,123 +1272,91 @@ The difference between the two readings of Model 4 is large enough to
 matter for policy. Under the OLS estimate, a district closes half of the
 gap to its steady state in about 23 years; under the spatial Durbin
 estimate, in about 13 years. Over the fourteen years of our sample, that
-is the difference between closing roughly 34\% of the initial gap and
-closing roughly 52\% of it. The first figure describes catch-up over a
-generation, while the second describes catch-up within the horizon over
-which development programs are designed, funded, and evaluated.
-
-The distinction matters because it changes what can reasonably be
-expected of an intervention. If convergence is slow, support for lagging
-districts must be sustained across political cycles before its effects
-become visible in aggregate outcomes, and the absence of visible
-catch-up within the lifetime of a program is weak evidence that the
-program has failed. If convergence is faster, as the spatial estimates
-imply, the returns to a well-targeted intervention should appear within
-a normal evaluation window, and the case for measuring them is
-correspondingly stronger.
+is the difference between closing roughly 34\% and roughly 52\% of the
+initial gap. The first figure describes catch-up over a generation, the
+second catch-up within the horizon over which development programs are
+designed, funded, and evaluated. Under the faster rate, the returns to
+well-targeted support should appear within a normal evaluation window.
 
 The results also speak to the level at which such policies should
 operate. We find convergence across districts over 1996--2010, whereas
 \citet{lolayekar_mukhopadhyay_india_spatial}, working with Indian states
-over a longer period, find divergence. Catch-up that is visible at the
-district level and absent at the state level is consistent with the
-district being the more informative unit of intervention, as the
-Aspirational Districts Programme of India already assumes, although the
-two studies also differ in outcome variable and period.\footnote{The
-  programme was launched in 2018 to direct additional resources to the
-  least developed districts of the country.} The spatial results add a
-qualification to that logic: the growth of a district is associated with
-the initial conditions of its neighbors, so a lagging district
-surrounded by other lagging districts is in a different position from
-one adjacent to a growing cluster, and a targeting rule that ranks
-districts one at a time will not register that difference.
+over a longer period, find divergence. Catch-up visible at the district
+level and absent at the state level is consistent with the district
+being the more informative unit of intervention, which the Aspirational
+Districts Programme of India already assumes.\footnote{The programme was
+  launched in 2018 to direct additional resources to the least developed
+  districts of the country. The two studies also differ in outcome
+  variable and period, so the contrast between them is suggestive rather
+  than decisive.} The spatial results add a qualification, since a
+lagging district surrounded by other lagging districts is in a different
+position from one adjacent to a growing cluster. A targeting rule that
+ranks districts one at a time will not register that difference.
 
-Spillovers, however, cut both ways, and the Indian evidence on
+Spillovers cut both ways, however, and the Indian evidence on
 place-based policy is a caution as much as an encouragement.
-\citet{hasan_etal_backward_districts} evaluate a tax-exemption program
-for industrially backward districts and find that the resulting increase
-in firm entry and employment was driven in part by the displacement of
-activity from neighboring districts that narrowly missed qualifying, and
-that the effects did not persist once the program ended. Activity moved
-across a boundary would appear in our framework as a spatial
-relationship between neighbors, and it is not the kind of spillover on
-which a case for coordinated regional policy can be built. What the
-satellite record does support is measurement: luminosity is responsive
-enough to register a place-based package at this scale.\footnote{\citet{shenoy_place_based_policy}
-  uses nighttime lights to evaluate a large place-based package in
-  Uttarakhand and finds that luminosity rises sharply on the targeted
-  side of the new state border, which shows that the outcome we study is
-  responsive enough to register policy at this scale.}
-
-These implications follow if the indirect effects reflect genuine
-interaction between districts. As set out in the results, the
-reduced-form evidence is consistent with that reading but does not
-establish it. The policy conclusions above should therefore be read with
-that qualification attached.
+\citet{hasan_etal_backward_districts} find that a tax exemption for
+industrially backward districts raised firm entry and employment partly
+by displacing activity from neighboring districts that narrowly missed
+qualifying, with effects that did not outlast the program. Displacement
+of that kind would appear in our framework as a spatial relationship
+between neighbors, which is not a spillover on which coordinated
+regional policy can be built. What the satellite record does support is
+measurement.\footnote{\citet{shenoy_place_based_policy} uses nighttime
+  lights to evaluate a large place-based package in Uttarakhand and
+  finds that luminosity rises sharply on the targeted side of the new
+  state border, which shows that the outcome we study is responsive
+  enough to register policy at this scale.} The readings above therefore
+hold only if the indirect effects reflect genuine interaction between
+districts, and the reduced-form evidence is consistent with that but
+does not establish it.
 
 \subsection{The single growth period and what a panel would
 require}\label{the-single-growth-period-and-what-a-panel-would-require}
 
 The estimates reported above rest on a single growth period, and the
 cost of that design should be stated plainly. One long difference cannot
-trace how the rate of convergence evolved within the period. It cannot
-establish whether the spatial spillovers were stronger in some years
-than in others, or whether they emerged only part-way through. It also
-cannot separate long-run convergence from whatever was specific to these
+trace how convergence evolved within the period, cannot show whether the
+spatial spillovers were stronger in some years than in others, and
+cannot separate long-run convergence from what was specific to these
 fourteen years, which in India included the maturing of the post-1991
-reforms.
+reforms. Examining those dynamics lies beyond an article that adds a
+spatial dimension to an existing cross-sectional result. The immediate
+obstacle is in any case the data, since district population is observed
+only at the decennial censuses.\footnote{The dataset we adopt from
+  \citet{chanda_kabiraj_district_convergence} holds radiance-calibrated
+  luminosity at six dates between 1996 and 2010, so per-capita
+  luminosity at the intermediate dates would rest on interpolated
+  denominators.} Interpolated denominators touch only the endpoints of a
+long difference, whereas in a panel they would enter every observation,
+and in the time dimension that a panel exists to exploit.
 
-These limitations are real, and the dynamics they concern matter, but
-examining those dynamics lies beyond the scope of an article that adds a
-spatial dimension to an existing cross-sectional result rather than
-replacing it with a dynamic one. The immediate obstacle is the data: the
-dataset we adopt from \citet{chanda_kabiraj_district_convergence} holds
-radiance-calibrated luminosity at six dates between 1996 and 2010, but
-district population is observed only at the decennial censuses, so
-per-capita luminosity at the intermediate dates would rest on
-interpolated denominators. Over a single long difference that
-interpolation touches only the endpoints, whereas in a panel it would
-enter every observation, and in the time dimension that a panel exists
-to exploit.
-
-The more interesting question is what such a panel would be worth, and
-here two distinct problems compound. The first belongs to growth
-econometrics and predates nighttime lights: panel estimates of
-convergence run far above cross-sectional ones, and
+What such a panel would be worth is the more interesting question, and
+here two problems compound. The first predates nighttime lights: panel
+estimates of convergence run far above cross-sectional ones, and
 \citet{caselli_etal_convergence_debate} obtain a rate near 10\% per year
-using panel methods that instrument for endogenous regressors, against
-the 2\% that cross-sections deliver.\footnote{\citet{barro_convergence_modernisation}
+against the 2\% that cross-sections deliver.\footnote{\citet{barro_convergence_modernisation}
   argues that country fixed effects generate a misleadingly high
   convergence rate, and that combining post-1960 with post-1870 evidence
   returns a figure close to the conventional 2\%. Meta-analytic evidence
   finds that corrections for unobserved heterogeneity raise estimated
   convergence systematically \citep{abreu_etal_meta_convergence}.} How
-that gap should be read remains contested, so a panel would not give a
+that gap should be read remains contested, so a panel would give not a
 better-identified version of our estimate but an estimate of something
-different, whose relation to the long-run rate is itself disputed.
-
-The second problem is specific to the proxy: luminosity discriminates
-differences across places considerably better than changes over time
-\citep{chen_nordhaus_viirs_crosssection, asher_shrug_india}.
-Convergence, however, is a long-run process, so the horizon over which
-it is measured determines whether lights carry the relevant signal at
-all. Over fourteen years most identifying variation is cross-sectional,
-which is what lights currently support best; over the annual intervals
-that make panel methods attractive the ratio of signal to measurement
-error falls sharply. A short-horizon panel would therefore pair a
-specification that is hard to interpret with a proxy operating where it
-is weakest. \citet{chakrabarty_mukherjee_covid_convergence} estimate
-district convergence across the pandemic period, and how such estimates
-should be read depends on how much of the short-run movement in lights
-reflects output rather than measurement.
-
-Our own view follows from this. If panel methods are to be applied to
-convergence in luminosity, the periods compared should be long, a
-sequence of non-overlapping long differences rather than a
-high-frequency panel. Harmonized DMSP--VIIRS series now make that
-feasible across roughly three decades \citep{li_etal_harmonization}, and
-re-estimating this specification in that form is the most promising
-temporal extension of the work reported here.
+different. The second problem is specific to the proxy, since luminosity
+discriminates differences across places far better than changes over
+time \citep{chen_nordhaus_viirs_crosssection, asher_shrug_india}, and
+over short intervals the ratio of signal to measurement error falls
+sharply.\footnote{A short-horizon panel would therefore pair a
+  specification that is hard to interpret with a proxy operating where
+  it is weakest. \citet{chakrabarty_mukherjee_covid_convergence}
+  estimate district convergence across the pandemic period, and how such
+  estimates should be read depends on how much of the short-run movement
+  in lights reflects output rather than measurement.} The periods
+compared should therefore be long, and harmonized DMSP--VIIRS series now
+make a sequence of non-overlapping long differences feasible across
+roughly three decades \citep{li_etal_harmonization}, which is the most
+promising temporal extension of this work.
 
 \subsection{An exploratory extension: Luminosity and cultural
 participation}\label{an-exploratory-extension-luminosity-and-cultural-participation}
@@ -1560,27 +1382,25 @@ can establish.\footnote{A cross-sectional association is consistent with
   relationship takes.}
 
 For India, the National Sample Survey (NSS) 47th Round (July--December
-1991) surveys household cultural participation. Following the
-Culture-Based Development framework, we reduce these survey items to six
-dimensions and aggregate them to state means.\footnote{The six
-  dimensions are live cultural performance, cultural telecast
-  (TV/media), socio-cultural participation, cultural heritage and
-  religion, live cultural shows, and sports. They are extracted from the
-  survey items by principal-components analysis. See the
+1991) surveys household cultural participation, and nighttime lights for
+the adjacent year 1992 are available for 32 states and union
+territories. Following the Culture-Based Development framework, we
+reduce these survey items to six dimensions and aggregate them to state
+means.\footnote{The six dimensions are live cultural performance,
+  cultural telecast (TV/media), socio-cultural participation, cultural
+  heritage and religion, live cultural shows, and sports. They are
+  extracted from the survey items by principal-components analysis. See
+  the
   \href{https://quarcs-lab.github.io/project2025s-py/notebooks/c06_spatial_culture.html}{Spatial
-  culture} notebook for details and extended analyses.} With nighttime
-lights data for an adjacent period (1992) now available for 32 Indian
-states and union territories, we can examine the extent to which
-luminosity is associated with regional cultural patterns. This part of
-the analysis uses the Consistent and Corrected Nighttime Lights series
+  culture} notebook for details and extended analyses.} This part of the
+analysis uses the Consistent and Corrected Nighttime Lights series
 rather than the radiance-calibrated composites used above, because it is
-the product that covers 1992. Given the small sample size (N = 32) and
-the potential leverage of small territories at the extremes of the
-distribution on linear correlation measures, we report Spearman rank
-correlations throughout this section. Figure~\ref{fig-culture-scatter}
-presents the relationship between log nighttime lights per capita and
-the two cultural dimensions that show statistically significant
-associations.
+the product that covers 1992. Given the small sample (N = 32) and the
+leverage that small territories at the extremes of the distribution
+exert on linear correlation measures, we report Spearman rank
+correlations throughout. Figure~\ref{fig-culture-scatter} presents the
+relationship between log nighttime lights per capita and the two
+cultural dimensions that show statistically significant associations.
 
 \begin{figure}[H]
 
@@ -1606,26 +1426,26 @@ culture} notebook for source code.}
 
 \end{figure}%
 
-Cultural telecast (TV/media) exhibits a positive association with
-nighttime light luminosity, with a Spearman rank correlation of 0.370
-(\(p\) = 0.037). More luminous states therefore tend to rank higher on
-the cultural telecast dimension.
-
-In contrast, socio-cultural participation shows a significant negative
-association, with a Spearman rank correlation of \$-\(0.404 (\)p\$ =
-0.022). Less luminous states therefore tend to rank higher on
-socio-cultural participation. This suggests that less urbanized regions
+Cultural telecast (TV/media) is positively associated with luminosity,
+with a Spearman rank correlation of 0.370 (\(p\) = 0.037), so more
+luminous states tend to rank higher on that dimension. Socio-cultural
+participation, in contrast, is negatively associated, with a Spearman
+rank correlation of \$-\(0.404 (\)p\$ = 0.022), so less luminous states
+tend to rank higher on it. This suggests that less urbanized regions
 rely more on collective, in-person forms of cultural participation than
 on media infrastructure.
 
-Figure~\ref{fig-culture-lisa} presents the spatial distribution of these
-two cultural variables through the lens of a LISA analysis. The low-low
+Figure~\ref{fig-culture-lisa} maps the spatial distribution of the two
+cultural variables through the lens of a LISA analysis. The low-low
 cluster of cultural telecast in the northeast coincides with the low-low
-cluster in the nighttime lights data, although the high-high clusters of
-the two variables do not coincide. The significant high-high cluster in
-cultural telecast is confined to the southern states, while the
-northeastern states form a distinct high-high cluster in community-based
-participation.
+cluster in the nighttime lights data, whereas the high-high clusters do
+not coincide: cultural telecast forms one in the southern states, and
+community-based participation forms one in the northeast. The remaining
+four cultural dimensions show no statistically significant association
+with luminosity, and these findings rest on a small cross-section of 32
+states observed at a single point in time, so larger datasets covering
+more regions and periods would be needed to establish whether the
+patterns are robust.
 
 \begin{figure}[H]
 
@@ -1648,15 +1468,6 @@ participation data from NSS 47th Round (July--December 1991). See
 culture} notebook for source code.}
 
 \end{figure}%
-
-Together, the two correlations describe a pattern in which luminosity
-ranks positively with media-based cultural participation and negatively
-with community-based participation across states. The remaining four
-cultural dimensions show no statistically significant association with
-luminosity. These findings rest on a small cross-section of 32 states
-observed at a single point in time, so larger datasets covering more
-regions and periods would be needed to establish whether the patterns
-are robust.
 
 Two connections to the main analysis are worth drawing out, both offered
 as interpretation rather than as findings. The first concerns what
@@ -1684,166 +1495,121 @@ time.
 
 \subsection{New research directions}\label{new-research-directions}
 
-Three kinds of gap limit what this literature can currently establish,
-and each defines an agenda that the workflow used here is well placed to
-support. The first two concern the raw material, namely the data
-themselves and the geography those data cover. The third concerns the
-range of theories those data have been used to test.
-
-\subsubsection{Data gaps}\label{data-gaps}
-
-Our analysis, following \citet{chanda_kabiraj_district_convergence},
-relies on radiance-calibrated DMSP-OLS nighttime lights for 1996 to
-2010, a dataset widely used as a proxy for economic activity
-\citep{henderson_storeygard_weil_lights, chen_nordhaus_luminosity_gdp}.
-DMSP-OLS is subject to well-documented limitations: top-coding in bright
-urban cores, the absence of on-board calibration, and blooming artifacts
-that spread light beyond its true source
-\citep{gibson_etal_ntl_measurement, abrahams_etal_deblurring}. These are
-not merely nuisances, and it is worth being explicit about how they bear
-on our own estimates. Top-coding compresses variation at the bright end
-of the distribution, which affects the recorded initial luminosity of
-the most luminous districts. Two opposing biases follow: classical
-measurement error in the regressor attenuates the convergence
-coefficient toward zero, while measurement error in initial luminosity
-that enters the growth rate with the opposite sign works in the
-direction of overstating convergence. The net effect is ambiguous in
-sign, and we do not claim to sign it. Measurement error is also unlikely
-to be homogeneous across the sample, because the association between
-luminosity and economic outcomes is stronger in urban than in rural
-areas and Indian districts differ considerably in how urbanized they
-are. Blooming has a clearer implication for the spillover estimates that
-are central to this article. Because light spills across district
-boundaries, part of what we measure as the luminosity of a district
-originates with its neighbors, which mechanically raises the apparent
-correlation between adjacent districts and could therefore inflate the
-estimated indirect effects. That the direct and total effects hold
-across all seven definitions of the neighborhood, and the indirect
-effect under five of the seven (Table~\ref{tbl-altw}), indicates they
-are not an artifact of any particular neighbor definition, but it does
-not rule out blooming; deblurring methods such as those of
-\citet{abrahams_etal_deblurring} offer one route to addressing it
-directly.
-
-The Visible Infrared Imaging Radiometer Suite (VIIRS), operational since
-2012, improves on DMSP-OLS in spatial resolution (roughly 750 meters
-against 2.7 kilometers), in on-board radiometric calibration, and in
-dynamic range, avoiding saturation in bright areas while detecting dim
-lights in rural settlements
-\citep{elvidge_etal_viirs, gibson_etal_ntl_measurement}. The
-discontinuity between the DMSP (1992--2013) and VIIRS (2012--present)
-sensor eras remains an obstacle to long-run work, which harmonization
-efforts have begun to address \citep{li_etal_harmonization}, and recent
-global series adjust explicitly for top-coding, blooming, and changes of
-satellite system \citep{chiovelli_global_south}. Beyond better sensors,
-combining lights with other satellite products improves measurement
-where lights alone are weak.\footnote{Lights have been combined with
-  daytime imagery for poverty prediction
+Three kinds of gap limit what this literature can currently establish:
+the data themselves, the geography they cover, and the theories they
+have been used to test. The first is well documented, since the
+radiance-calibrated DMSP-OLS series we adopt from
+\citet{chanda_kabiraj_district_convergence}, and on which this
+literature rests
+\citep{henderson_storeygard_weil_lights, chen_nordhaus_luminosity_gdp},
+is top-coded in bright urban cores, uncalibrated on board, and blurred
+across boundaries by blooming
+\citep{gibson_etal_ntl_measurement, abrahams_etal_deblurring}.
+Top-coding leaves the net bias in our convergence coefficient ambiguous
+in sign, while blooming raises the apparent correlation between
+neighbors and therefore bears directly on the spillover
+estimates.\footnote{Top-coding compresses variation at the bright end of
+  the distribution, so classical measurement error in initial luminosity
+  attenuates the convergence coefficient toward zero, while the same
+  error entering the growth rate with the opposite sign works in the
+  direction of overstating convergence. The net effect is ambiguous in
+  sign, and we do not claim to sign it. Measurement error is also
+  unlikely to be homogeneous across the sample, because the association
+  between luminosity and economic outcomes is stronger in urban than in
+  rural areas and Indian districts differ considerably in how urbanized
+  they are. That the direct and total effects hold across all seven
+  definitions of the neighborhood, and the indirect effect under five of
+  the seven (Table~\ref{tbl-altw}), indicates that they are not an
+  artifact of any particular neighbor definition, but it does not rule
+  out blooming, for which deblurring methods offer one route
+  \citep{abrahams_etal_deblurring}.} The Visible Infrared Imaging
+Radiometer Suite (VIIRS) and harmonized DMSP--VIIRS series address all
+three problems
+\citep{elvidge_etal_viirs, li_etal_harmonization, chiovelli_global_south},
+and multi-source methods improve measurement where lights alone are
+weak.\footnote{VIIRS, operational since 2012, improves spatial
+  resolution (roughly 750 meters against 2.7 kilometers), adds on-board
+  radiometric calibration, and widens dynamic range, which avoids
+  saturation in bright areas while detecting dim lights in rural
+  settlements \citep{gibson_etal_ntl_measurement}. Lights have also been
+  combined with daytime imagery for poverty prediction
   \citep{jean_etal_poverty_prediction}, with land cover in agricultural
   areas \citep{keola_etal_lights_poverty}, with multiple remote sensing
   indicators for subnational output
   \citep{chen_etal_turkey_viirs, hussein_etal_vietnam_ml}, and with
   survey data for multidimensional poverty
-  \citep{theara_etal_cambodia_poverty}.} Applying such multi-source
-approaches to Indian districts, and re-estimating our specification on
-harmonized or VIIRS-era data, are the most immediate extensions of the
-analysis reported here.
+  \citep{theara_etal_cambodia_poverty}.} Re-estimating our specification
+on those data is the most immediate extension of the analysis reported
+here.
 
-\subsubsection{Geographic gaps}\label{geographic-gaps}
-
-A distinctive advantage of nighttime lights is that a single instrument
-observes the entire planet under a common protocol, so that measurements
-are comparable across countries and across regions in a way that
-national accounts, compiled under different statistical systems and
-capacities, are not \citep{henderson_storeygard_weil_lights}.
-Comparability across settings and scales nevertheless requires explicit
-adjustment \citep{chiovelli_global_south}. This global coverage is,
-however, coverage of light rather than of economic activity, and the
-distinction determines where the method works. Roughly one fifth of the
-settlement footprint of the planet emits no radiance detectable from
-space, and unlit settlements are concentrated in Africa, which accounts
-for 39\% of them, rising to 65\% when only rural settlement areas are
-considered \citep{mccallum_unlit_settlements}. Lights therefore measure
-development that is illuminated: they track urban areas as they expand,
-and rural areas as lighting infrastructure reaches them, but they are
-close to silent where neither is happening. The empirical record matches
-this description.\footnote{Across 34 sub-Saharan African countries the
-  association between harmonized luminosity and household wealth is
-  pronounced in urban areas and considerably weaker in rural ones
+The second gap concerns geography, and it is not that some regions have
+gone unstudied. A single instrument observes the whole planet under a
+common protocol, which makes measurements comparable in a way that
+national accounts are not \citep{henderson_storeygard_weil_lights}, but
+what it records is light rather than economic activity. Roughly one
+fifth of the settlement footprint of the planet emits no detectable
+radiance, and unlit settlements are concentrated in Africa
+\citep{mccallum_unlit_settlements}. Africa is nonetheless well covered
+by this literature \citep{kacou_africa_convergence}, as are China
+\citep{glawe_mendez_china_luminosity}, Indonesia
+\citep{miranti_mendez_indonesia}, Thailand
+\citep{tipayalai_mendez_thailand}, and Turkey
+\citep{ursavas_mendez_turkey}. The real gap is that the places where
+lights carry least information, rural and sparsely electrified areas,
+are the places where administrative statistics are weakest and a
+satellite proxy would be most valuable.\footnote{Africa accounts for
+  39\% of unlit settlements worldwide, rising to 65\% when only rural
+  settlement areas are considered \citep{mccallum_unlit_settlements}.
+  Across 34 sub-Saharan African countries the association between
+  harmonized luminosity and household wealth is pronounced in urban
+  areas and considerably weaker in rural ones
   \citep{jhamb_africa_nightlights}, and systematic assessments of which
   product to use, and where, reach similar conclusions
-  \citep{gibson_etal_ntl_measurement}.}
+  \citep{gibson_etal_ntl_measurement}.} Closing it calls less for
+further applications of the same proxy than for validation against
+ground data in those settings.
 
-The resulting gap is not simply that some regions have gone unstudied.
-Regional inequality and convergence have been examined with luminosity
-across 49 African countries \citep{kacou_africa_convergence}, as they
-have across Chinese provinces \citep{glawe_mendez_china_luminosity},
-Indonesian districts \citep{miranti_mendez_indonesia}, Thailand
-\citep{tipayalai_mendez_thailand}, and Turkey
-\citep{ursavas_mendez_turkey}. The gap is that the places where lights
-carry the least information, rural and sparsely electrified areas, are
-the same places where administrative statistics are weakest, which is
-precisely where a satellite proxy would be most valuable. Closing it
-calls less for further applications of the same proxy than for
-validation against ground data in those settings, and for the
-complementary sensors and multi-source methods described above.
-
-\subsubsection{Theoretical gaps}\label{theoretical-gaps}
-
-Our cross-sectional framework documents an average effect and its
-spillover component, but not heterogeneity across the distribution. One
-direction is distributional: methods designed for that purpose could
-reveal whether Indian districts converge to a single steady state or
-form distinct clubs, and combining them with spatial econometrics could
-expose spatial poverty traps or growth poles that average estimates
-render invisible \citep{rey_spatial_dynamics}.\footnote{The relevant
-  tools are distribution dynamics \citep{quah_twin_peaks} and the
-  regression-tree methods developed for identifying multiple growth
-  regimes \citep{durlauf_johnson_convergence_clubs}.} A second concerns
-identification: our estimates capture spillovers in reduced form without
-establishing whether they run through infrastructure, migration,
-technology diffusion, or market access, and quasi-experimental designs
-such as that of \citet{asher_novosad_rural_roads} offer a route to
-isolating them.
-
-Beyond convergence, luminosity is now used to study city size and urban
-growth \citep{ch_martin_vargas_city_size}, electrification and the
-provision of public goods \citep{min_etal_electrification}, and armed
-conflict \citep{witmer_lights_conflict}. As in the exploratory extension
-above, the same data can be turned on socioeconomic dimensions that are
-not economic output at all, such as the cultural participation theorized
-by \citet{tubadji_cultural_entropy}. A rapidly growing use is impact
-evaluation, in which lights measure the local effect of a policy or a
-shock at fine spatial scales \citep{bluhm_mccord_small_geographies}.
-Here the literature has established a caveat: lights discriminate
-differences across places far better than changes over time,\footnote{VIIRS
+The third gap concerns theory, since luminosity is now applied well
+beyond the question asked here. Within convergence analysis, our
+framework yields an average effect rather than heterogeneity across the
+distribution, and it captures spillovers in reduced form, gaps that
+distribution dynamics and quasi-experimental designs such as that of
+\citet{asher_novosad_rural_roads} are built to fill.\footnote{The
+  relevant tools are distribution dynamics \citep{quah_twin_peaks} and
+  the regression-tree methods developed for identifying multiple growth
+  regimes \citep{durlauf_johnson_convergence_clubs}, which can reveal
+  whether Indian districts converge to a single steady state or form
+  distinct clubs. Combining them with spatial econometrics could expose
+  spatial poverty traps or growth poles that average estimates render
+  invisible \citep{rey_spatial_dynamics}.} Beyond convergence, lights
+now serve the study of city size \citep{ch_martin_vargas_city_size},
+electrification and the provision of public goods
+\citep{min_etal_electrification}, armed conflict
+\citep{witmer_lights_conflict}, the cultural participation theorized by
+\citet{tubadji_cultural_entropy}, and the local effect of policies and
+shocks at fine spatial scales \citep{bluhm_mccord_small_geographies}.
+One caveat governs all of these uses: lights discriminate differences
+across places far better than changes over time, so evaluations over
+short horizons require validation against local ground data.\footnote{VIIRS
   predicts cross-sectional GDP better than time-series GDP
   \citep{chen_nordhaus_viirs_crosssection}, and in India the elasticity
   of lights with respect to local outcomes is far lower in the time
   series than in the cross-section \citep{asher_shrug_india}. The
   relationship between lights and growth is also unstable across regions
-  in both Brazil and India \citep{bickenbach_regional_gdp}.} and their
-responsiveness to output varies with baseline income, density, and
-sector \citep{bluhm_mccord_small_geographies}.\footnote{An evaluation
-  may therefore fail to detect a real effect where lights react weakly,
-  or attribute to a policy what is in fact heterogeneity in the
-  relationship between light and output.} Evaluations over short
-horizons that rest on luminosity therefore require validation against
-local ground data before their estimates can be interpreted. The design
-used here, a fourteen-year horizon, rests mostly on cross-sectional
-variation, which is what lights currently support best.
+  in both Brazil and India \citep{bickenbach_regional_gdp}, and
+  responsiveness to output varies with baseline income, density, and
+  sector. An evaluation may therefore fail to detect a real effect where
+  lights react weakly, or attribute to a policy what is in fact
+  heterogeneity in the relationship between light and output.} The
+design used here, a fourteen-year horizon, rests mostly on
+cross-sectional variation, which is what lights currently support best.
 
 Taken together, these three gaps describe a research agenda rather than
 a list of caveats, and none of the work they imply requires starting
 from scratch. The pipeline behind this article is public, documented,
-and executable in a browser. A reader who wants to ask whether the
-patterns documented here hold in another country, in a later period,
-under a different definition of the neighborhood, or for an outcome
-other than economic output can open the relevant notebook, substitute
-their own data, and re-run it. The appearance of spatial dependence in
-convergence processes across very different institutional settings also
-suggests that the questions raised here are not specific to India. That
-is the contribution we would most like this article to make: not an
+and executable in a browser, so a reader can open the relevant notebook,
+substitute data from another country or a later period, and re-run it.
+That is the contribution we would most like this article to make: not an
 estimate of how quickly Indian districts converged between 1996 and 2010
 alone, but a working template that lowers the cost of asking the same
 question elsewhere.
@@ -1851,25 +1617,22 @@ question elsewhere.
 \subsection{Research reproducibility and open
 science}\label{research-reproducibility-and-open-science}
 
-The complexity of satellite-based economic research, which involves
-multi-step processing pipelines, spatial econometric estimation, and
-geographic visualization, makes reproducibility both challenging and
-essential. As \citet{donaldson_storeygard_remotesensing} note,
-methodological choices in processing remotely sensed data, such as
-sensor inter-calibration, can affect the empirical conclusions. The same
+As \citet{donaldson_storeygard_remotesensing} note, methodological
+choices in processing remotely sensed data, such as sensor
+inter-calibration, can affect the empirical conclusions. The same
 applies further down our own pipeline, at the construction of the
 spatial weight matrix. Our own robustness analysis is a case in point:
 the estimated convergence effects survive seven definitions of the
 neighborhood, but that is something a reader can only confirm because
 the code that produced each of them is available.
 
-Open-source tools and cloud platforms are lowering the barriers to this
-kind of verification. Cloud-based notebooks, such as those developed by
-\citet{mendez_patnaik_notebook} for processing nighttime lights data,
-remove the need for specialized local software. The combination of open
-data, version-controlled code, and cloud execution makes the full
-pipeline, from satellite imagery to econometric results, verifiable and
-extensible by the broader research community.
+Open-source tools and cloud platforms lower the barriers to that kind of
+verification, and cloud-based notebooks for processing nighttime lights
+remove the need for specialized local software
+\citep{mendez_patnaik_notebook}. Open data, version-controlled code, and
+cloud execution together make the full pipeline, from satellite imagery
+to econometric results, verifiable and extensible by the broader
+research community.
 
 \section{Concluding remarks}\label{concluding-remarks}
 
@@ -1881,52 +1644,44 @@ interactive web-based visualization tool, and our spatial
 autocorrelation analyses indicate that spatial dependence is a notable
 characteristic of both the satellite data and the regional convergence
 process in India. Estimates from our spatial Durbin model indicate that
-incorporating spatial spillovers increases the estimated speed of
-regional convergence. The total convergence effect in our fully
-specified model is approximately 51\% larger than conventional
-non-spatial estimates, and the implied half-life of regional disparities
-falls from roughly 23 years to 13. This finding suggests that in this
-setting non-spatial convergence models understate the speed of regional
-convergence, although the comparison with other regional literatures
-shows that the direction of this adjustment is specific to the setting
-rather than general. If the estimated indirect effects reflect genuine
-spillovers, place-based development interventions would have broader
-impacts than conventional estimates suggest, since their benefits would
-reach neighboring districts as well as the districts they target. If
-instead they partly reflect activity displaced across district
-boundaries, as the evaluation literature on Indian place-based programs
-cautions, the same estimates would overstate what those interventions
-add in aggregate.
+the total convergence effect in our fully specified model is
+approximately 51\% larger than conventional non-spatial estimates, and
+that the implied half-life of regional disparities falls from roughly 23
+years to 13. This finding suggests that in this setting non-spatial
+convergence models understate the speed of regional convergence,
+although the comparison with other regional literatures shows that the
+direction of this adjustment is specific to the setting rather than
+general. If the estimated indirect effects reflect genuine spillovers,
+place-based development interventions would have broader impacts than
+conventional estimates suggest, since their benefits would reach
+neighboring districts as well as the districts they target. If instead
+they partly reflect activity displaced across district boundaries, as
+the evaluation literature on Indian place-based programs cautions, the
+same estimates would overstate what those interventions add in
+aggregate.
 
-Our results also demonstrate the usefulness of satellite nighttime
-lights for studying economic dynamics in countries where subnational
-data are scarce, infrequent, or unreliable. Conventional economic
-statistics at the district level are often unavailable or inconsistent
-across administrative boundaries, especially in large developing
-economies. Radiance-calibrated nighttime light data allowed us to
-analyze 520 Indian districts at a spatial granularity that would be
-difficult to achieve with traditional national accounts. This
-data-driven approach is potentially transferable to other data-poor
-contexts across the developing world, and the ongoing transition from
-DMSP-OLS to the higher-resolution VIIRS sensor should yield more precise
-measurement of subnational economic activity in future studies.
+The results also demonstrate the usefulness of satellite nighttime
+lights for studying economic dynamics where subnational data are scarce,
+infrequent, or unreliable. Radiance-calibrated luminosity allowed us to
+analyze 520 Indian districts at a spatial granularity that conventional
+national accounts could not reach. The approach is transferable to other
+data-poor contexts across the developing world, and the ongoing
+transition from DMSP-OLS to the higher-resolution VIIRS sensor should
+sharpen such measurement further.
 
-This study also shows how reproducible open-science practices can
-strengthen the credibility and reach of scientific research. The entire
-analytical pipeline is documented in Jupyter notebooks written in
-Python, and the results are embedded within the manuscript through the
-Quarto publishing framework.\footnote{A single manuscript source
-  generates multiple output formats. The HTML version allows readers to
-  engage with interactive visualizations, inspect the code of the
-  computational notebooks, and re-evaluate the results in light of their
-  source code.} By hosting the complete codebase and data in a public
-GitHub repository, and by making the Python notebooks executable in the
-cloud through Google Colaboratory, we aim to encourage broader adoption
-of reproducible open-science practices. Section 4 sets out where we
-believe the most valuable work now lies, in better data, in the regions
-this method currently serves least well, and in the questions beyond
-convergence that it is able to address. The materials accompanying this
-article are meant to make starting on any of them straightforward.
+The analytical pipeline is documented in Jupyter notebooks written in
+Python and embedded in the manuscript through the Quarto publishing
+framework,\footnote{A single manuscript source generates multiple output
+  formats. The HTML version allows readers to engage with interactive
+  visualizations, inspect the code of the computational notebooks, and
+  re-evaluate the results in light of their source code.} and hosting
+the code and data in a public repository, with every notebook executable
+in the cloud, is meant to encourage broader adoption of reproducible
+open-science practices. Section 4 sets out where we believe the most
+valuable work now lies: in better data, in the regions this method
+currently serves least well, and in the questions beyond convergence
+that it is able to address. The materials accompanying this article are
+meant to make starting on any of them straightforward.
 
 \section{Acknowledgments}\label{acknowledgments}
 
