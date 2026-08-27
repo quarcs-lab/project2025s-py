@@ -325,17 +325,29 @@ from IPython.display import Markdown
 cols = ["Model 1", "Model 2", "Model 3", "Model 4"]
 
 
+# A real minus (U+2212), not the ASCII hyphen. LaTeX treats a hyphen as a legal
+# line-break point, which in a narrow table column strands the sign on its own
+# line; U+2212 cannot break, and it is the correct glyph for a negative number.
+MINUS = "\u2212"
+
+
+def _num(x, nd=3):
+    return "{:.{}f}".format(x, nd).replace("-", MINUS)
+
+
 def _est(est, se):
-    return "{:.3f}{}".format(est, stars(est, se))
+    return "{}{}".format(_num(est), stars(est, se))
 
 
 def _se(se):
-    return "({:.3f})".format(se)
+    return "({})".format(_num(se))
 
 
 lines = [
     "|          | Model 1 |       | Model 2 |         | Model 3 |       | Model 4 |         |",
-    "|----------|---------|-------|---------|---------|---------|-------|---------|---------|",
+    # Uniform dash counts: pandoc derives the LaTeX column widths from this row,
+    # and uneven counts gave two columns a narrower width than their contents.
+    "|---------|---------|---------|---------|---------|---------|---------|---------|---------|",
     "|          | OLS     | SDM   | OLS     | SDM     | OLS     | SDM   | OLS     | SDM     |",
 ]
 
@@ -368,7 +380,7 @@ ctrl, fe_row, aic = "| Controls |", "| State FE |", "| AIC      |"
 for c in cols:
     ctrl += " {0} | {0} |".format(results[c]["controls"])
     fe_row += " {0} | {0} |".format(results[c]["fe"])
-    aic += " {:.0f} | {:.0f} |".format(results[c]["ols"]["aic"], results[c]["sdm"]["aic"])
+    aic += " {} | {} |".format(_num(results[c]["ols"]["aic"], 0), _num(results[c]["sdm"]["aic"], 0))
 lines += [ctrl, fe_row, aic]
 
 Markdown("\n".join(lines))
@@ -452,11 +464,12 @@ for method in ["full", "simple", "power"]:
     Deff = _adi(method, R4) * D4 + _awi(method, R4) * G4
     Ieff = T4 - Deff
     label = method + (" (main)" if method == "full" else "")
-    rob.append("| {} | {}<br>{} | {}<br>{} | {}<br>{} |".format(
+    rob.append("| {} | {} | {} | {} |".format(
         label,
-        _est(direct, Deff.std()), _se(Deff.std()),
-        _est(indirect, Ieff.std()), _se(Ieff.std()),
-        _est(total, T4.std()), _se(T4.std()),
+        _est(direct, Deff.std()), _est(indirect, Ieff.std()), _est(total, T4.std()),
+    ))
+    rob.append("| | {} | {} | {} |".format(
+        _se(Deff.std()), _se(Ieff.std()), _se(T4.std()),
     ))
 Markdown("\n".join(rob))
 ```

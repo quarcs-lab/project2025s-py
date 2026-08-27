@@ -426,7 +426,15 @@ Both conventional ordinary least squares (OLS) and spatial econometric approache
 The direct effects, which represent within-district convergence, remain negative and of similar order across specifications, ranging from -0.020 to -0.026.
 This consistency across specifications and estimation methods suggests that poorer districts are catching up to their wealthier counterparts, even after controlling for district characteristics and state-level fixed effects.
 
+```{=latex}
+\begingroup\footnotesize\setlength{\tabcolsep}{3pt}
+```
+
 {{< embed notebooks/c04_spillover_modeling_6nn.ipynb#tbl-models >}}
+
+```{=latex}
+\endgroup
+```
 
 The progression from unconditional to conditional specifications reveals how the estimated convergence process is shaped by the inclusion of additional covariates.
 In the OLS specifications, the direct effect is -0.020 in Model 1 and -0.022 in Model 2, and it strengthens to -0.025 once district characteristics are added in Models 3 and 4.
@@ -512,7 +520,15 @@ The alternatives are four- and eight-nearest neighbors, queen and rook contiguit
 
 {{< embed notebooks/c07_alternative_w_matrices.ipynb#fig-altw >}}
 
+```{=latex}
+\begingroup\footnotesize
+```
+
 {{< embed notebooks/c07_alternative_w_matrices.ipynb#tbl-altw >}}
+
+```{=latex}
+\endgroup
+```
 
 The direct and total convergence effects are robust to the choice of spatial weights, and the spillover component is consistently negative but more sensitive (@fig-altw and @tbl-altw).
 The direct (within-district) convergence effect is essentially unchanged across all seven specifications, ranging from -0.024 to -0.025 and always significant at the 1% level.

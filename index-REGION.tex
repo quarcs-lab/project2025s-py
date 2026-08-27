@@ -1090,16 +1090,18 @@ suggests that poorer districts are catching up to their wealthier
 counterparts, even after controlling for district characteristics and
 state-level fixed effects.
 
+\begingroup\footnotesize\setlength{\tabcolsep}{3pt}
+
 \begin{longtable}[]{@{}
-  >{\raggedright\arraybackslash}p{(\linewidth - 16\tabcolsep) * \real{0.1282}}
-  >{\raggedright\arraybackslash}p{(\linewidth - 16\tabcolsep) * \real{0.1154}}
-  >{\raggedright\arraybackslash}p{(\linewidth - 16\tabcolsep) * \real{0.0897}}
-  >{\raggedright\arraybackslash}p{(\linewidth - 16\tabcolsep) * \real{0.1154}}
-  >{\raggedright\arraybackslash}p{(\linewidth - 16\tabcolsep) * \real{0.1154}}
-  >{\raggedright\arraybackslash}p{(\linewidth - 16\tabcolsep) * \real{0.1154}}
-  >{\raggedright\arraybackslash}p{(\linewidth - 16\tabcolsep) * \real{0.0897}}
-  >{\raggedright\arraybackslash}p{(\linewidth - 16\tabcolsep) * \real{0.1154}}
-  >{\raggedright\arraybackslash}p{(\linewidth - 16\tabcolsep) * \real{0.1154}}@{}}
+  >{\raggedright\arraybackslash}p{(\linewidth - 16\tabcolsep) * \real{0.1111}}
+  >{\raggedright\arraybackslash}p{(\linewidth - 16\tabcolsep) * \real{0.1111}}
+  >{\raggedright\arraybackslash}p{(\linewidth - 16\tabcolsep) * \real{0.1111}}
+  >{\raggedright\arraybackslash}p{(\linewidth - 16\tabcolsep) * \real{0.1111}}
+  >{\raggedright\arraybackslash}p{(\linewidth - 16\tabcolsep) * \real{0.1111}}
+  >{\raggedright\arraybackslash}p{(\linewidth - 16\tabcolsep) * \real{0.1111}}
+  >{\raggedright\arraybackslash}p{(\linewidth - 16\tabcolsep) * \real{0.1111}}
+  >{\raggedright\arraybackslash}p{(\linewidth - 16\tabcolsep) * \real{0.1111}}
+  >{\raggedright\arraybackslash}p{(\linewidth - 16\tabcolsep) * \real{0.1111}}@{}}
 
 \caption{\label{tbl-models}Unconditional and conditional convergence
 across districts.}
@@ -1126,21 +1128,23 @@ Model 4
 \bottomrule\noalign{}
 \endlastfoot
 & OLS & SDM & OLS & SDM & OLS & SDM & OLS & SDM \\
-Direct & -0.020*** & -0.021*** & -0.022*** & -0.021*** & -0.025*** &
--0.026*** & -0.025*** & -0.025*** \\
+Direct & −0.020*** & −0.021*** & −0.022*** & −0.021*** & −0.025*** &
+−0.026*** & −0.025*** & −0.025*** \\
 & (0.002) & (0.002) & (0.003) & (0.002) & (0.003) & (0.002) & (0.003) &
 (0.002) \\
-Indirect & -- & -0.001 & -- & -0.001 & -- & -0.015* & -- & -0.012* \\
+Indirect & -- & −0.001 & -- & −0.001 & -- & −0.015* & -- & −0.012* \\
 & & (0.006) & & (0.005) & & (0.008) & & (0.007) \\
-Total & -0.020*** & -0.022*** & -0.022*** & -0.022*** & -0.025*** &
--0.041*** & -0.025*** & -0.037*** \\
+Total & −0.020*** & −0.022*** & −0.022*** & −0.022*** & −0.025*** &
+−0.041*** & −0.025*** & −0.037*** \\
 & (0.002) & (0.006) & (0.003) & (0.005) & (0.003) & (0.009) & (0.003) &
 (0.007) \\
 Controls & No & No & No & No & Yes & Yes & Yes & Yes \\
 State FE & No & No & Yes & Yes & No & No & Yes & Yes \\
-AIC & -1945 & -2292 & -2409 & -2468 & -2211 & -2358 & -2465 & -2501 \\
+AIC & −1945 & −2292 & −2409 & −2468 & −2211 & −2358 & −2465 & −2501 \\
 
 \end{longtable}
+
+\endgroup
 
 The progression from unconditional to conditional specifications reveals
 how the estimated convergence process is shaped by the inclusion of
@@ -1345,12 +1349,9 @@ confidence intervals. The dashed lines mark the 6NN baseline estimates.}
 
 \end{figure}%
 
-\begin{longtable}[]{@{}
-  >{\raggedright\arraybackslash}p{(\linewidth - 8\tabcolsep) * \real{0.3333}}
-  >{\raggedright\arraybackslash}p{(\linewidth - 8\tabcolsep) * \real{0.1778}}
-  >{\raggedright\arraybackslash}p{(\linewidth - 8\tabcolsep) * \real{0.2222}}
-  >{\raggedright\arraybackslash}p{(\linewidth - 8\tabcolsep) * \real{0.1556}}
-  >{\raggedright\arraybackslash}p{(\linewidth - 8\tabcolsep) * \real{0.1111}}@{}}
+\begingroup\footnotesize
+
+\begin{longtable}[]{@{}lllll@{}}
 
 \caption{\label{tbl-altw}Model 4 spatial impacts of initial luminosity
 under alternative spatial weight matrices (full LeSage--Pace method;
@@ -1359,37 +1360,29 @@ Monte-Carlo standard errors in parentheses).}
 \tabularnewline
 
 \toprule\noalign{}
-\begin{minipage}[b]{\linewidth}\raggedright
-Weight matrix
-\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
-Direct
-\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
-Indirect
-\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
-Total
-\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
-AIC
-\end{minipage} \\
+Weight matrix & Direct & Indirect & Total & AIC \\
 \midrule\noalign{}
 \endhead
 \bottomrule\noalign{}
 \endlastfoot
-4 nearest neighbors & -0.024***(0.002) & -0.008(0.005) &
--0.032***(0.006) & -2468 \\
-6 nearest neighbors (base) & -0.025***(0.002) & -0.012*(0.007) &
--0.037***(0.007) & -2501 \\
-8 nearest neighbors & -0.025***(0.002) & -0.011(0.008) &
--0.036***(0.008) & -2485 \\
-Queen contiguity & -0.025***(0.002) & -0.010**(0.005) & -0.035***(0.005)
-& -2463 \\
-Rook contiguity & -0.025***(0.002) & -0.009**(0.004) & -0.034***(0.005)
-& -2469 \\
-Inverse distance & -0.025***(0.002) & -0.016**(0.007) & -0.041***(0.008)
-& -2486 \\
-Inverse distance squared & -0.025***(0.002) & -0.012*(0.006) &
--0.037***(0.006) & -2485 \\
+4 nearest neighbors & −0.024*** & −0.008 & −0.032*** & −2468 \\
+& (0.002) & (0.005) & (0.006) & \\
+6 nearest neighbors (base) & −0.025*** & −0.012* & −0.037*** & −2501 \\
+& (0.002) & (0.007) & (0.007) & \\
+8 nearest neighbors & −0.025*** & −0.011 & −0.036*** & −2485 \\
+& (0.002) & (0.008) & (0.008) & \\
+Queen contiguity & −0.025*** & −0.010** & −0.035*** & −2463 \\
+& (0.002) & (0.005) & (0.005) & \\
+Rook contiguity & −0.025*** & −0.009** & −0.034*** & −2469 \\
+& (0.002) & (0.004) & (0.005) & \\
+Inverse distance & −0.025*** & −0.016** & −0.041*** & −2486 \\
+& (0.002) & (0.007) & (0.008) & \\
+Inverse distance squared & −0.025*** & −0.012* & −0.037*** & −2485 \\
+& (0.002) & (0.006) & (0.006) & \\
 
 \end{longtable}
+
+\endgroup
 
 The direct and total convergence effects are robust to the choice of
 spatial weights, and the spillover component is consistently negative

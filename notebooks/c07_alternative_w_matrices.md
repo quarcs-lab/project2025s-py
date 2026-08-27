@@ -229,22 +229,41 @@ for name, w in WMATS:
 from IPython.display import Markdown
 
 
+# A real minus (U+2212), not the ASCII hyphen: LaTeX may break a line at a
+# hyphen, which strands the sign on its own line in a narrow table column.
+MINUS = "\u2212"
+
+
+def _num(x, nd=3):
+    return "{:.{}f}".format(x, nd).replace("-", MINUS)
+
+
 def _cell(est, se):
-    return "{:.3f}{}".format(est, stars(est, se))
+    return "{}{}".format(_num(est), stars(est, se))
 
 
+def _se(se):
+    return "({})".format(_num(se))
+
+
+# Standard errors go on their own row rather than in a <br> inside the cell:
+# pandoc drops <br> when it writes LaTeX, which concatenated the estimate and
+# its standard error into one over-wide cell. This also matches tbl-models.
 rows = [
     "| Weight matrix | Direct | Indirect | Total | AIC |",
     "|---------------|--------|----------|-------|-----|",
 ]
 for name, _ in WMATS:
     r = res[name]
-    rows.append("| {} | {}<br>({:.3f}) | {}<br>({:.3f}) | {}<br>({:.3f}) | {:.0f} |".format(
+    rows.append("| {} | {} | {} | {} | {} |".format(
         name,
-        _cell(r["direct"], r["direct_se"]), r["direct_se"],
-        _cell(r["indirect"], r["indirect_se"]), r["indirect_se"],
-        _cell(r["total"], r["total_se"]), r["total_se"],
-        r["aic"],
+        _cell(r["direct"], r["direct_se"]),
+        _cell(r["indirect"], r["indirect_se"]),
+        _cell(r["total"], r["total_se"]),
+        _num(r["aic"], 0),
+    ))
+    rows.append("| | {} | {} | {} | |".format(
+        _se(r["direct_se"]), _se(r["indirect_se"]), _se(r["total_se"]),
     ))
 Markdown("\n".join(rows))
 ```
