@@ -221,107 +221,77 @@ their main econometric specification. Third, we employ a spatial Durbin
 model to measure the role of spatial spillovers in the convergence
 process. Our results indicate that spatial spillovers increase the
 estimated speed of regional convergence. In our fully specified model,
-accounting for them raises the implied speed from about 3.0\% to about
-5.2\% per year, which shortens the half-life of regional disparities
-from roughly 23 to 13 years. The direct and total convergence effects
-are robust across seven definitions of the spatial weight matrix, and
-the spillover component is negative under all seven and statistically
-significant under five. We close by illustrating how the same
+spillovers raise the convergence speed from about 3.0\% to about 5.2\%
+per year, which shortens the half-life of regional disparities from
+roughly 23 to 13 years. We close by illustrating how the same
 reproducible workflow extends beyond economic output, with an
 exploratory analysis of how luminosity relates to cultural participation
-across Indian states. We also set out the gaps in data, geographic
-coverage, and theory that this line of work must close next.
+across Indian states.
 \end{abstract}
 
 
 \section{Introduction}\label{introduction}
 
-Regional growth and convergence matter most in large federal states such
-as India, where spatial inequalities can threaten social cohesion and
-political stability. Consistent economic data are rarely available below
-the state level, and satellite nighttime lights have relaxed that
-constraint as a proxy for economic activity. Using those data, Chanda
-and Kabiraj (2020) document convergence across 520 Indian districts
-between 1996 and 2010. Their approach, however, did not model spatial
-dependence: neighboring luminosity enters only as a robustness control,
-with no spatially lagged dependent variable and no impact decomposition.
-The growth of a district may nevertheless depend on the initial
-conditions of its neighbors.
+Regional growth and convergence matter most in federal states such as
+India. In such settings, spatial inequalities can threaten social
+cohesion and political stability. Consistent economic data, however, are
+rarely available below the state level. Satellite nighttime lights have
+relaxed that constraint by serving as a proxy for economic activity.
+Using those data, Chanda and Kabiraj (2020) document convergence across
+520 Indian districts between 1996 and 2010. However, their analysis does
+not account for spatial spillovers. Such spillovers can arise from the
+diffusion of technology and from the movement of resources across
+neighboring districts.
 
-This article extends that analysis, and its contribution has three
-dimensions. It is in part a replication and extension, adopting the
-data, the sample, and the conditioning set of Chanda and Kabiraj (2020)
-unchanged, so that any difference in the estimates reflects the spatial
-specification alone. It is in part substantive: we build an interactive
-visualization of convergence, test formally for spatial dependence in
-both variables of the convergence equation, and estimate a spatial
-Durbin model showing that catch-up across Indian districts has a
-neighborhood dimension as well as a district one. The indirect effect of
-initial luminosity is negative and statistically significant at the 10\%
-level, so districts whose neighbors started from a lower base grew
-faster than their own initial conditions alone would predict.
+This article extends that analysis along three dimensions. The first is
+replication: we adopt the data, the sample, and the conditioning
+variables of Chanda and Kabiraj (2020) without modification, so that any
+difference in the estimates reflects the spatial modeling alone. The
+second is substantive: we build an interactive visualization of regional
+convergence, test formally for spatial dependence, and estimate a
+spatial Durbin model. The model shows that catch-up across Indian
+districts has a significant neighborhood dimension. The spatial
+spillover effect of initial luminosity is negative and statistically
+significant. Districts whose neighbors started from a lower base
+therefore grew faster than their own initial conditions alone would
+predict.
 
-Its primary contribution, however, is methodological: a complete spatial
-econometric study, from satellite imagery through the weight matrix and
-the impact decomposition to the robustness checks, can be published so
-that any reader can re-execute it in a browser. This journal has argued
-for that form of publication (Rowe et al. 2020; M. Chen et al. 2020),
-and both a Python notebook for nighttime lights (Patnaik and Mendez
-2024) and a study of spatial inequality in Python and Quarto (Rey 2025)
-have appeared here since. What this article adds is a complete applied
-study rather than a tool or a demonstration dataset.
+The third contribution is methodological, and it is the primary one.
+This article shows that a comprehensive spatial econometric study can be
+implemented using only open-source software and cloud computing. Our
+workflow covers every step, from visualizing the satellite imagery and
+constructing the neighborhood structure to testing for spatial
+dependence, modeling the spillovers, and running the robustness checks.
 
-That the spatial specification raises rather than lowers the measured
-speed is itself a substantive result. Convergence estimates are known to
-respond to spatial dependence, but the direction of the response is not
-settled: allowing for it lowers the estimated speed across European
-regions and Indonesian districts, and reduces the estimated role of
-initial income across Indian states (Isla-Castillo, Garashchuk, and
-Podadera-Rivera 2024; Santos-Marquez, Gunawan, and Mendez 2022;
-Lolayekar and Mukhopadhyay 2019). Across Indian districts it raises the
-speed, from about 3.0\% to about 5.2\% per year, so the article adds a
-signed estimate for a specific setting, benchmarked against the
-comparable literature in the results section.
+That workflow delivers the main empirical result of the article.
+Accounting for spatial spillovers raises the estimated speed of regional
+convergence from about 3.0\% to about 5.2\% per year. The implied
+half-life of regional disparities therefore falls from roughly 23 years
+to 13. The same workflow extends beyond economic output, and we
+illustrate that reach with an exploratory analysis of luminosity and
+cultural participation across Indian states. Our results suggest that
+luminosity is positively associated with media-based cultural
+consumption and negatively associated with community-based
+participation. This pattern is consistent with luminosity tracking
+electrification and urbanization rather than economic output alone.
 
-We also illustrate the wider potential of these data with an exploratory
-analysis of luminosity and cultural participation across Indian states.
-That exercise uses state-level data for an adjacent period and rank
-correlations rather than the district-level convergence framework. We
-present it as a demonstration of what the workflow makes possible, not
-as evidence on convergence.
-
-These findings carry implications for methodology and for policy:
-non-spatial approaches understate the speed of convergence in settings
-of this kind, because they omit the spatial structure of growth. For
-policy, the implied half-life of regional disparities falls from roughly
-23 years to 13, and if the indirect effects reflect genuine spillovers,
-place-based policies would reach more districts than they target and be
-more cost-effective than conventional estimates imply. The Indian
-evidence also carries a warning, since a district-targeted tax program
-raised activity partly by displacing it from neighbors that narrowly
-missed qualifying (Hasan, Jiang, and Rafols 2021). Displaced activity
-would appear in our framework as a spillover, so we weigh both readings
-in the discussion.
-
-Every empirical figure and table in this article is produced by one of
-the six computational notebooks listed in Table~\ref{tbl-notebooks}. The
-five analytical notebooks are written in Python and run in Google
-Colaboratory, so a reader needs no local installation and no licensed
-software: clicking \emph{Run all} downloads the data and re-executes the
-analysis. The sixth, N1, hosts the interactive visualization and its
-Google Earth Engine source code. The notebooks, the data, and the
-manuscript source are in the project repository at
-\url{https://github.com/quarcs-lab/project2025s-py}, and their rendered
-versions are embedded in the online edition at
+Every figure and table in this article is produced by one of the six
+cloud-based computational scripts and notebooks listed in
+Table~\ref{tbl-notebooks}. The five analytical notebooks are written in
+Python and run in Google Colaboratory, so a reader needs no local
+installation and no licensed software: clicking \emph{Run all} downloads
+the data and re-executes the analysis. The sixth, N1, hosts the
+interactive visualization and its Google Earth Engine source code. The
+notebooks, the data, and the manuscript source are in the project
+repository at \url{https://github.com/quarcs-lab/project2025s-py}, and
+their rendered versions are embedded in the online edition at
 \url{https://quarcs-lab.github.io/project2025s-py/}.
 
 \begin{longtable}[]{@{}
   >{\raggedright\arraybackslash}p{(\linewidth - 2\tabcolsep) * \real{0.5263}}
   >{\raggedright\arraybackslash}p{(\linewidth - 2\tabcolsep) * \real{0.4737}}@{}}
-\caption{Computational notebooks underlying this article. N2 to N6 open
-in the browser through a Colab badge and run without local setup; N1
-runs in the Earth Engine Code
-Editor.}\label{tbl-notebooks}\tabularnewline
+\caption{Computational notebooks and scripts underlying this
+article}\label{tbl-notebooks}\tabularnewline
 \toprule\noalign{}
 \begin{minipage}[b]{\linewidth}\raggedright
 Notebook
@@ -341,7 +311,7 @@ Content
 \bottomrule\noalign{}
 \endlastfoot
 N1. View from outer space & Interactive luminosity map with Earth Engine
-source code \\
+script \\
 N2. Regional convergence & Luminosity growth on initial luminosity, with
 speed and half-life \\
 N3. Spatial dependence & Weight matrices, Global Moran's I, and LISA
@@ -353,21 +323,11 @@ N6. Spatial culture & Luminosity and cultural participation across
 Indian states \\
 \end{longtable}
 
-Three constraints on what this approach can do yet stand out. The first
-is the data, since the DMSP-OLS series is coarse, saturates in bright
-urban cores, and blurs light across administrative boundaries. The
-second is geography, since lights record only development that is
-illuminated, so they are least informative where conventional statistics
-are weakest. The third is theory, since luminosity is now applied well
-beyond convergence analysis, yet it discriminates across places far
-better than over time. We return to each in the discussion, where they
-define a research agenda rather than a list of caveats.
-
 The rest of this article is organized as follows. Section 2 describes
-the data and methods and Section 3 the empirical results. Section 4
-takes up the policy implications, the single growth period, the cultural
-extension, and the three gaps above. Section 5 offers concluding
-remarks.
+the data and the methods, and Section 3 presents the empirical results.
+Section 4 discusses the policy implications, the extension to multiple
+periods, the analysis of cultural participation, and new directions for
+research. Section 5 offers concluding remarks.
 
 \section{Data and methods}\label{data-and-methods}
 
@@ -1588,51 +1548,47 @@ verifiable and extensible by the broader research community.
 
 \section{Concluding remarks}\label{concluding-remarks}
 
-This article re-examines the regional convergence hypothesis across
-Indian districts using satellite nighttime light data, interactive
-visualizations, and spatial econometric modeling. Building on the work
-of Chanda and Kabiraj (2020), we developed an interactive web-based
-visualization tool, and our spatial autocorrelation analyses indicate
-that spatial dependence is a notable characteristic of both the
-satellite data and the regional convergence process in India. Estimates
-from our spatial Durbin model indicate that the total convergence effect
-in our fully specified model is approximately 51\% larger than
-conventional non-spatial estimates, and that the implied half-life of
-regional disparities falls from roughly 23 years to 13. This finding
-suggests that in this setting non-spatial convergence models understate
-the speed of regional convergence, although the comparison with other
-regional literatures shows that the direction of this adjustment is
-specific to the setting rather than general. If the estimated indirect
-effects reflect genuine spillovers, place-based development
-interventions would have broader impacts than conventional estimates
-suggest, since their benefits would reach neighboring districts as well
-as the districts they target. If instead they partly reflect activity
-displaced across district boundaries, as the evaluation literature on
-Indian place-based programs cautions, the same estimates would overstate
-what those interventions add in aggregate.
+This article re-examines regional convergence across Indian districts
+using satellite nighttime lights, interactive visualization, and spatial
+econometric modeling. Our tests show that spatial dependence
+characterizes both the satellite data and the convergence process
+itself. In the fully specified spatial Durbin model, the total
+convergence effect is about 51\% larger than the conventional
+non-spatial estimate, and the implied half-life of regional disparities
+falls from roughly 23 years to 13. Non-spatial models therefore
+understate the speed of convergence in this setting, although comparison
+with other regional literatures shows that the direction of the
+adjustment is specific to the setting. The policy reading depends on
+what the indirect effects represent. Genuine spillovers would mean that
+place-based interventions reach beyond the districts they target.
+Displaced activity would mean that the same estimates overstate what
+those interventions add in aggregate.
 
-The results also demonstrate the usefulness of satellite nighttime
-lights for studying economic dynamics where subnational data are scarce,
-infrequent, or unreliable. Radiance-calibrated luminosity allowed us to
-analyze 520 Indian districts at a spatial granularity that conventional
-national accounts could not reach. The approach is transferable to other
-data-poor contexts across the developing world, and the ongoing
-transition from DMSP-OLS to the higher-resolution VIIRS sensor should
-sharpen such measurement further.
+Every step of the analysis is documented in Python notebooks, which run
+in the cloud and are embedded in the manuscript through the Quarto
+publishing framework.\footnote{A single manuscript source generates
+  multiple output formats. The HTML version allows readers to engage
+  with interactive visualizations, inspect the code of the computational
+  notebooks, and re-evaluate the results in light of their source code.}
+The code and the data are hosted in a public Github repository, and we
+follow these open-science practices in the hope that other applied
+studies will adopt them. That same workflow allowed us to extend the
+analysis beyond economic output. Relating luminosity to cultural
+participation across Indian states required one additional notebook.
+Luminosity correlates positively with media-based cultural consumption
+and negatively with community-based participation. Those exploratory
+findings are reproducible on the same terms as the convergence
+estimates.
 
-The analytical pipeline is documented in Jupyter notebooks written in
-Python and embedded in the manuscript through the Quarto publishing
-framework,\footnote{A single manuscript source generates multiple output
-  formats. The HTML version allows readers to engage with interactive
-  visualizations, inspect the code of the computational notebooks, and
-  re-evaluate the results in light of their source code.} and hosting
-the code and data in a public repository, with every notebook executable
-in the cloud, is meant to encourage broader adoption of reproducible
-open-science practices. Section 4 sets out where we believe the most
-valuable work now lies: in better data, in the regions this method
-currently serves least well, and in the questions beyond convergence
-that it is able to address. The materials accompanying this article are
-meant to make starting on any of them straightforward.
+The most valuable next steps are concrete: re-estimate this
+specification on the higher-resolution VIIRS data, validate luminosity
+against ground measurements in rural and sparsely electrified areas, and
+carry the same spatial framework to questions beyond convergence. None
+of that work requires starting from scratch. A reader can open the
+relevant notebook, substitute data from another country or a later
+period, and re-run the entire analysis in a browser. The convergence
+estimates reported here will eventually be superseded, and the workflow
+that produced them is built to be reused.
 
 \section{Acknowledgments}\label{acknowledgments}
 
@@ -1797,12 +1753,6 @@ Surveys.''} \emph{Journal of Macroeconomics} 73: 103438.
 Chanda, Areendam, and Sujana Kabiraj. 2020. {``Shedding Light on
 Regional Growth and Convergence in India.''} \emph{World Development}
 133: 104961. \url{https://doi.org/10.1016/j.worlddev.2020.104961}.
-
-\bibitem[\citeproctext]{ref-chen_etal_satellite_notebook}
-Chen, Meixu, Dominik Fahrner, Daniel Arribas-Bel, and Francisco Rowe.
-2020. {``A Reproducible Notebook to Acquire, Process and Analyse
-Satellite Imagery: Exploring Long-Term Urban Changes.''} \emph{REGION} 7
-(2): R15--46. \url{https://doi.org/10.18335/region.v7i2.295}.
 
 \bibitem[\citeproctext]{ref-chen_nordhaus_luminosity_gdp}
 Chen, Xi, and William D. Nordhaus. 2011. {``Using Luminosity Data as a
@@ -2036,21 +1986,11 @@ Quah, Danny T. 1996. {``Twin Peaks: Growth and Convergence in Models of
 Distribution Dynamics.''} \emph{The Economic Journal} 106 (437):
 1045--55. \url{https://doi.org/10.2307/2235377}.
 
-\bibitem[\citeproctext]{ref-rey_spatial_inequality}
-Rey, Sergio J. 2025. {``Spatial Inequality.''} \emph{REGION} 12 (1):
-19--45. \url{https://doi.org/10.18335/region.v12i1.563}.
-
 \bibitem[\citeproctext]{ref-rey_spatial_dynamics}
 Rey, Sergio J., and Brett D. Montouri. 1999. {``US Regional Income
 Convergence: A Spatial Econometric Perspective.''} \emph{Regional
 Studies} 33 (2): 143--56.
 \url{https://doi.org/10.1080/00343409950122945}.
-
-\bibitem[\citeproctext]{ref-rowe_etal_notebooks_region}
-Rowe, Francisco, Gunther Maier, Daniel Arribas-Bel, and Sergio J. Rey.
-2020. {``The Potential of Notebooks for Scientific Publication,
-Reproducibility and Dissemination.''} \emph{REGION} 7 (3): E1--5.
-\url{https://doi.org/10.18335/region.v7i3.357}.
 
 \bibitem[\citeproctext]{ref-salaimartin_regional_cohesion}
 Sala-i-Martin, Xavier X. 1996. {``Regional Cohesion: Evidence and
