@@ -414,8 +414,8 @@
 Dep. Variable:     light_growth96_10rcr_cap   R-squared:                       0.255
 Model:                                  OLS   Adj. R-squared:                  0.253
 Method:                       Least Squares   F-statistic:                     177.0
-Date:                      Wed, 26 Aug 2026   Prob (F-statistic):           5.89e-35
-Time:                              15:54:58   Log-Likelihood:                 974.41
+Date:                      Thu, 27 Aug 2026   Prob (F-statistic):           5.89e-35
+Time:                              15:38:15   Log-Likelihood:                 974.41
 No. Observations:                       520   AIC:                            -1945.
 Df Residuals:                           518   BIC:                            -1936.
 Df Model:                                 1                                         
@@ -511,31 +511,33 @@ Change:                                -0.1481 (-13.5%)</code></pre>
 <span id="cb12-29"><a href="#cb12-29" aria-hidden="true" tabindex="-1"></a>        bbox<span class="op">=</span><span class="bu">dict</span>(boxstyle<span class="op">=</span><span class="st">"round,pad=0.3"</span>, fc<span class="op">=</span><span class="st">"white"</span>, ec<span class="op">=</span><span class="st">"gray"</span>, alpha<span class="op">=</span><span class="fl">0.7</span>),</span>
 <span id="cb12-30"><a href="#cb12-30" aria-hidden="true" tabindex="-1"></a>    )</span>
 <span id="cb12-31"><a href="#cb12-31" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb12-32"><a href="#cb12-32" aria-hidden="true" tabindex="-1"></a><span class="co"># Slope / R-squared annotation box (top-right corner)</span></span>
-<span id="cb12-33"><a href="#cb12-33" aria-hidden="true" tabindex="-1"></a>annotation <span class="op">=</span> <span class="st">"Slope = </span><span class="sc">{}</span><span class="ch">\n</span><span class="st">R² = </span><span class="sc">{}</span><span class="st">"</span>.<span class="bu">format</span>(slope, rsq)</span>
-<span id="cb12-34"><a href="#cb12-34" aria-hidden="true" tabindex="-1"></a>ax.annotate(</span>
-<span id="cb12-35"><a href="#cb12-35" aria-hidden="true" tabindex="-1"></a>    annotation,</span>
-<span id="cb12-36"><a href="#cb12-36" aria-hidden="true" tabindex="-1"></a>    xy<span class="op">=</span>(<span class="fl">0.97</span>, <span class="fl">0.97</span>),</span>
-<span id="cb12-37"><a href="#cb12-37" aria-hidden="true" tabindex="-1"></a>    xycoords<span class="op">=</span><span class="st">"axes fraction"</span>,</span>
-<span id="cb12-38"><a href="#cb12-38" aria-hidden="true" tabindex="-1"></a>    ha<span class="op">=</span><span class="st">"right"</span>,</span>
-<span id="cb12-39"><a href="#cb12-39" aria-hidden="true" tabindex="-1"></a>    va<span class="op">=</span><span class="st">"top"</span>,</span>
-<span id="cb12-40"><a href="#cb12-40" aria-hidden="true" tabindex="-1"></a>    fontsize<span class="op">=</span><span class="dv">11</span>,</span>
-<span id="cb12-41"><a href="#cb12-41" aria-hidden="true" tabindex="-1"></a>    bbox<span class="op">=</span><span class="bu">dict</span>(boxstyle<span class="op">=</span><span class="st">"round,pad=0.4"</span>, fc<span class="op">=</span><span class="st">"white"</span>, ec<span class="op">=</span><span class="st">"black"</span>, alpha<span class="op">=</span><span class="fl">0.9</span>),</span>
-<span id="cb12-42"><a href="#cb12-42" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb12-43"><a href="#cb12-43" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb12-44"><a href="#cb12-44" aria-hidden="true" tabindex="-1"></a>ax.set_xlabel(<span class="st">"Log of luminosity per capita in 1996"</span>)</span>
-<span id="cb12-45"><a href="#cb12-45" aria-hidden="true" tabindex="-1"></a>ax.set_ylabel(<span class="st">"Growth of luminosity per capita 1996-2010"</span>)</span>
-<span id="cb12-46"><a href="#cb12-46" aria-hidden="true" tabindex="-1"></a>sns.despine(ax<span class="op">=</span>ax)</span>
-<span id="cb12-47"><a href="#cb12-47" aria-hidden="true" tabindex="-1"></a>plt.tight_layout()</span>
-<span id="cb12-48"><a href="#cb12-48" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb12-32"><a href="#cb12-32" aria-hidden="true" tabindex="-1"></a><span class="co"># Slope / R-squared / speed / half-life annotation box (top-right corner)</span></span>
+<span id="cb12-33"><a href="#cb12-33" aria-hidden="true" tabindex="-1"></a>annotation <span class="op">=</span> <span class="st">"Slope = </span><span class="sc">{}</span><span class="ch">\n</span><span class="st">R² = </span><span class="sc">{}</span><span class="ch">\n</span><span class="st">Speed = </span><span class="sc">{:.1%}</span><span class="st"> per year</span><span class="ch">\n</span><span class="st">Half-life = </span><span class="sc">{:.1f}</span><span class="st"> years"</span>.<span class="bu">format</span>(</span>
+<span id="cb12-34"><a href="#cb12-34" aria-hidden="true" tabindex="-1"></a>    slope, rsq, speed, half_life</span>
+<span id="cb12-35"><a href="#cb12-35" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb12-36"><a href="#cb12-36" aria-hidden="true" tabindex="-1"></a>ax.annotate(</span>
+<span id="cb12-37"><a href="#cb12-37" aria-hidden="true" tabindex="-1"></a>    annotation,</span>
+<span id="cb12-38"><a href="#cb12-38" aria-hidden="true" tabindex="-1"></a>    xy<span class="op">=</span>(<span class="fl">0.97</span>, <span class="fl">0.97</span>),</span>
+<span id="cb12-39"><a href="#cb12-39" aria-hidden="true" tabindex="-1"></a>    xycoords<span class="op">=</span><span class="st">"axes fraction"</span>,</span>
+<span id="cb12-40"><a href="#cb12-40" aria-hidden="true" tabindex="-1"></a>    ha<span class="op">=</span><span class="st">"right"</span>,</span>
+<span id="cb12-41"><a href="#cb12-41" aria-hidden="true" tabindex="-1"></a>    va<span class="op">=</span><span class="st">"top"</span>,</span>
+<span id="cb12-42"><a href="#cb12-42" aria-hidden="true" tabindex="-1"></a>    fontsize<span class="op">=</span><span class="dv">11</span>,</span>
+<span id="cb12-43"><a href="#cb12-43" aria-hidden="true" tabindex="-1"></a>    bbox<span class="op">=</span><span class="bu">dict</span>(boxstyle<span class="op">=</span><span class="st">"round,pad=0.4"</span>, fc<span class="op">=</span><span class="st">"white"</span>, ec<span class="op">=</span><span class="st">"black"</span>, alpha<span class="op">=</span><span class="fl">0.9</span>),</span>
+<span id="cb12-44"><a href="#cb12-44" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb12-45"><a href="#cb12-45" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-46"><a href="#cb12-46" aria-hidden="true" tabindex="-1"></a>ax.set_xlabel(<span class="st">"Log of luminosity per capita in 1996"</span>)</span>
+<span id="cb12-47"><a href="#cb12-47" aria-hidden="true" tabindex="-1"></a>ax.set_ylabel(<span class="st">"Growth of luminosity per capita 1996-2010"</span>)</span>
+<span id="cb12-48"><a href="#cb12-48" aria-hidden="true" tabindex="-1"></a>sns.despine(ax<span class="op">=</span>ax)</span>
+<span id="cb12-49"><a href="#cb12-49" aria-hidden="true" tabindex="-1"></a>plt.tight_layout()</span>
+<span id="cb12-50"><a href="#cb12-50" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-display">
 <div id="fig-convergence" class="quarto-float quarto-figure quarto-figure-center anchored">
 <figure class="quarto-float quarto-float-fig figure">
 <div aria-describedby="fig-convergence-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca" class="">
-<a href="c02_regional_convergence_sc_files/figure-html/fig-convergence-output-1.png" class="lightbox" data-gallery="quarto-lightbox-gallery-1" title="Figure&nbsp;1: Regional luminosity convergence across districts in India   Notes: Each point represents one of the 520 districts. The regression line shows the estimated beta-convergence relationship. Outlier districts are labeled.   Source: Data from Chanda and Kabiraj (2020). See Regional convergence notebook for source code."><img src="c02_regional_convergence_sc_files/figure-html/fig-convergence-output-1.png" class="img-fluid figure-img"></a>
+<a href="c02_regional_convergence_sc_files/figure-html/fig-convergence-output-1.png" class="lightbox" data-gallery="quarto-lightbox-gallery-1" title="Figure&nbsp;1: Regional luminosity convergence across districts in India   Notes: Each point represents one of the 520 districts. The regression line shows the estimated beta-convergence relationship, and the annotation reports its slope, the R-squared, the implied annual speed of convergence, and the half-life. Outlier districts are labeled.   Source: Data from Chanda and Kabiraj (2020). See Regional convergence notebook for source code."><img src="c02_regional_convergence_sc_files/figure-html/fig-convergence-output-1.png" class="img-fluid figure-img"></a>
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-convergence-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Figure&nbsp;1: Regional luminosity convergence across districts in India <br> Notes: Each point represents one of the 520 districts. The regression line shows the estimated beta-convergence relationship. Outlier districts are labeled. <br> Source: Data from Chanda and Kabiraj (2020). See <a href="notebooks/c02_regional_convergence_sc.ipynb">Regional convergence</a> notebook for source code.
+Figure&nbsp;1: Regional luminosity convergence across districts in India <br> Notes: Each point represents one of the 520 districts. The regression line shows the estimated beta-convergence relationship, and the annotation reports its slope, the R-squared, the implied annual speed of convergence, and the half-life. Outlier districts are labeled. <br> Source: Data from Chanda and Kabiraj (2020). See <a href="notebooks/c02_regional_convergence_sc.ipynb">Regional convergence</a> notebook for source code.
 </figcaption>
 </figure>
 </div>

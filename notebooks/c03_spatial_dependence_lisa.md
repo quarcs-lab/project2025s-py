@@ -138,7 +138,7 @@ gdf.explore(
 
 ```{code-cell} ipython3
 #| label: fig-chorophleths
-#| fig-cap: "Spatial distribution of initial luminosity and luminosity growth <br> Notes: Districts are classified into five categories using Fisher-Jenks natural breaks. Panel (a) shows log of luminosity per capita in 1996. Panel (b) shows luminosity growth per capita over 1996–2010. <br> Source: Data from Chanda and Kabiraj (2020). See [Spatial dependence](notebooks/c03_spatial_dependence_lisa.ipynb) notebook for source code."
+#| fig-cap: "Spatial distribution of initial luminosity and luminosity growth `<br>`{=html}`\\protect\\newline`{=latex} Notes: Districts are classified into five categories using Fisher-Jenks natural breaks. Panel (a) shows log of luminosity per capita in 1996. Panel (b) shows luminosity growth per capita over 1996–2010. `<br>`{=html}`\\protect\\newline`{=latex} Source: Data from Chanda and Kabiraj (2020). See [Spatial dependence](notebooks/c03_spatial_dependence_lisa.ipynb) notebook for source code."
 
 
 # Reproject once to Web Mercator for basemap overlay
@@ -243,7 +243,7 @@ W.transform = 'r'
 
 ```{code-cell} ipython3
 #| label: fig-Wmatrix6nn
-#| fig-cap: "Spatial connectivity structure based on six nearest neighbors <br> Notes: Each node represents a district centroid. Each edge connects a district to one of its six geographically closest neighbors. The weight matrix is row-standardized. <br> Source: Data from Chanda and Kabiraj (2020). See [Spatial dependence](notebooks/c03_spatial_dependence_lisa.ipynb) notebook for source code."
+#| fig-cap: "Spatial connectivity structure based on six nearest neighbors `<br>`{=html}`\\protect\\newline`{=latex} Notes: Each node represents a district centroid. Each edge connects a district to one of its six geographically closest neighbors. The weight matrix is row-standardized. `<br>`{=html}`\\protect\\newline`{=latex} Source: Data from Chanda and Kabiraj (2020). See [Spatial dependence](notebooks/c03_spatial_dependence_lisa.ipynb) notebook for source code."
 
 # Plot the spatial weights matrix
 # This will visualize the spatial relationships between observations defined by the weights matrix W
@@ -305,7 +305,7 @@ moranLocal = Moran_Local(gdf['log_initial'], W, permutations=999, seed=12345)
 
 ```{code-cell} ipython3
 #| label: fig-dependence-initial
-#| fig-cap: "Spatial dependence in the initial level of luminosity <br> Notes: Panel (a) shows the Moran scatterplot with Global Moran's I statistic. Panel (b) shows the LISA cluster map with statistically significant clusters at p < 0.05 based on 999 permutations. <br> Source: Data from Chanda and Kabiraj (2020). See [Spatial dependence](notebooks/c03_spatial_dependence_lisa.ipynb) notebook for source code."
+#| fig-cap: "Spatial dependence in the initial level of luminosity `<br>`{=html}`\\protect\\newline`{=latex} Notes: Panel (a) shows the Moran scatterplot with Global Moran's I statistic. Panel (b) shows the LISA cluster map with statistically significant clusters at p < 0.05 based on 999 permutations. `<br>`{=html}`\\protect\\newline`{=latex} Source: Data from Chanda and Kabiraj (2020). See [Spatial dependence](notebooks/c03_spatial_dependence_lisa.ipynb) notebook for source code."
 
 # Initialize the subplots
 f, ax = plt.subplots(1, 2, figsize=(14, 7))
@@ -383,7 +383,7 @@ moranLocal2 = Moran_Local(gdf['growth'], W, permutations=999, seed=12345)
 
 ```{code-cell} ipython3
 #| label: fig-dependence-growth
-#| fig-cap: "Spatial dependence in the growth rate of luminosity <br> Notes: Panel (a) shows the Moran scatterplot with Global Moran's I statistic. Panel (b) shows the LISA cluster map with statistically significant clusters at p < 0.05 based on 999 permutations. <br> Source: Data from Chanda and Kabiraj (2020). See [Spatial dependence](notebooks/c03_spatial_dependence_lisa.ipynb) notebook for source code."
+#| fig-cap: "Spatial dependence in the growth rate of luminosity `<br>`{=html}`\\protect\\newline`{=latex} Notes: Panel (a) shows the Moran scatterplot with Global Moran's I statistic. Panel (b) shows the LISA cluster map with statistically significant clusters at p < 0.05 based on 999 permutations. `<br>`{=html}`\\protect\\newline`{=latex} Source: Data from Chanda and Kabiraj (2020). See [Spatial dependence](notebooks/c03_spatial_dependence_lisa.ipynb) notebook for source code."
 
 
 # Initialize the subplots

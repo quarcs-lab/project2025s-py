@@ -114,7 +114,7 @@ The scatterplot below visualizes the convergence relationship. Outlier districts
 
 ```{code-cell} ipython3
 #| label: fig-convergence
-#| fig-cap: "Regional luminosity convergence across districts in India <br> Notes: Each point represents one of the 520 districts. The regression line shows the estimated beta-convergence relationship. Outlier districts are labeled. <br> Source: Data from Chanda and Kabiraj (2020). See [Regional convergence](notebooks/c02_regional_convergence_sc.ipynb) notebook for source code."
+#| fig-cap: "Regional luminosity convergence across districts in India `<br>`{=html}`\\protect\\newline`{=latex} Notes: Each point represents one of the 520 districts. The regression line shows the estimated beta-convergence relationship, and the annotation reports its slope, the R-squared, the implied annual speed of convergence, and the half-life. Outlier districts are labeled. `<br>`{=html}`\\protect\\newline`{=latex} Source: Data from Chanda and Kabiraj (2020). See [Regional convergence](notebooks/c02_regional_convergence_sc.ipynb) notebook for source code."
 
 # Identify outlier districts for labeling
 mask = (
@@ -147,8 +147,10 @@ for _, r in outliers.iterrows():
         bbox=dict(boxstyle="round,pad=0.3", fc="white", ec="gray", alpha=0.7),
     )
 
-# Slope / R-squared annotation box (top-right corner)
-annotation = "Slope = {}\nR² = {}".format(slope, rsq)
+# Slope / R-squared / speed / half-life annotation box (top-right corner)
+annotation = "Slope = {}\nR² = {}\nSpeed = {:.1%} per year\nHalf-life = {:.1f} years".format(
+    slope, rsq, speed, half_life
+)
 ax.annotate(
     annotation,
     xy=(0.97, 0.97),

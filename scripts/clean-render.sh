@@ -76,4 +76,42 @@ mv index.tex index-REGION.tex
 echo "  [3/3] Standard PDF (restore LaTeX source)..."
 quarto render index.qmd --to pdf
 
+# Step 4: restore the HTML asset directory.
+# Quarto references site_libs/ from index.html but never creates it in this project
+# (project type "manuscript" with output-dir "."), and a single-file render actively
+# deletes it. A missing site_libs/ renders the article completely unstyled, both
+# locally and on GitHub Pages. The committed copy in git is the source of truth.
+echo "  [4/5] Restoring HTML assets from git..."
+if git ls-files --error-unmatch site_libs >/dev/null 2>&1; then
+  # Restore from the index, not from HEAD: this works both before and after the
+  # assets are first committed. Note that "git restore --source=HEAD" exits 0
+  # while restoring nothing when the path is staged but not yet in HEAD.
+  git checkout -- site_libs 2>/dev/null || true
+  if [ -d site_libs ]; then
+    echo "    Restored $(find site_libs -type f | wc -l | tr -d ' ') files."
+  else
+    echo "    WARNING: could not restore site_libs from git" >&2
+  fi
+else
+  echo "    WARNING: site_libs is not tracked in git; cannot restore it." >&2
+fi
+
+# Step 5: verify every asset index.html references is actually present.
+# If the HTML theme changes, Quarto emits new hashed filenames and the committed
+# assets go stale. Fail loudly rather than shipping a silently broken page.
+echo "  [5/5] Verifying HTML assets..."
+missing=0
+while IFS= read -r asset; do
+  if [ ! -f "$asset" ]; then
+    echo "    MISSING: $asset" >&2
+    missing=$((missing + 1))
+  fi
+done < <(grep -oE '(href|src)="site_libs[^"]*"' index.html | sed 's/.*="//;s/"//' | sort -u)
+if [ "$missing" -ne 0 ]; then
+  echo "ERROR: $missing site_libs asset(s) referenced by index.html are missing." >&2
+  echo "       The HTML article will render unstyled. Regenerate site_libs/ and commit it." >&2
+  exit 1
+fi
+echo "    All HTML assets present."
+
 echo "Done."
