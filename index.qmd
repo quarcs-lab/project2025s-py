@@ -485,7 +485,7 @@ The first is other work on Indian districts using the same proxy: @beyer_yamada_
 That two independent applications of the same measurement strategy recover similar non-spatial rates, despite different periods and different generations of the sensor, is reassuring about the proxy.
 
 The second comparison is with convergence estimated from luminosity elsewhere.
-@basher_etal_bangladesh_lights find 4.57% per year across the 64 districts of Bangladesh, implying a half-life of 15 years, above the 2.3% we obtain without controls and below the 5.2% of our preferred spatial model.
+@basher_etal_bangladesh_lights find absolute convergence of 4.57% per year across the 64 districts of Bangladesh, implying a half-life of 15 years, roughly double the 2.3% we obtain on the same unconditional basis.
 @carrington_jimenez_ecuador_lights report a speed near the 2% benchmark for Ecuadorian provinces, while @kacou_africa_convergence finds multiple equilibria in within-country regional inequality across 49 African countries.
 Our unconditional non-spatial estimate therefore sits near the familiar 2% regularity, and the conditional spatial estimates well above it.[^twopercent]
 That regularity should not be treated as a law: a meta-analysis of some 600 published estimates concludes that it is misleading to speak of a natural convergence rate, since estimates from different specifications are drawn from different populations [@abreu_etal_meta_convergence].
