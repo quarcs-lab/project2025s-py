@@ -3,16 +3,31 @@
 #
 # Pipeline:
 #   1. Clear all Quarto caches and intermediates
-#   2. Full manuscript render (HTML + notebook previews + all formats)
-#   3. Re-render REGION PDF (4 LaTeX passes for natbib/region.bst)
-#   4. Re-render Standard PDF (restores index.tex as standard LaTeX)
+#   2. Strip notebook execution metadata
+#   3. Render the manuscript website (HTML + notebook previews + assets)
+#   4. Re-render the REGION PDF (4 LaTeX passes for natbib/region.bst)
+#   5. Re-render the standard PDF and the Word version
+#   6. Publish the web outputs to the repository root for GitHub Pages
+#   7. Verify that nothing the HTML references is missing
 #
-# Use this when:
-#   - Underlying data files changed but notebook source didn't
-#   - Embed previews are stale despite source changes
-#   - You want a guaranteed clean build
+# Why output-dir is "_manuscript" and not ".":
+#   With output-dir ".", Quarto silently fails to materialize the HTML supporting
+#   files. It never creates site_libs/ or index_files/figure-html/, and a
+#   single-file render actively deletes site_libs/. The article then renders with
+#   no styling and with every embedded notebook figure broken, both locally and on
+#   GitHub Pages. Rendering into a separate directory makes Quarto generate all of
+#   it correctly, so this script renders there and then publishes to the root,
+#   which is where GitHub Pages serves from.
+#
+# Why the formats are rendered separately:
+#   A whole-project "quarto render" crashes in Quarto's manuscript tex bundler
+#   ("No such file or directory ... _manuscript/_tex/index.tex") whenever
+#   output-dir is not ".". Rendering each format with --to avoids that, and it also
+#   gives the REGION PDF the 4 LaTeX passes it needs; a project render gives it 2.
 set -euo pipefail
 cd "$(dirname "$0")/.."
+
+OUT="_manuscript"
 
 # Pin Quarto's Jupyter engine to the project venv (created by `uv sync`).
 # Without this, Quarto resolves the kernel named "python3" through the *user*
@@ -29,10 +44,10 @@ echo "Cleaning Quarto caches..."
 rm -rf _freeze/
 rm -rf .quarto/embed/
 rm -rf .quarto/_freeze/
+rm -rf "$OUT"
 rm -f notebooks/*.embed-preview.html
 rm -rf notebooks/*.embed_files/
 rm -f notebooks/*.out.ipynb
-rm -f notebooks/*-preview.html
 
 echo "Stripping execution metadata from notebooks..."
 python3 -c "
@@ -57,61 +72,72 @@ for path in glob.glob('notebooks/*.ipynb'):
 
 echo "Rendering manuscript..."
 
-# Step 1: Full manuscript render (generates notebook preview pages + all formats)
-# In Quarto manuscript projects, notebook preview HTML pages (the rendered notebooks
-# that readers click on) are ONLY generated during a full project render — not when
-# using --to flags. This step produces everything but REGION PDF gets only 2 LaTeX
-# passes (insufficient for natbib/region.bst), which is fixed in step 2.
-echo "  [1/3] Full manuscript render (HTML + notebook previews + all formats)..."
-quarto render index.qmd
+echo "  [1/5] Website (HTML article, notebook previews, site_libs, index_files)..."
+quarto render --to html
 
-# Step 2: Re-render REGION PDF with 4 LaTeX passes (fixes natbib/region.bst)
-# The full render in step 1 only gives REGION 2 passes, breaking bibliography.
-echo "  [2/3] REGION journal PDF (4 passes)..."
+echo "  [2/5] REGION journal PDF (4 passes)..."
 quarto render index.qmd --to region-ersa/REGION-pdf
-mv index.tex index-REGION.tex
+# Quarto writes keep-tex output into a single submission bundle at $OUT/_tex/,
+# which the next LaTeX render overwrites. Capture each format's source now.
+[ -f "$OUT/_tex/index.tex" ] && cp -f "$OUT/_tex/index.tex" ./index-REGION.tex
 
-# Step 3: Re-render standard PDF to restore index.tex as standard LaTeX source
-# Step 2 overwrote index.tex with REGION LaTeX; this restores it.
-echo "  [3/3] Standard PDF (restore LaTeX source)..."
+echo "  [3/5] Standard PDF..."
 quarto render index.qmd --to pdf
+[ -f "$OUT/_tex/index.tex" ] && cp -f "$OUT/_tex/index.tex" ./index.tex
 
-# Step 4: restore the HTML asset directory.
-# Quarto references site_libs/ from index.html but never creates it in this project
-# (project type "manuscript" with output-dir "."), and a single-file render actively
-# deletes it. A missing site_libs/ renders the article completely unstyled, both
-# locally and on GitHub Pages. The committed copy in git is the source of truth.
-echo "  [4/5] Restoring HTML assets from git..."
-if git ls-files --error-unmatch site_libs >/dev/null 2>&1; then
-  # Restore from the index, not from HEAD: this works both before and after the
-  # assets are first committed. Note that "git restore --source=HEAD" exits 0
-  # while restoring nothing when the path is staged but not yet in HEAD.
-  git checkout -- site_libs 2>/dev/null || true
-  if [ -d site_libs ]; then
-    echo "    Restored $(find site_libs -type f | wc -l | tr -d ' ') files."
-  else
-    echo "    WARNING: could not restore site_libs from git" >&2
-  fi
-else
-  echo "    WARNING: site_libs is not tracked in git; cannot restore it." >&2
+echo "  [4/5] Word..."
+quarto render index.qmd --to docx
+
+# Publish to the repository root. GitHub Pages serves this repo from the root of
+# main, so the web outputs have to live there. The list below is an explicit
+# whitelist: it must never include index.qmd, notebooks/*.ipynb or anything else
+# that is a source file, because this step overwrites what it copies.
+echo "  [5/5] Publishing web outputs to the repository root..."
+for f in index.html index-preview.html index.pdf index-REGION.pdf index.docx; do
+  [ -f "$OUT/$f" ] && cp -f "$OUT/$f" "./$f"
+done
+if [ -d "$OUT/site_libs" ]; then
+  rm -rf ./site_libs
+  cp -R "$OUT/site_libs" ./site_libs
 fi
-
-# Step 5: verify every asset index.html references is actually present.
-# If the HTML theme changes, Quarto emits new hashed filenames and the committed
-# assets go stale. Fail loudly rather than shipping a silently broken page.
-echo "  [5/5] Verifying HTML assets..."
+# index_files must MERGE two sources: figure-html comes from the website render,
+# figure-latex from the LaTeX submission bundle. The committed index.tex and
+# index-REGION.tex reference index_files/figure-latex/, so dropping it would leave
+# them uncompilable from the repository root.
+rm -rf ./index_files
+mkdir -p ./index_files
+[ -d "$OUT/index_files" ] && cp -R "$OUT/index_files/." ./index_files/
+[ -d "$OUT/_tex/index_files" ] && cp -R "$OUT/_tex/index_files/." ./index_files/
+for f in "$OUT"/notebooks/*-preview.html; do
+  [ -e "$f" ] && cp -f "$f" "notebooks/$(basename "$f")"
+done
+for d in "$OUT"/notebooks/*_files; do
+  if [ -d "$d" ]; then
+    rm -rf "notebooks/$(basename "$d")"
+    cp -R "$d" "notebooks/$(basename "$d")"
+  fi
+done
+# Verify that everything the published HTML references is actually present.
+# This is what catches a silently broken site before it is committed.
+echo "Verifying published output..."
 missing=0
 while IFS= read -r asset; do
-  if [ ! -f "$asset" ]; then
-    echo "    MISSING: $asset" >&2
-    missing=$((missing + 1))
-  fi
+  [ -f "$asset" ] || { echo "  MISSING asset: $asset" >&2; missing=$((missing + 1)); }
 done < <(grep -oE '(href|src)="site_libs[^"]*"' index.html | sed 's/.*="//;s/"//' | sort -u)
+while IFS= read -r img; do
+  [ -f "$img" ] || { echo "  MISSING image: $img" >&2; missing=$((missing + 1)); }
+done < <(grep -oE '<img[^>]+src="[^"]+"' index.html | sed 's/.*src="//;s/"//' \
+         | grep -vE '^(data:|https?:)' | sort -u)
+for tex in index.tex index-REGION.tex; do
+  [ -f "$tex" ] || continue
+  while IFS= read -r fig; do
+    [ -f "$fig" ] || { echo "  MISSING figure for $tex: $fig" >&2; missing=$((missing + 1)); }
+  done < <(grep -oE 'index_files/[^}]*\.(png|pdf|jpg)' "$tex" | sort -u)
+done
 if [ "$missing" -ne 0 ]; then
-  echo "ERROR: $missing site_libs asset(s) referenced by index.html are missing." >&2
-  echo "       The HTML article will render unstyled. Regenerate site_libs/ and commit it." >&2
+  echo "ERROR: $missing file(s) referenced by the published outputs are missing." >&2
   exit 1
 fi
-echo "    All HTML assets present."
+echo "  All referenced assets, images and figures present."
 
 echo "Done."

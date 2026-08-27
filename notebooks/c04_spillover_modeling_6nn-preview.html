@@ -344,21 +344,21 @@
    
   <ul>
   <li><a href="#running-the-analysis-in-python" id="toc-running-the-analysis-in-python" class="nav-link active" data-scroll-target="#running-the-analysis-in-python">Running the analysis in Python</a></li>
-  <li><a href="#background-context" id="toc-background-context" class="nav-link" data-scroll-target="#background-context">1. Background &amp; Context</a></li>
-  <li><a href="#setup" id="toc-setup" class="nav-link" data-scroll-target="#setup">2. Setup</a></li>
   <li><a href="#main-analysis" id="toc-main-analysis" class="nav-link" data-scroll-target="#main-analysis">3. Main Analysis</a></li>
-  <li><a href="#results-table" id="toc-results-table" class="nav-link" data-scroll-target="#results-table">4. Results Table</a>
-  <ul class="collapse">
+  <li><a href="#results-table" id="toc-results-table" class="nav-link" data-scroll-target="#results-table">4. Results Table</a></li>
   <li><a href="#implied-speed-of-convergence" id="toc-implied-speed-of-convergence" class="nav-link" data-scroll-target="#implied-speed-of-convergence">4.1 Implied speed of convergence</a></li>
-  </ul></li>
-  <li><a href="#robustness-alternative-spatial-impact-methods" id="toc-robustness-alternative-spatial-impact-methods" class="nav-link" data-scroll-target="#robustness-alternative-spatial-impact-methods">5. Robustness: alternative spatial-impact methods</a></li>
   </ul>
 </nav>
 </div>
 <div id="quarto-margin-sidebar" class="sidebar margin-sidebar zindex-bottom">
 </div>
-<main class="content quarto-banner-title-block" id="quarto-document-content">        <p><a href="https://colab.research.google.com/github/quarcs-lab/project2025s-py/blob/main/notebooks/c04_spillover_modeling_6nn.ipynb"><img src="https://colab.research.google.com/assets/colab-badge.svg" alt="Open In Colab"></a></p>
+<main class="content quarto-banner-title-block" id="quarto-document-content">        <div id="cell-0" class="cell markdown">
+<p><a href="https://colab.research.google.com/github/quarcs-lab/project2025s-py/blob/main/notebooks/c04_spillover_modeling_6nn.ipynb"><img src="https://colab.research.google.com/assets/colab-badge.svg" alt="Open In Colab"></a></p>
+</div>
+<div id="cell-1" class="cell markdown">
 <p>This notebook estimates <strong>8 econometric models</strong> to analyze convergence in nighttime light intensity across 520 Indian districts (1996–2010). It compares standard OLS regressions with <strong>Spatial Durbin Models (SDM)</strong> that account for spatial spillovers between neighboring districts. The models follow a 2×2×2 design: OLS vs SDM, unconditional vs conditional, without vs with state fixed effects. Results are presented as four model columns, each estimated by OLS and by SDM. For details on the model design and spatial weights, see the Background &amp; Context section below.</p>
+</div>
+<div id="cell-2" class="cell markdown">
 <section id="running-the-analysis-in-python" class="level2">
 <h2 class="anchored" data-anchor-id="running-the-analysis-in-python">Running the analysis in Python</h2>
 <p>This notebook runs on the project’s Python environment managed by <a href="https://docs.astral.sh/uv/">uv</a> (the repo-local <code>python3</code> kernel). The spatial econometrics rely on the open-source <a href="https://pysal.org/">PySAL</a> ecosystem:</p>
@@ -369,7 +369,9 @@
 <li><strong><code>statsmodels</code></strong> — estimates the OLS benchmarks with heteroskedasticity-robust (HC1) standard errors, equivalent to Stata’s <code>regress ..., robust</code>.</li>
 </ul>
 <p>All dependencies are declared in <code>pyproject.toml</code>; run <code>uv sync</code> to install them. On Google Colab, the install cell below pulls the spatial packages into the default environment.</p>
-<div class="cell-container"><div class="cell-decorator"><pre>In [1]:</pre></div><div id="4e9b1a30" class="cell">
+</section>
+</div>
+<div class="cell-container"><div class="cell-decorator"><pre>In [4]:</pre></div><div id="4e9b1a30" class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Google Colab: install packages not included in the default environment</span></span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="cf">try</span>:</span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>    <span class="im">import</span> google.colab</span>
@@ -377,7 +379,7 @@
 <span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="cf">except</span> <span class="pp">ImportError</span>:</span>
 <span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>    <span class="cf">pass</span>  <span class="co"># Local environment — packages already installed</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div></div>
-</section>
+<div id="cell-4" class="cell markdown">
 <section id="background-context" class="level2">
 <h2 class="anchored" data-anchor-id="background-context">1. Background &amp; Context</h2>
 <ul>
@@ -393,7 +395,9 @@
 <section id="setup" class="level2">
 <h2 class="anchored" data-anchor-id="setup">2. Setup</h2>
 <p>We load the district variables (<code>india520.dta</code>) and geometries (<code>india520.geojson</code>), build the 6NN row-standardized spatial weights, and prepare the state fixed-effect dummies.</p>
-<div class="cell-container"><div class="cell-decorator"><pre>In [2]:</pre></div><div id="cell-5" class="cell">
+</section>
+</div>
+<div class="cell-container"><div class="cell-decorator"><pre>In [6]:</pre></div><div id="cell-5" class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Configuration</span></span>
 <span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> os</span>
 <span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> math</span>
@@ -427,7 +431,7 @@
 <span id="cb2-31"><a href="#cb2-31" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb2-32"><a href="#cb2-32" aria-hidden="true" tabindex="-1"></a>RAW <span class="op">=</span> <span class="st">"https://raw.githubusercontent.com/quarcs-lab/project2025s-py/main/data"</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div></div>
-<div class="cell-container"><div class="cell-decorator"><pre>In [3]:</pre></div><div id="cell-6" class="cell">
+<div class="cell-container"><div class="cell-decorator"><pre>In [7]:</pre></div><div id="cell-6" class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Load data (local ../data first, else download from the public repo)</span></span>
 <span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> _resolve(fname):</span>
 <span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> cand <span class="kw">in</span> (os.path.join(<span class="st">".."</span>, <span class="st">"data"</span>, fname), os.path.join(<span class="st">"data"</span>, fname), fname):</span>
@@ -471,7 +475,7 @@
 <pre><code>Districts: 520 | neighbours: 6 | weights: row-standardised</code></pre>
 </div>
 </div></div>
-<div class="cell-container"><div class="cell-decorator"><pre>In [4]:</pre></div><div id="3efdcc6e" class="cell">
+<div class="cell-container"><div class="cell-decorator"><pre>In [8]:</pre></div><div id="3efdcc6e" class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Estimation helpers</span></span>
 <span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> stars(est, se):</span>
 <span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> se <span class="op">&lt;=</span> <span class="dv">0</span> <span class="kw">or</span> <span class="kw">not</span> np.isfinite(se):</span>
@@ -603,7 +607,7 @@
 <span id="cb5-129"><a href="#cb5-129" aria-hidden="true" tabindex="-1"></a>        <span class="st">"aic"</span>: mod.aic, <span class="st">"rho"</span>: rho,</span>
 <span id="cb5-130"><a href="#cb5-130" aria-hidden="true" tabindex="-1"></a>    }</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div></div>
-</section>
+<div id="cell-8" class="cell markdown">
 <section id="main-analysis" class="level2">
 <h2 class="anchored" data-anchor-id="main-analysis">3. Main Analysis</h2>
 <p>We estimate <strong>four specifications</strong>, each by OLS and by the Spatial Durbin Model (SDM) — eight estimates in a 2×2×2 design:</p>
@@ -612,7 +616,7 @@
 <li><strong>Specification:</strong> Unconditional (only initial light) vs.&nbsp;Conditional (with 16 controls)</li>
 <li><strong>Fixed effects:</strong> None vs.&nbsp;State FE</li>
 </ul>
-<table class="caption-top table">
+<table class="caption-top table table-sm table-striped small">
 <thead>
 <tr class="header">
 <th>Column</th>
@@ -650,7 +654,9 @@
 <li><strong>Total effect:</strong> Direct + Indirect.</li>
 </ul>
 <p>For OLS the coefficient <em>is</em> the direct (and total) effect; indirect effects are not applicable.</p>
-<div class="cell-container"><div class="cell-decorator"><pre>In [5]:</pre></div><div id="cell-9" class="cell">
+</section>
+</div>
+<div class="cell-container"><div class="cell-decorator"><pre>In [10]:</pre></div><div id="cell-9" class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Estimate the four model specifications (each by OLS and SDM)</span></span>
 <span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>specs <span class="op">=</span> {</span>
 <span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Model 1"</span>: <span class="bu">dict</span>(cols<span class="op">=</span>[XKEY],            fe<span class="op">=</span><span class="va">False</span>),  <span class="co"># unconditional, no state FE</span></span>
@@ -679,11 +685,13 @@ Model 3: estimated (OLS + SDM), rho=0.497
 Model 4: estimated (OLS + SDM), rho=0.199</code></pre>
 </div>
 </div></div>
-</section>
+<div id="cell-10" class="cell markdown">
 <section id="results-table" class="level2">
 <h2 class="anchored" data-anchor-id="results-table">4. Results Table</h2>
 <p>The table below reports the convergence estimates. Each model column shows the OLS benchmark beside the SDM. SDM rows give the Direct, Indirect, and Total spatial impacts of initial luminosity, computed with the full (LeSage–Pace) decomposition <span class="math inline">\(S_r(W) = (I-\rho W)^{-1}(\beta_r I + \theta_r W)\)</span>, so that the direct effect carries the own-district share of the spatially lagged regressor, with Monte-Carlo standard errors in parentheses; OLS reports the coefficient as both Direct and Total. Significance stars are derived from z-statistics (<code>***</code> p&lt;0.01, <code>**</code> p&lt;0.05, <code>*</code> p&lt;0.10), and AIC is reported for model comparison.</p>
-<div class="cell-container"><div class="cell-decorator"><pre>In [6]:</pre></div><div class="cell">
+</section>
+</div>
+<div class="cell-container"><div class="cell-decorator"><pre>In [12]:</pre></div><div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> IPython.display <span class="im">import</span> Markdown</span>
 <span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>cols <span class="op">=</span> [<span class="st">"Model 1"</span>, <span class="st">"Model 2"</span>, <span class="st">"Model 3"</span>, <span class="st">"Model 4"</span>]</span>
@@ -748,7 +756,7 @@ Model 4: estimated (OLS + SDM), rho=0.199</code></pre>
 <span id="cb8-62"><a href="#cb8-62" aria-hidden="true" tabindex="-1"></a>lines <span class="op">+=</span> [ctrl, fe_row, aic]</span>
 <span id="cb8-63"><a href="#cb8-63" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb8-64"><a href="#cb8-64" aria-hidden="true" tabindex="-1"></a>Markdown(<span class="st">"</span><span class="ch">\n</span><span class="st">"</span>.join(lines))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<div class="cell-container"><div class="cell-decorator"><pre>In [7]:</pre></div><div id="tbl-models" class="cell quarto-float quarto-figure quarto-figure-center anchored">
+<div class="cell-container"><div class="cell-decorator"><pre>In [13]:</pre></div><div id="tbl-models" class="cell quarto-float quarto-figure quarto-figure-center anchored">
 <figure class="quarto-float quarto-float-tbl figure">
 <figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-models-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 Table&nbsp;1: Unconditional and conditional convergence across districts.
@@ -898,10 +906,13 @@ Table&nbsp;1: Unconditional and conditional convergence across districts.
 </figure>
 </div></div>
 </div></div>
+<div id="d00d6580" class="cell markdown">
 <section id="implied-speed-of-convergence" class="level3">
 <h3 class="anchored" data-anchor-id="implied-speed-of-convergence">4.1 Implied speed of convergence</h3>
 <p>The convergence coefficients above translate into an annual <strong>speed of convergence</strong> <span class="math inline">\(\lambda = -\ln(1 + \beta T)/T\)</span> (Barro &amp; Sala-i-Martin), with <span class="math inline">\(T = 14\)</span> years (1996–2010), the dependent variable being the average annual growth rate, and <span class="math inline">\(\beta\)</span> the total effect of initial luminosity; the <strong>half-life</strong> is <span class="math inline">\(\ln(2)/\lambda\)</span>. Comparing the OLS and SDM total effects shows directly how spatial spillovers raise the implied speed and shorten the half-life.</p>
-<div class="cell-container"><div class="cell-decorator"><pre>In [8]:</pre></div><div class="cell">
+</section>
+</div>
+<div class="cell-container"><div class="cell-decorator"><pre>In [15]:</pre></div><div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>T <span class="op">=</span> <span class="dv">14</span>  <span class="co"># 1996-2010; dependent variable is the average annual growth rate</span></span>
 <span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -922,7 +933,7 @@ Table&nbsp;1: Unconditional and conditional convergence across districts.
 <span id="cb9-18"><a href="#cb9-18" aria-hidden="true" tabindex="-1"></a>    ls, hls <span class="op">=</span> _speed(results[c][<span class="st">"sdm"</span>][<span class="st">"total"</span>])</span>
 <span id="cb9-19"><a href="#cb9-19" aria-hidden="true" tabindex="-1"></a>    srows.append(<span class="st">"| </span><span class="sc">{}</span><span class="st"> | </span><span class="sc">{:.1%}</span><span class="st"> | </span><span class="sc">{:.1%}</span><span class="st"> | </span><span class="sc">{:.0f}</span><span class="st"> yr | </span><span class="sc">{:.0f}</span><span class="st"> yr |"</span>.<span class="bu">format</span>(c, lo, ls, hlo, hls))</span>
 <span id="cb9-20"><a href="#cb9-20" aria-hidden="true" tabindex="-1"></a>Markdown(<span class="st">"</span><span class="ch">\n</span><span class="st">"</span>.join(srows))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<div class="cell-container"><div class="cell-decorator"><pre>In [9]:</pre></div><div id="tbl-speed" class="cell quarto-float quarto-figure quarto-figure-center anchored">
+<div class="cell-container"><div class="cell-decorator"><pre>In [16]:</pre></div><div id="tbl-speed" class="cell quarto-float quarto-figure quarto-figure-center anchored">
 <figure class="quarto-float quarto-float-tbl figure">
 <figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-speed-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 Table&nbsp;2: Implied annual speed of convergence and half-life by model, from the OLS and SDM total effects of initial luminosity.
@@ -975,9 +986,8 @@ Table&nbsp;2: Implied annual speed of convergence and half-life by model, from t
 </figure>
 </div></div>
 </div></div>
+<div id="440d1075" class="cell markdown">
 <p>In the preferred Model 4 the implied annual speed of convergence rises from the OLS estimate to the SDM estimate, shortening the half-life accordingly — a direct, quantitative statement of how spatial spillovers accelerate the convergence process.</p>
-</section>
-</section>
 <section id="robustness-alternative-spatial-impact-methods" class="level2">
 <h2 class="anchored" data-anchor-id="robustness-alternative-spatial-impact-methods">5. Robustness: alternative spatial-impact methods</h2>
 <p>Table 1 reports the spatial impacts using the <strong>full</strong> (LeSage–Pace) method, which builds the average direct, indirect, and total effects from the exact spatial multiplier matrix <span class="math inline">\((I-\rho W)^{-1}\)</span>. Note that <code>spreg</code>’s own <code>spat_impacts</code> output assigns the whole spatially lagged coefficient to the indirect effect, so it does not agree with the decomposition used here; the values below reproduce Stata’s <code>estat impact</code>. As a robustness check, the table below recomputes the impacts of initial luminosity for the preferred Model 4 (conditional + state FE) under three alternative computations of that multiplier:</p>
@@ -987,7 +997,9 @@ Table&nbsp;2: Implied annual speed of convergence and half-life by model, from t
 <li><strong>power</strong> — a power-series approximation of <span class="math inline">\((I-\rho W)^{-1}\)</span>.</li>
 </ul>
 <p>Because the weights are row-standardised, the <strong>Total</strong> impact is invariant to the method (<span class="math inline">\(\text{ATI}=1/(1-\rho)\)</span>); only the split between Direct and Indirect can move.</p>
-<div class="cell-container"><div class="cell-decorator"><pre>In [10]:</pre></div><div class="cell">
+</section>
+</div>
+<div class="cell-container"><div class="cell-decorator"><pre>In [18]:</pre></div><div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb10"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Re-estimate the preferred Model 4 (conditional + state FE) and compare the</span></span>
 <span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a><span class="co"># three spreg impact methods for the key regressor (log_light96_rcr_cap).</span></span>
 <span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>Xdf4 <span class="op">=</span> pd.concat([m[[XKEY] <span class="op">+</span> CONTROLS], fe], axis<span class="op">=</span><span class="dv">1</span>)</span>
@@ -1028,7 +1040,7 @@ Table&nbsp;2: Implied annual speed of convergence and half-life by model, from t
 <span id="cb10-38"><a href="#cb10-38" aria-hidden="true" tabindex="-1"></a>        _se(Deff.std()), _se(Ieff.std()), _se(T4.std()),</span>
 <span id="cb10-39"><a href="#cb10-39" aria-hidden="true" tabindex="-1"></a>    ))</span>
 <span id="cb10-40"><a href="#cb10-40" aria-hidden="true" tabindex="-1"></a>Markdown(<span class="st">"</span><span class="ch">\n</span><span class="st">"</span>.join(rob))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<div class="cell-container"><div class="cell-decorator"><pre>In [11]:</pre></div><div id="tbl-impacts-robustness" class="cell quarto-float quarto-figure quarto-figure-center anchored">
+<div class="cell-container"><div class="cell-decorator"><pre>In [19]:</pre></div><div id="tbl-impacts-robustness" class="cell quarto-float quarto-figure quarto-figure-center anchored">
 <figure class="quarto-float quarto-float-tbl figure">
 <figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-impacts-robustness-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 Table&nbsp;3: Robustness of the Model 4 spatial impacts of initial luminosity to the impact-computation method (Monte-Carlo standard errors in parentheses).
@@ -1088,8 +1100,9 @@ Table&nbsp;3: Robustness of the Model 4 spatial impacts of initial luminosity to
 </figure>
 </div></div>
 </div></div>
+<div id="c15eed9b" class="cell markdown">
 <p>The three methods agree to within about 0.0003 on the Direct and Indirect impacts and give an identical Total impact, confirming that the estimated spillovers are not an artifact of the impact-computation method.</p>
-</section>
+</div>
      </main>
 <!-- /main column -->  <script id="quarto-html-after-body" type="application/javascript">
   window.document.addEventListener("DOMContentLoaded", function (event) {

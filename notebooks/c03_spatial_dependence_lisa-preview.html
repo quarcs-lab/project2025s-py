@@ -358,11 +358,18 @@
 </div>
 <div id="quarto-margin-sidebar" class="sidebar margin-sidebar zindex-bottom">
 </div>
-<main class="content quarto-banner-title-block" id="quarto-document-content">        <p><a href="https://colab.research.google.com/github/quarcs-lab/project2025s-py/blob/main/notebooks/c03_spatial_dependence_lisa.ipynb"><img src="https://colab.research.google.com/assets/colab-badge.svg" alt="Open In Colab"></a></p>
+<main class="content quarto-banner-title-block" id="quarto-document-content">        <div id="cell-0" class="cell markdown">
+<p><a href="https://colab.research.google.com/github/quarcs-lab/project2025s-py/blob/main/notebooks/c03_spatial_dependence_lisa.ipynb"><img src="https://colab.research.google.com/assets/colab-badge.svg" alt="Open In Colab"></a></p>
+</div>
+<div id="cell-1" class="cell markdown">
 <p>This notebook examines spatial dependence in nighttime luminosity across 520 Indian districts using Local Indicators of Spatial Association (LISA). We apply Local Moran’s I to both the initial level and the growth rate of luminosity per capita, and visualize the results as cluster maps identifying statistically significant spatial clusters (HH, LL) and outliers (HL, LH).</p>
+</div>
+<div id="cell-2" class="cell markdown">
 <section id="setup" class="level2">
 <h2 class="anchored" data-anchor-id="setup">Setup</h2>
-<div class="cell-container"><div class="cell-decorator"><pre>In [1]:</pre></div><div id="cell-3" class="cell">
+</section>
+</div>
+<div class="cell-container"><div class="cell-decorator"><pre>In [4]:</pre></div><div id="cell-3" class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Google Colab: install packages not included in the default environment</span></span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="cf">try</span>:</span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>    <span class="im">import</span> google.colab</span>
@@ -370,7 +377,7 @@
 <span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="cf">except</span> <span class="pp">ImportError</span>:</span>
 <span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>    <span class="cf">pass</span>  <span class="co"># Local environment — packages already installed</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div></div>
-<div class="cell-container"><div class="cell-decorator"><pre>In [2]:</pre></div><div id="cell-4" class="cell">
+<div class="cell-container"><div class="cell-decorator"><pre>In [5]:</pre></div><div id="cell-4" class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Importing necessary libraries for data analysis and visualization</span></span>
 <span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
 <span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
@@ -415,11 +422,13 @@
 <span id="cb2-42"><a href="#cb2-42" aria-hidden="true" tabindex="-1"></a>RANDOM_SEED <span class="op">=</span> <span class="dv">42</span></span>
 <span id="cb2-43"><a href="#cb2-43" aria-hidden="true" tabindex="-1"></a>np.random.seed(RANDOM_SEED)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div></div>
-</section>
+<div id="cell-5" class="cell markdown">
 <section id="data" class="level2">
 <h2 class="anchored" data-anchor-id="data">Data</h2>
 <p>We load district geometries and nighttime lights variables from the GeoPackage, which already contains the 520-district sample merged with all analysis variables.</p>
-<div class="cell-container"><div class="cell-decorator"><pre>In [3]:</pre></div><div id="cell-6" class="cell">
+</section>
+</div>
+<div class="cell-container"><div class="cell-decorator"><pre>In [7]:</pre></div><div id="cell-6" class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Load data (local ../data first, else download from the public repo)</span></span>
 <span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> urllib.request, tempfile, os</span>
 <span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>local_gpkg <span class="op">=</span> os.path.join(<span class="st">".."</span>, <span class="st">"data"</span>, <span class="st">"maps"</span>, <span class="st">"india_2001_520.gpkg"</span>)</span>
@@ -431,7 +440,7 @@
 <span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a>    urllib.request.urlretrieve(url, temp_gpkg)</span>
 <span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a>    gdf <span class="op">=</span> gpd.read_file(temp_gpkg, engine<span class="op">=</span><span class="st">"pyogrio"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div></div>
-<div class="cell-container"><div class="cell-decorator"><pre>In [4]:</pre></div><div id="cell-7" class="cell">
+<div class="cell-container"><div class="cell-decorator"><pre>In [8]:</pre></div><div id="cell-7" class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Rename key variables for convenience</span></span>
 <span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>gdf <span class="op">=</span> gdf.rename(columns<span class="op">=</span>{</span>
 <span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>    <span class="st">"newdata_light_growth96_10rcr_cap"</span>: <span class="st">"growth"</span>,</span>
@@ -507,8 +516,10 @@
 </div>
 </div>
 </div></div>
+<div id="cell-8" class="cell markdown">
 <p>The interactive choropleth below maps per capita luminosity growth across all 520 districts. Hover over individual districts to inspect their values.</p>
-<div class="cell-container"><div class="cell-decorator"><pre>In [5]:</pre></div><div id="cell-9" class="cell">
+</div>
+<div class="cell-container"><div class="cell-decorator"><pre>In [10]:</pre></div><div id="cell-9" class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Visualize spatial data using the explore() method of a GeoDataFrame</span></span>
 <span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>gdf.explore(</span>
 <span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Specify the column to visualize on the map</span></span>
@@ -848,7 +859,7 @@
 </html>" style="position:absolute;width:100%;height:100%;left:0;top:0;border:none !important;" allowfullscreen="" webkitallowfullscreen="" mozallowfullscreen=""></iframe></div></div>
 </div>
 </div></div>
-<div class="cell-container"><div class="cell-decorator"><pre>In [6]:</pre></div><div id="cell-fig-chorophleths" class="cell">
+<div class="cell-container"><div class="cell-decorator"><pre>In [11]:</pre></div><div id="cell-fig-chorophleths" class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Reproject once to Web Mercator for basemap overlay</span></span>
 <span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>_gdf <span class="op">=</span> gdf.to_crs(epsg<span class="op">=</span><span class="dv">3857</span>).copy()</span>
 <span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -933,12 +944,16 @@ Figure&nbsp;1: Spatial distribution of initial luminosity and luminosity growth 
 </div>
 </div>
 </div></div>
-</section>
+<div id="cell-11" class="cell markdown">
 <section id="spatial-weights-and-lags" class="level2">
 <h2 class="anchored" data-anchor-id="spatial-weights-and-lags">Spatial weights and lags</h2>
 <p>We construct a 6 nearest neighbors (6NN) spatial weights matrix from the district geometries and row-normalize it, consistent with the weights used in the main econometric analysis.</p>
+</section>
+</div>
+<div id="cell-12" class="cell markdown">
 <p>The neighbors of each district are the six districts whose centroids are nearest in the geographic coordinates of the source file. We then compute the spatial lag of each variable, which is the weighted average of the values of neighboring districts.</p>
-<div class="cell-container"><div class="cell-decorator"><pre>In [7]:</pre></div><div id="cell-13" class="cell">
+</div>
+<div class="cell-container"><div class="cell-decorator"><pre>In [14]:</pre></div><div id="cell-13" class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Generate and export weight matrix</span></span>
 <span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>W <span class="op">=</span> weights.KNN.from_dataframe(gdf, k<span class="op">=</span><span class="dv">6</span>, ids <span class="op">=</span> <span class="st">'Census_no'</span>)</span>
 <span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>W_matrix, ids <span class="op">=</span> W.full()</span>
@@ -954,11 +969,11 @@ Figure&nbsp;1: Spatial distribution of initial luminosity and luminosity growth 
 <pre><code>Weights: 520 observations, mean neighbors = 6.0</code></pre>
 </div>
 </div></div>
-<div class="cell-container"><div class="cell-decorator"><pre>In [8]:</pre></div><div id="cell-14" class="cell">
+<div class="cell-container"><div class="cell-decorator"><pre>In [15]:</pre></div><div id="cell-14" class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb10"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="co">#  Row-standardize W</span></span>
 <span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>W.transform <span class="op">=</span> <span class="st">'r'</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div></div>
-<div class="cell-container"><div class="cell-decorator"><pre>In [9]:</pre></div><div id="cell-fig-Wmatrix6nn" class="cell">
+<div class="cell-container"><div class="cell-decorator"><pre>In [16]:</pre></div><div id="cell-fig-Wmatrix6nn" class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb11"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Plot the spatial weights matrix</span></span>
 <span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a><span class="co"># This will visualize the spatial relationships between observations defined by the weights matrix W</span></span>
 <span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>fig, ax <span class="op">=</span> plt.subplots(ncols<span class="op">=</span><span class="dv">1</span>, nrows<span class="op">=</span><span class="dv">1</span>, figsize<span class="op">=</span>(<span class="dv">14</span>,<span class="dv">10</span>))</span>
@@ -980,16 +995,20 @@ Figure&nbsp;2: Spatial connectivity structure based on six nearest neighbors <br
 </div>
 </div>
 </div></div>
-<div class="cell-container"><div class="cell-decorator"><pre>In [10]:</pre></div><div id="cell-16" class="cell">
+<div class="cell-container"><div class="cell-decorator"><pre>In [17]:</pre></div><div id="cell-16" class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb12"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Calculate spatial lag of INDICATOR1 using the specified weights</span></span>
 <span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>gdf[<span class="st">'Wlog_initial'</span>] <span class="op">=</span> weights.lag_spatial(W, gdf[<span class="st">'log_initial'</span>])</span>
 <span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>gdf[<span class="st">'Wgrowth'</span>]      <span class="op">=</span> weights.lag_spatial(W, gdf[<span class="st">'growth'</span>])</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div></div>
-</section>
+<div id="cell-17" class="cell markdown">
 <section id="spatial-dependence-for-initial-log-luminosity" class="level2">
 <h2 class="anchored" data-anchor-id="spatial-dependence-for-initial-log-luminosity">Spatial dependence for initial (log) luminosity</h2>
+</section>
+</div>
+<div id="cell-18" class="cell markdown">
 <p>Global Moran’s I summarizes the overall degree of spatial autocorrelation across all districts. Values near +1 indicate strong positive clustering; values near 0 indicate spatial randomness.</p>
-<div class="cell-container"><div class="cell-decorator"><pre>In [11]:</pre></div><div id="cell-19" class="cell">
+</div>
+<div class="cell-container"><div class="cell-decorator"><pre>In [20]:</pre></div><div id="cell-19" class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb13"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Create a scatter plot using Plotly Express</span></span>
 <span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>px.scatter(</span>
 <span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a>    gdf,</span>
@@ -1005,7 +1024,7 @@ Figure&nbsp;2: Spatial connectivity structure based on six nearest neighbors <br
 <pre><code>Unable to display output for mime type(s): application/vnd.plotly.v1+json</code></pre>
 </div>
 </div></div>
-<div class="cell-container"><div class="cell-decorator"><pre>In [12]:</pre></div><div id="cell-20" class="cell">
+<div class="cell-container"><div class="cell-decorator"><pre>In [21]:</pre></div><div id="cell-20" class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb15"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Compute Global Moran's I statistic for the 'log_initial' variable using the spatial weights matrix W</span></span>
 <span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>globalMoran <span class="op">=</span> Moran(gdf[<span class="st">'log_initial'</span>], W)</span>
 <span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -1018,18 +1037,20 @@ Figure&nbsp;2: Spatial connectivity structure based on six nearest neighbors <br
 <pre><code>'0.73'</code></pre>
 </div>
 </div></div>
+<div id="cell-21" class="cell markdown">
 <p>While Global Moran’s I captures the overall pattern, Local Moran’s I (LISA) identifies <em>where</em> significant clusters and outliers are located. Each district is classified into one of four quadrants: High-High (HH, red), Low-Low (LL, blue), High-Low (HL, orange), or Low-High (LH, light blue). The Moran scatterplot shows all districts by quadrant, while the cluster map reveals their geographic distribution.</p>
-<div class="cell-container"><div class="cell-decorator"><pre>In [13]:</pre></div><div id="cell-22" class="cell">
+</div>
+<div class="cell-container"><div class="cell-decorator"><pre>In [23]:</pre></div><div id="cell-22" class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb17"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(globalMoran.p_sim)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>0.001</code></pre>
 </div>
 </div></div>
-<div class="cell-container"><div class="cell-decorator"><pre>In [14]:</pre></div><div id="cell-23" class="cell">
+<div class="cell-container"><div class="cell-decorator"><pre>In [24]:</pre></div><div id="cell-23" class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb19"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Calculate Local Moran's I statistics</span></span>
 <span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a>moranLocal <span class="op">=</span> Moran_Local(gdf[<span class="st">'log_initial'</span>], W, permutations<span class="op">=</span><span class="dv">999</span>, seed<span class="op">=</span><span class="dv">12345</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div></div>
-<div class="cell-container"><div class="cell-decorator"><pre>In [15]:</pre></div><div id="cell-fig-dependence-initial" class="cell">
+<div class="cell-container"><div class="cell-decorator"><pre>In [25]:</pre></div><div id="cell-fig-dependence-initial" class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb20"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Initialize the subplots</span></span>
 <span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a>f, ax <span class="op">=</span> plt.subplots(<span class="dv">1</span>, <span class="dv">2</span>, figsize<span class="op">=</span>(<span class="dv">14</span>, <span class="dv">7</span>))</span>
 <span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -1073,11 +1094,15 @@ Figure&nbsp;3: Spatial dependence in the initial level of luminosity <br> Notes:
 </div>
 </div>
 </div></div>
-</section>
+<div id="cell-25" class="cell markdown">
 <section id="spatial-dependence-for-luminosity-growth" class="level2">
 <h2 class="anchored" data-anchor-id="spatial-dependence-for-luminosity-growth">Spatial dependence for luminosity growth</h2>
+</section>
+</div>
+<div id="cell-26" class="cell markdown">
 <p>Global Moran’s I for growth confirms significant positive spatial autocorrelation. We proceed to the local analysis.</p>
-<div class="cell-container"><div class="cell-decorator"><pre>In [16]:</pre></div><div id="cell-27" class="cell">
+</div>
+<div class="cell-container"><div class="cell-decorator"><pre>In [28]:</pre></div><div id="cell-27" class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb21"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Create a scatter plot using Plotly Express</span></span>
 <span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a>px.scatter(</span>
 <span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a>    gdf,</span>
@@ -1093,7 +1118,7 @@ Figure&nbsp;3: Spatial dependence in the initial level of luminosity <br> Notes:
 <pre><code>Unable to display output for mime type(s): application/vnd.plotly.v1+json</code></pre>
 </div>
 </div></div>
-<div class="cell-container"><div class="cell-decorator"><pre>In [17]:</pre></div><div id="cell-28" class="cell">
+<div class="cell-container"><div class="cell-decorator"><pre>In [29]:</pre></div><div id="cell-28" class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb23"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Compute Global Moran's I statistic for the 'growth' variable using the spatial weights matrix W</span></span>
 <span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a>globalMoran2 <span class="op">=</span> Moran(gdf[<span class="st">'growth'</span>], W)</span>
 <span id="cb23-3"><a href="#cb23-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -1106,18 +1131,20 @@ Figure&nbsp;3: Spatial dependence in the initial level of luminosity <br> Notes:
 <pre><code>'0.60'</code></pre>
 </div>
 </div></div>
-<div class="cell-container"><div class="cell-decorator"><pre>In [18]:</pre></div><div id="cell-29" class="cell">
+<div class="cell-container"><div class="cell-decorator"><pre>In [30]:</pre></div><div id="cell-29" class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb25"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(globalMoran2.p_sim)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>0.001</code></pre>
 </div>
 </div></div>
+<div id="cell-30" class="cell markdown">
 <p>The LISA cluster map for growth reveals the geographic pattern of convergence dynamics: HH clusters mark regions where both the district and its neighbors grew fast, while LL clusters identify persistently slow-growing areas. Together with the initial luminosity results above, these local patterns support the use of spatial econometric models to account for spatial spillovers in the convergence process.</p>
-<div class="cell-container"><div class="cell-decorator"><pre>In [19]:</pre></div><div id="cell-31" class="cell">
+</div>
+<div class="cell-container"><div class="cell-decorator"><pre>In [32]:</pre></div><div id="cell-31" class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb27"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Calculate Local Moran's I statistics</span></span>
 <span id="cb27-2"><a href="#cb27-2" aria-hidden="true" tabindex="-1"></a>moranLocal2 <span class="op">=</span> Moran_Local(gdf[<span class="st">'growth'</span>], W, permutations<span class="op">=</span><span class="dv">999</span>, seed<span class="op">=</span><span class="dv">12345</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div></div>
-<div class="cell-container"><div class="cell-decorator"><pre>In [20]:</pre></div><div id="cell-fig-dependence-growth" class="cell">
+<div class="cell-container"><div class="cell-decorator"><pre>In [33]:</pre></div><div id="cell-fig-dependence-growth" class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb28"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Initialize the subplots</span></span>
 <span id="cb28-2"><a href="#cb28-2" aria-hidden="true" tabindex="-1"></a>f, ax <span class="op">=</span> plt.subplots(<span class="dv">1</span>, <span class="dv">2</span>, figsize<span class="op">=</span>(<span class="dv">14</span>, <span class="dv">7</span>))</span>
 <span id="cb28-3"><a href="#cb28-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -1161,7 +1188,6 @@ Figure&nbsp;4: Spatial dependence in the growth rate of luminosity <br> Notes: P
 </div>
 </div>
 </div></div>
-</section>
      </main>
 <!-- /main column -->  <script id="quarto-html-after-body" type="application/javascript">
   window.document.addEventListener("DOMContentLoaded", function (event) {

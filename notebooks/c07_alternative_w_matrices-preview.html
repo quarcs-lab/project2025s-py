@@ -356,7 +356,10 @@
 </div>
 <div id="quarto-margin-sidebar" class="sidebar margin-sidebar zindex-bottom">
 </div>
-<main class="content quarto-banner-title-block" id="quarto-document-content">        <p><a href="https://colab.research.google.com/github/quarcs-lab/project2025s-py/blob/main/notebooks/c07_alternative_w_matrices.ipynb"><img src="https://colab.research.google.com/assets/colab-badge.svg" alt="Open In Colab"></a></p>
+<main class="content quarto-banner-title-block" id="quarto-document-content">        <div id="73b2d1f3" class="cell markdown">
+<p><a href="https://colab.research.google.com/github/quarcs-lab/project2025s-py/blob/main/notebooks/c07_alternative_w_matrices.ipynb"><img src="https://colab.research.google.com/assets/colab-badge.svg" alt="Open In Colab"></a></p>
+</div>
+<div id="c0363147" class="cell markdown">
 <p>This notebook re-evaluates the preferred <strong>Model 4</strong> (conditional Spatial Durbin Model with state fixed effects) under a range of <strong>alternative spatial weight matrices</strong>, as a robustness check on the spillover results reported in the main manuscript. The baseline analysis uses a 6-nearest-neighbor (6NN) row-standardized matrix; here we re-estimate the same model with:</p>
 <ul>
 <li><strong>4 nearest neighbors</strong> and <strong>8 nearest neighbors</strong> (denser/sparser k-NN graphs);</li>
@@ -364,7 +367,8 @@
 <li><strong>Inverse distance</strong> (<span class="math inline">\(w_{ij} \propto 1/d_{ij}\)</span>) and <strong>inverse distance squared</strong> (<span class="math inline">\(w_{ij} \propto 1/d_{ij}^2\)</span>), applied within a distance band.</li>
 </ul>
 <p>All matrices are row-standardized. For each, we report the Direct, Indirect, and Total spatial impacts of initial luminosity (full LeSage–Pace method, with Monte-Carlo standard errors) and the model AIC, alongside the 6NN baseline.</p>
-<div class="cell-container"><div class="cell-decorator"><pre>In [1]:</pre></div><div id="e0915cfc" class="cell">
+</div>
+<div class="cell-container"><div class="cell-decorator"><pre>In [3]:</pre></div><div id="e0915cfc" class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Google Colab: install packages not included in the default environment</span></span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="cf">try</span>:</span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>    <span class="im">import</span> google.colab</span>
@@ -372,9 +376,12 @@
 <span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="cf">except</span> <span class="pp">ImportError</span>:</span>
 <span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>    <span class="cf">pass</span>  <span class="co"># Local environment — packages already installed</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div></div>
+<div id="69d0d77b" class="cell markdown">
 <section id="setup" class="level2">
 <h2 class="anchored" data-anchor-id="setup">1. Setup</h2>
-<div class="cell-container"><div class="cell-decorator"><pre>In [2]:</pre></div><div id="ffae75f6" class="cell">
+</section>
+</div>
+<div class="cell-container"><div class="cell-decorator"><pre>In [5]:</pre></div><div id="ffae75f6" class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Configuration</span></span>
 <span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> os</span>
 <span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> math</span>
@@ -408,7 +415,7 @@
 <span id="cb2-31"><a href="#cb2-31" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb2-32"><a href="#cb2-32" aria-hidden="true" tabindex="-1"></a>RAW <span class="op">=</span> <span class="st">"https://raw.githubusercontent.com/quarcs-lab/project2025s-py/main/data"</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div></div>
-<div class="cell-container"><div class="cell-decorator"><pre>In [3]:</pre></div><div id="d7fe8639" class="cell">
+<div class="cell-container"><div class="cell-decorator"><pre>In [6]:</pre></div><div id="d7fe8639" class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Load data (local ../data first, else download from the public repo)</span></span>
 <span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> _resolve(fname):</span>
 <span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> cand <span class="kw">in</span> (os.path.join(<span class="st">".."</span>, <span class="st">"data"</span>, fname), os.path.join(<span class="st">"data"</span>, fname), fname):</span>
@@ -436,11 +443,13 @@
 <pre><code>Districts: 520 | Model 4 regressors (excl. constant): 44</code></pre>
 </div>
 </div></div>
-</section>
+<div id="cc5363a1" class="cell markdown">
 <section id="build-the-alternative-weight-matrices" class="level2">
 <h2 class="anchored" data-anchor-id="build-the-alternative-weight-matrices">2. Build the alternative weight matrices</h2>
 <p>All weights are row-standardized. k-NN weights use the same lat/lon centroid basis as the baseline 6NN, so that the 6NN row reproduces Table 1. Contiguity islands (Queen: 1, Rook: 2) are attached to their single nearest neighbor. Inverse-distance weights apply <span class="math inline">\(1/d^{p}\)</span> within a <strong>distance band</strong> — the smallest threshold that leaves no district isolated — with centroid distances measured in a metric projection (EPSG:7755). Banding keeps the weights local and avoids the near-collinearity (every row tending to a global average) that destabilizes dense all-pairs distance weights.</p>
-<div class="cell-container"><div class="cell-decorator"><pre>In [4]:</pre></div><div id="de3b60a3" class="cell">
+</section>
+</div>
+<div class="cell-container"><div class="cell-decorator"><pre>In [8]:</pre></div><div id="de3b60a3" class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> w_knn(g, k):</span>
 <span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>    w <span class="op">=</span> KNN.from_dataframe(g, k<span class="op">=</span>k)            <span class="co"># lat/lon centroids, matches the baseline</span></span>
 <span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>    w.transform <span class="op">=</span> <span class="st">"r"</span></span>
@@ -485,11 +494,13 @@ Inverse distance             mean neighbours = 14.17
 Inverse distance squared     mean neighbours = 14.17</code></pre>
 </div>
 </div></div>
-</section>
+<div id="e20acba1" class="cell markdown">
 <section id="re-estimate-model-4-under-each-weight-matrix" class="level2">
 <h2 class="anchored" data-anchor-id="re-estimate-model-4-under-each-weight-matrix">3. Re-estimate Model 4 under each weight matrix</h2>
 <p>We reuse the manuscript’s estimation logic: a Spatial Durbin Model via <code>ML_Lag(slx_lags=1)</code>, with Direct/Indirect/Total impacts of initial luminosity computed by the full (LeSage–Pace) decomposition <span class="math inline">\(S_r(W) = (I-\rho W)^{-1}(\beta_r I + \theta_r W)\)</span>, and Monte-Carlo standard errors.</p>
-<div class="cell-container"><div class="cell-decorator"><pre>In [5]:</pre></div><div id="1d741de3" class="cell">
+</section>
+</div>
+<div class="cell-container"><div class="cell-decorator"><pre>In [10]:</pre></div><div id="1d741de3" class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> stars(est, se):</span>
 <span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> se <span class="op">&lt;=</span> <span class="dv">0</span> <span class="kw">or</span> <span class="kw">not</span> np.isfinite(se):</span>
 <span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> <span class="st">""</span></span>
@@ -577,10 +588,12 @@ Inverse distance             done (rho=-0.002)
 Inverse distance squared     done (rho=0.157)</code></pre>
 </div>
 </div></div>
-</section>
+<div id="d22be3eb" class="cell markdown">
 <section id="robustness-table" class="level2">
 <h2 class="anchored" data-anchor-id="robustness-table">4. Robustness table</h2>
-<div class="cell-container"><div class="cell-decorator"><pre>In [6]:</pre></div><div class="cell">
+</section>
+</div>
+<div class="cell-container"><div class="cell-decorator"><pre>In [12]:</pre></div><div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> IPython.display <span class="im">import</span> Markdown</span>
 <span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -621,7 +634,7 @@ Inverse distance squared     done (rho=0.157)</code></pre>
 <span id="cb9-38"><a href="#cb9-38" aria-hidden="true" tabindex="-1"></a>        _se(r[<span class="st">"direct_se"</span>]), _se(r[<span class="st">"indirect_se"</span>]), _se(r[<span class="st">"total_se"</span>]),</span>
 <span id="cb9-39"><a href="#cb9-39" aria-hidden="true" tabindex="-1"></a>    ))</span>
 <span id="cb9-40"><a href="#cb9-40" aria-hidden="true" tabindex="-1"></a>Markdown(<span class="st">"</span><span class="ch">\n</span><span class="st">"</span>.join(rows))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<div class="cell-container"><div class="cell-decorator"><pre>In [7]:</pre></div><div id="tbl-altw" class="cell quarto-float quarto-figure quarto-figure-center anchored">
+<div class="cell-container"><div class="cell-decorator"><pre>In [13]:</pre></div><div id="tbl-altw" class="cell quarto-float quarto-figure quarto-figure-center anchored">
 <figure class="quarto-float quarto-float-tbl figure">
 <figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-altw-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 Table&nbsp;1: Model 4 spatial impacts of initial luminosity under alternative spatial weight matrices (full LeSage–Pace method; Monte-Carlo standard errors in parentheses).
@@ -744,10 +757,12 @@ Table&nbsp;1: Model 4 spatial impacts of initial luminosity under alternative sp
 </figure>
 </div></div>
 </div></div>
-</section>
+<div id="db114623" class="cell markdown">
 <section id="summary-figure" class="level2">
 <h2 class="anchored" data-anchor-id="summary-figure">5. Summary figure</h2>
-<div class="cell-container"><div class="cell-decorator"><pre>In [8]:</pre></div><div id="cell-fig-altw" class="cell">
+</section>
+</div>
+<div class="cell-container"><div class="cell-decorator"><pre>In [15]:</pre></div><div id="cell-fig-altw" class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb10"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>names <span class="op">=</span> [n <span class="cf">for</span> n, _ <span class="kw">in</span> WMATS]</span>
 <span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>ypos <span class="op">=</span> np.arange(<span class="bu">len</span>(names))[::<span class="op">-</span><span class="dv">1</span>]   <span class="co"># top-to-bottom in listed order</span></span>
 <span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>effects <span class="op">=</span> [(<span class="st">"direct"</span>, <span class="st">"Direct"</span>, <span class="st">"#2c7fb8"</span>), (<span class="st">"indirect"</span>, <span class="st">"Indirect"</span>, <span class="st">"#d95f0e"</span>), (<span class="st">"total"</span>, <span class="st">"Total"</span>, <span class="st">"#31a354"</span>)]</span>
@@ -780,8 +795,9 @@ Figure&nbsp;1: Robustness of the Model 4 spatial impacts of initial luminosity t
 </div>
 </div>
 </div></div>
+<div id="642f14bb" class="cell markdown">
 <p>The estimates are reported alongside the 6NN baseline (dashed lines), so the figure shows directly whether the sign, magnitude, and significance of the convergence spillovers are robust to the choice of spatial weight matrix.</p>
-</section>
+</div>
      </main>
 <!-- /main column -->  <script id="quarto-html-after-body" type="application/javascript">
   window.document.addEventListener("DOMContentLoaded", function (event) {

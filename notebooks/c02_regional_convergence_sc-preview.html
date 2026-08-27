@@ -356,11 +356,18 @@
 </div>
 <div id="quarto-margin-sidebar" class="sidebar margin-sidebar zindex-bottom">
 </div>
-<main class="content quarto-banner-title-block" id="quarto-document-content">        <p><a href="https://colab.research.google.com/github/quarcs-lab/project2025s-py/blob/main/notebooks/c02_regional_convergence_sc.ipynb"><img src="https://colab.research.google.com/assets/colab-badge.svg" alt="Open In Colab"></a></p>
+<main class="content quarto-banner-title-block" id="quarto-document-content">        <div id="cell-0" class="cell markdown">
+<p><a href="https://colab.research.google.com/github/quarcs-lab/project2025s-py/blob/main/notebooks/c02_regional_convergence_sc.ipynb"><img src="https://colab.research.google.com/assets/colab-badge.svg" alt="Open In Colab"></a></p>
+</div>
+<div id="cell-1" class="cell markdown">
 <p>This notebook examines absolute <span class="math inline">\(\beta\)</span>-convergence in nighttime luminosity across 520 Indian districts (1996–2010). We regress per capita luminosity growth on initial luminosity levels and visualize the relationship in an annotated scatterplot. This analysis corresponds to the first set of results discussed in the main manuscript.</p>
+</div>
+<div id="cell-2" class="cell markdown">
 <section id="setup" class="level2">
 <h2 class="anchored" data-anchor-id="setup">Setup</h2>
-<div class="cell-container"><div class="cell-decorator"><pre>In [1]:</pre></div><div id="cell-3" class="cell">
+</section>
+</div>
+<div class="cell-container"><div class="cell-decorator"><pre>In [4]:</pre></div><div id="cell-3" class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Google Colab: install packages not included in the default environment</span></span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="cf">try</span>:</span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>    <span class="im">import</span> google.colab</span>
@@ -368,7 +375,7 @@
 <span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="cf">except</span> <span class="pp">ImportError</span>:</span>
 <span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>    <span class="cf">pass</span>  <span class="co"># Local environment — packages already installed</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div></div>
-<div class="cell-container"><div class="cell-decorator"><pre>In [2]:</pre></div><div id="f1824092" class="cell">
+<div class="cell-container"><div class="cell-decorator"><pre>In [5]:</pre></div><div id="f1824092" class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Setup</span></span>
 <span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
 <span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
@@ -379,11 +386,13 @@
 <span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> warnings</span>
 <span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a>warnings.filterwarnings(<span class="st">"ignore"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div></div>
-</section>
+<div id="cell-5" class="cell markdown">
 <section id="data" class="level2">
 <h2 class="anchored" data-anchor-id="data">Data</h2>
 <p>We use district-level radiance-calibrated nighttime lights data from the DMSP-OLS satellites, covering 520 districts.</p>
-<div class="cell-container"><div class="cell-decorator"><pre>In [3]:</pre></div><div id="cell-6" class="cell">
+</section>
+</div>
+<div class="cell-container"><div class="cell-decorator"><pre>In [7]:</pre></div><div id="cell-6" class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Load dataset (local copy first, else download from GitHub)</span></span>
 <span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> os</span>
 <span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> urllib.request</span>
@@ -400,11 +409,13 @@
 <pre><code>Districts: 520</code></pre>
 </div>
 </div></div>
-</section>
+<div id="cell-7" class="cell markdown">
 <section id="convergence-regression" class="level2">
 <h2 class="anchored" data-anchor-id="convergence-regression">Convergence regression</h2>
 <p>A negative slope on initial luminosity indicates <span class="math inline">\(\beta\)</span>-convergence: districts with lower initial luminosity grew faster over the period.</p>
-<div class="cell-container"><div class="cell-decorator"><pre>In [4]:</pre></div><div id="cell-8" class="cell">
+</section>
+</div>
+<div class="cell-container"><div class="cell-decorator"><pre>In [9]:</pre></div><div id="cell-8" class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Basic OLS Regression</span></span>
 <span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>model1 <span class="op">=</span> smf.ols(<span class="st">"light_growth96_10rcr_cap ~ log_light96_rcr_cap"</span>, data<span class="op">=</span>data).fit()</span>
 <span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(model1.summary())</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
@@ -436,14 +447,16 @@ Notes:
 [1] Standard Errors assume that the covariance matrix of the errors is correctly specified.</code></pre>
 </div>
 </div></div>
-<div class="cell-container"><div class="cell-decorator"><pre>In [5]:</pre></div><div id="cell-9" class="cell">
+<div class="cell-container"><div class="cell-decorator"><pre>In [10]:</pre></div><div id="cell-9" class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Compute regression model for scatterplot annotation</span></span>
 <span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>model <span class="op">=</span> smf.ols(<span class="st">"light_growth96_10rcr_cap ~ log_light96_rcr_cap"</span>, data<span class="op">=</span>data).fit()</span>
 <span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>slope <span class="op">=</span> <span class="bu">round</span>(model.params[<span class="st">"log_light96_rcr_cap"</span>], <span class="dv">3</span>)</span>
 <span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>rsq   <span class="op">=</span> <span class="bu">round</span>(model.rsquared, <span class="dv">3</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div></div>
+<div id="393e9167" class="cell markdown">
 <p>The <span class="math inline">\(\beta\)</span> coefficient implies an annual <strong>speed of convergence</strong> <span class="math inline">\(\lambda = -\ln(1 + \beta T)/T\)</span> (Barro &amp; Sala-i-Martin), where <span class="math inline">\(T = 14\)</span> years (1996–2010) and the dependent variable is the average annual growth rate, together with a <strong>half-life</strong> <span class="math inline">\(\ln(2)/\lambda\)</span> (the time to close half the gap to the steady state).</p>
-<div class="cell-container"><div class="cell-decorator"><pre>In [6]:</pre></div><div id="52adb1a9" class="cell">
+</div>
+<div class="cell-container"><div class="cell-decorator"><pre>In [12]:</pre></div><div id="52adb1a9" class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Implied annual speed of convergence and half-life (Barro &amp; Sala-i-Martin)</span></span>
 <span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>T <span class="op">=</span> <span class="dv">14</span>  <span class="co"># 1996-2010; dependent variable is the average annual growth rate</span></span>
 <span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>beta <span class="op">=</span> model.params[<span class="st">"log_light96_rcr_cap"</span>]</span>
@@ -458,11 +471,13 @@ Annual speed of convergence:    2.33%
 Implied half-life:              29.7 years</code></pre>
 </div>
 </div></div>
-</section>
+<div id="3bc565c0" class="cell markdown">
 <section id="sigma-convergence" class="level2">
 <h2 class="anchored" data-anchor-id="sigma-convergence">Sigma convergence</h2>
 <p><span class="math inline">\(\beta\)</span>-convergence is necessary but not sufficient for a fall in the cross-district dispersion of luminosity. We therefore check <span class="math inline">\(\sigma\)</span>-convergence directly, comparing the standard deviation of log per-capita luminosity at the two endpoints. The 2010 value is reconstructed from the 1996 level and the average annual growth rate, which is how the dependent variable is defined.</p>
-<div class="cell-container"><div class="cell-decorator"><pre>In [7]:</pre></div><div id="2eda634d" class="cell">
+</section>
+</div>
+<div class="cell-container"><div class="cell-decorator"><pre>In [14]:</pre></div><div id="2eda634d" class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb10"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Sigma convergence: cross-district dispersion of log per-capita luminosity</span></span>
 <span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>sd96 <span class="op">=</span> data[<span class="st">"log_light96_rcr_cap"</span>].std()</span>
 <span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>sd10 <span class="op">=</span> (data[<span class="st">"log_light96_rcr_cap"</span>] <span class="op">+</span> T <span class="op">*</span> data[<span class="st">"light_growth96_10rcr_cap"</span>]).std()</span>
@@ -475,11 +490,13 @@ SD of log luminosity per capita, 2010: 0.9454
 Change:                                -0.1481 (-13.5%)</code></pre>
 </div>
 </div></div>
-</section>
+<div id="cell-14" class="cell markdown">
 <section id="convergence-scatterplot" class="level2">
 <h2 class="anchored" data-anchor-id="convergence-scatterplot">Convergence scatterplot</h2>
 <p>The scatterplot below visualizes the convergence relationship. Outlier districts are labeled to highlight cases that deviate notably from the overall trend—either bright districts that declined or dim districts that grew unusually fast.</p>
-<div class="cell-container"><div class="cell-decorator"><pre>In [8]:</pre></div><div id="cell-fig-convergence" class="cell">
+</section>
+</div>
+<div class="cell-container"><div class="cell-decorator"><pre>In [16]:</pre></div><div id="cell-fig-convergence" class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb12"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Identify outlier districts for labeling</span></span>
 <span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>mask <span class="op">=</span> (</span>
 <span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>    ((data[<span class="st">"log_light96_rcr_cap"</span>] <span class="op">&gt;</span> <span class="op">-</span><span class="dv">3</span>) <span class="op">&amp;</span> (data[<span class="st">"light_growth96_10rcr_cap"</span>] <span class="op">&lt;</span> <span class="dv">0</span>))</span>
@@ -543,7 +560,6 @@ Figure&nbsp;1: Regional luminosity convergence across districts in India <br> No
 </div>
 </div>
 </div></div>
-</section>
      </main>
 <!-- /main column -->  <script id="quarto-html-after-body" type="application/javascript">
   window.document.addEventListener("DOMContentLoaded", function (event) {

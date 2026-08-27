@@ -349,24 +349,27 @@
   <li><a href="#spatial-analysis-of-culture-and-economic-development-in-india-32-states" id="toc-spatial-analysis-of-culture-and-economic-development-in-india-32-states" class="nav-link active" data-scroll-target="#spatial-analysis-of-culture-and-economic-development-in-india-32-states">Spatial Analysis of Culture and Economic Development in India (32 States)</a>
   <ul class="collapse">
   <li><a href="#data-sources" id="toc-data-sources" class="nav-link" data-scroll-target="#data-sources">Data sources</a></li>
+  </ul></li>
   <li><a href="#setup-and-data-loading" id="toc-setup-and-data-loading" class="nav-link" data-scroll-target="#setup-and-data-loading">1. Setup and Data Loading</a>
   <ul class="collapse">
   <li><a href="#variable-definitions" id="toc-variable-definitions" class="nav-link" data-scroll-target="#variable-definitions">Variable definitions</a></li>
-  <li><a href="#data-merge-summary" id="toc-data-merge-summary" class="nav-link" data-scroll-target="#data-merge-summary">Data merge summary</a></li>
   </ul></li>
+  <li><a href="#data-merge-summary" id="toc-data-merge-summary" class="nav-link" data-scroll-target="#data-merge-summary">Data merge summary</a></li>
   <li><a href="#choropleth-maps-log-ntl-vs-cultural-variables" id="toc-choropleth-maps-log-ntl-vs-cultural-variables" class="nav-link" data-scroll-target="#choropleth-maps-log-ntl-vs-cultural-variables">2. Choropleth Maps — Log NTL vs Cultural Variables</a></li>
   <li><a href="#scatter-plots-log-ntl-vs-cultural-variables" id="toc-scatter-plots-log-ntl-vs-cultural-variables" class="nav-link" data-scroll-target="#scatter-plots-log-ntl-vs-cultural-variables">3. Scatter Plots — Log NTL vs Cultural Variables</a></li>
   <li><a href="#correlation-analysis" id="toc-correlation-analysis" class="nav-link" data-scroll-target="#correlation-analysis">4. Correlation Analysis</a></li>
   <li><a href="#lisa-cluster-maps-log-ntl-vs-cultural-variables" id="toc-lisa-cluster-maps-log-ntl-vs-cultural-variables" class="nav-link" data-scroll-target="#lisa-cluster-maps-log-ntl-vs-cultural-variables">5. LISA Cluster Maps — Log NTL vs Cultural Variables</a></li>
   <li><a href="#high-vs-low-development-cultural-profiles" id="toc-high-vs-low-development-cultural-profiles" class="nav-link" data-scroll-target="#high-vs-low-development-cultural-profiles">6. High vs Low Development: Cultural Profiles</a></li>
   <li><a href="#key-graphs" id="toc-key-graphs" class="nav-link" data-scroll-target="#key-graphs">7. Key Graphs</a></li>
-  </ul></li>
   </ul>
 </nav>
 </div>
 <div id="quarto-margin-sidebar" class="sidebar margin-sidebar zindex-bottom">
 </div>
-<main class="content quarto-banner-title-block" id="quarto-document-content">        <p><a href="https://colab.research.google.com/github/quarcs-lab/project2025s-py/blob/main/notebooks/c06_spatial_culture.ipynb"><img src="https://colab.research.google.com/assets/colab-badge.svg" alt="Open In Colab"></a></p>
+<main class="content quarto-banner-title-block" id="quarto-document-content">        <div id="adbf073c" class="cell markdown">
+<p><a href="https://colab.research.google.com/github/quarcs-lab/project2025s-py/blob/main/notebooks/c06_spatial_culture.ipynb"><img src="https://colab.research.google.com/assets/colab-badge.svg" alt="Open In Colab"></a></p>
+</div>
+<div id="a1" class="cell markdown">
 <section id="spatial-analysis-of-culture-and-economic-development-in-india-32-states" class="level1">
 <h1>Spatial Analysis of Culture and Economic Development in India (32 States)</h1>
 <p>This notebook examines the relationship between economic development (nighttime lights per capita, 1992) and cultural participation (NSS 47th Round, July–December 1991) across all 32 Indian states and union territories.</p>
@@ -378,12 +381,15 @@
 <li><strong>Geographic boundaries:</strong> 32-region map derived from a 36-region GeoJSON by dissolving four states created after the survey period (Chhattisgarh, Jharkhand, Uttarakhand, Telangana) into their parent states.</li>
 </ul>
 </section>
+</section>
+</div>
+<div id="a2" class="cell markdown">
 <section id="setup-and-data-loading" class="level2">
 <h2 class="anchored" data-anchor-id="setup-and-data-loading">1. Setup and Data Loading</h2>
 <section id="variable-definitions" class="level3">
 <h3 class="anchored" data-anchor-id="variable-definitions">Variable definitions</h3>
 <p><strong>Economic development proxy:</strong></p>
-<table class="caption-top table">
+<table class="caption-top table table-sm table-striped small">
 <colgroup>
 <col style="width: 25%">
 <col style="width: 25%">
@@ -408,7 +414,7 @@
 </tbody>
 </table>
 <p><strong>Cultural participation variables</strong> (PCA factor scores, standardized, aggregated to state means):</p>
-<table class="caption-top table">
+<table class="caption-top table table-sm table-striped small">
 <colgroup>
 <col style="width: 33%">
 <col style="width: 33%">
@@ -455,7 +461,10 @@
 </tbody>
 </table>
 <p>The six cultural factors were extracted via Principal Component Analysis (PCA) with varimax rotation on 20 survey items (B7_q3 through B7_q20) from NSS Schedule 30. Predicted factor scores were then collapsed to state-level means (see <code>data/Cultural_Data_India/CulturalData.do</code>).</p>
-<div class="cell-container"><div class="cell-decorator"><pre>In [1]:</pre></div><div id="a149498e" class="cell">
+</section>
+</section>
+</div>
+<div class="cell-container"><div class="cell-decorator"><pre>In [4]:</pre></div><div id="a149498e" class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Google Colab: install packages not included in the default environment</span></span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="cf">try</span>:</span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>    <span class="im">import</span> google.colab</span>
@@ -463,7 +472,7 @@
 <span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="cf">except</span> <span class="pp">ImportError</span>:</span>
 <span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>    <span class="cf">pass</span>  <span class="co"># Local environment — packages already installed</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div></div>
-<div class="cell-container"><div class="cell-decorator"><pre>In [2]:</pre></div><div id="a3" class="cell">
+<div class="cell-container"><div class="cell-decorator"><pre>In [5]:</pre></div><div id="a3" class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
 <span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
 <span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> geopandas <span class="im">as</span> gpd</span>
@@ -475,7 +484,7 @@
 <span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> splot.esda <span class="im">import</span> moran_scatterplot, lisa_cluster</span>
 <span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> contextily <span class="im">as</span> cx</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div></div>
-<div class="cell-container"><div class="cell-decorator"><pre>In [3]:</pre></div><div id="a4" class="cell">
+<div class="cell-container"><div class="cell-decorator"><pre>In [6]:</pre></div><div id="a4" class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Load cultural data (NSS 47th Round, July-December 1991)</span></span>
 <span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>df_culture <span class="op">=</span> pd.read_stata(<span class="st">"https://raw.githubusercontent.com/quarcs-lab/project2025s-py/main/data/Cultural_Data_India/Final_state_LC_CH.dta"</span>)</span>
 <span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Cultural data: </span><span class="sc">{</span>df_culture<span class="sc">.</span>shape[<span class="dv">0</span>]<span class="sc">}</span><span class="ss"> states, </span><span class="sc">{</span>df_culture<span class="sc">.</span>shape[<span class="dv">1</span>]<span class="sc">}</span><span class="ss"> columns"</span>)</span>
@@ -493,7 +502,7 @@ NTL data: 32 states, 6 columns
 Map: 32 regions</code></pre>
 </div>
 </div></div>
-<div class="cell-container"><div class="cell-decorator"><pre>In [4]:</pre></div><div id="a5" class="cell">
+<div class="cell-container"><div class="cell-decorator"><pre>In [7]:</pre></div><div id="a5" class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Merge all three datasets</span></span>
 <span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>gdf <span class="op">=</span> gdf32.merge(df_culture, left_on<span class="op">=</span><span class="st">"region"</span>, right_on<span class="op">=</span><span class="st">"State_num"</span>, how<span class="op">=</span><span class="st">"left"</span>)</span>
 <span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>gdf <span class="op">=</span> gdf.merge(df_ntl[[<span class="st">"region"</span>, <span class="st">"ln_ntl_pc"</span>]], on<span class="op">=</span><span class="st">"region"</span>, how<span class="op">=</span><span class="st">"left"</span>)</span>
@@ -525,7 +534,7 @@ Log NTL per capita: range [6.713, 9.608]
 Mean: 8.286, Std: 0.768</code></pre>
 </div>
 </div></div>
-</section>
+<div id="a5b" class="cell markdown">
 <section id="data-merge-summary" class="level3">
 <h3 class="anchored" data-anchor-id="data-merge-summary">Data merge summary</h3>
 <ul>
@@ -534,11 +543,14 @@ Mean: 8.286, Std: 0.768</code></pre>
 <li><strong>Sample size:</strong> N = 32 states and union territories, representing full coverage of Indian administrative units at the time of the survey.</li>
 </ul>
 </section>
-</section>
+</div>
+<div id="a6" class="cell markdown">
 <section id="choropleth-maps-log-ntl-vs-cultural-variables" class="level2">
 <h2 class="anchored" data-anchor-id="choropleth-maps-log-ntl-vs-cultural-variables">2. Choropleth Maps — Log NTL vs Cultural Variables</h2>
 <p>Comparing the spatial distribution of economic development (log NTL per capita) with key cultural participation variables across all 32 states. Similar geographic clustering across maps may indicate spatial association between luminosity and cultural patterns, which is tested formally in Section 5.</p>
-<div class="cell-container"><div class="cell-decorator"><pre>In [5]:</pre></div><div id="a7" class="cell">
+</section>
+</div>
+<div class="cell-container"><div class="cell-decorator"><pre>In [10]:</pre></div><div id="a7" class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>cultural_compare <span class="op">=</span> [<span class="st">"LC_Telecast"</span>, <span class="st">"CH_relig"</span>, <span class="st">"SC"</span>]</span>
 <span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>cultural_labels <span class="op">=</span> {</span>
 <span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>    <span class="st">"LC_Telecast"</span>: <span class="st">"Cultural Telecast (TV/Media)"</span>,</span>
@@ -585,11 +597,13 @@ Mean: 8.286, Std: 0.768</code></pre>
 </div>
 </div>
 </div></div>
-</section>
+<div id="a8" class="cell markdown">
 <section id="scatter-plots-log-ntl-vs-cultural-variables" class="level2">
 <h2 class="anchored" data-anchor-id="scatter-plots-log-ntl-vs-cultural-variables">3. Scatter Plots — Log NTL vs Cultural Variables</h2>
 <p>Each scatter plot shows the relationship between log NTL per capita (x-axis) and a cultural participation variable (y-axis) for all 32 states.</p>
-<div class="cell-container"><div class="cell-decorator"><pre>In [6]:</pre></div><div id="a9" class="cell">
+</section>
+</div>
+<div class="cell-container"><div class="cell-decorator"><pre>In [12]:</pre></div><div id="a9" class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>fig, axes <span class="op">=</span> plt.subplots(<span class="dv">2</span>, <span class="dv">3</span>, figsize<span class="op">=</span>(<span class="dv">20</span>, <span class="dv">13</span>))</span>
 <span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>axes <span class="op">=</span> axes.flatten()</span>
 <span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -640,11 +654,13 @@ Mean: 8.286, Std: 0.768</code></pre>
 </div>
 </div>
 </div></div>
-</section>
+<div id="a10" class="cell markdown">
 <section id="correlation-analysis" class="level2">
 <h2 class="anchored" data-anchor-id="correlation-analysis">4. Correlation Analysis</h2>
 <p>Pearson and Spearman correlation matrices, plus a significance table comparing all cultural variables with log NTL per capita. Both coefficients are reported because Pearson captures linear association while Spearman captures monotonic relationships and is robust to outliers — an important consideration with N = 32 and potential leverage from small island territories at the extremes of the NTL distribution. For the manuscript, we adopt Spearman as the primary measure given these outlier concerns.</p>
-<div class="cell-container"><div class="cell-decorator"><pre>In [7]:</pre></div><div id="a11" class="cell">
+</section>
+</div>
+<div class="cell-container"><div class="cell-decorator"><pre>In [14]:</pre></div><div id="a11" class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>corr_vars <span class="op">=</span> [<span class="st">"ln_ntl_pc"</span>] <span class="op">+</span> variables</span>
 <span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>corr_labels <span class="op">=</span> {</span>
 <span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>    <span class="st">"ln_ntl_pc"</span>: <span class="st">"Log NTL p.c."</span>,</span>
@@ -689,7 +705,7 @@ Mean: 8.286, Std: 0.768</code></pre>
 </div>
 </div>
 </div></div>
-<div class="cell-container"><div class="cell-decorator"><pre>In [8]:</pre></div><div id="a12" class="cell">
+<div class="cell-container"><div class="cell-decorator"><pre>In [15]:</pre></div><div id="a12" class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb10"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Significance table</span></span>
 <span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"Correlation of Log NTL per Capita (1992) with Cultural Variables"</span>)</span>
 <span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"="</span> <span class="op">*</span> <span class="dv">75</span>)</span>
@@ -726,12 +742,14 @@ Significance: * p &lt; 0.05, . p &lt; 0.10
 N = 32 states</code></pre>
 </div>
 </div></div>
-</section>
+<div id="a13" class="cell markdown">
 <section id="lisa-cluster-maps-log-ntl-vs-cultural-variables" class="level2">
 <h2 class="anchored" data-anchor-id="lisa-cluster-maps-log-ntl-vs-cultural-variables">5. LISA Cluster Maps — Log NTL vs Cultural Variables</h2>
 <p>Local Indicators of Spatial Association (LISA) for log NTL per capita and cultural variables. Spatial weights: 6-nearest neighbors (k = 6), row-standardized. Permutations: 999, significance threshold: p &lt; 0.05.</p>
 <p>The choice of k = 6 follows the spatial weights specification used in the main convergence analysis (notebooks c03–c04), ensuring methodological consistency across the manuscript.</p>
-<div class="cell-container"><div class="cell-decorator"><pre>In [9]:</pre></div><div id="a14" class="cell">
+</section>
+</div>
+<div class="cell-container"><div class="cell-decorator"><pre>In [17]:</pre></div><div id="a14" class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb12"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Build spatial weights matrix (6-nearest neighbors)</span></span>
 <span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>W <span class="op">=</span> weights.KNN.from_dataframe(gdf, k<span class="op">=</span><span class="dv">6</span>)</span>
 <span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>W.transform <span class="op">=</span> <span class="st">"r"</span></span>
@@ -746,7 +764,7 @@ Note: KNN distances computed on WGS84 centroids. Island territories
 centroid distance, which may not reflect meaningful spatial adjacency.</code></pre>
 </div>
 </div></div>
-<div class="cell-container"><div class="cell-decorator"><pre>In [10]:</pre></div><div id="a15" class="cell">
+<div class="cell-container"><div class="cell-decorator"><pre>In [18]:</pre></div><div id="a15" class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb14"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Global Moran's I for log NTL and all cultural variables</span></span>
 <span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a><span class="co"># esda.Moran has no seed argument, so its permutation p-values draw from the</span></span>
 <span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a><span class="co"># global NumPy RNG; seed it here so this table reproduces exactly.</span></span>
@@ -783,7 +801,7 @@ Sports Participation                    0.196     0.014        Yes *
 -----------------------------------------------------------------</code></pre>
 </div>
 </div></div>
-<div class="cell-container"><div class="cell-decorator"><pre>In [11]:</pre></div><div id="a16" class="cell">
+<div class="cell-container"><div class="cell-decorator"><pre>In [19]:</pre></div><div id="a16" class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb16"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Compute LISA for log NTL and each cultural variable</span></span>
 <span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a>lisa_ntl <span class="op">=</span> Moran_Local(gdf[<span class="st">"ln_ntl_pc"</span>].values, W, permutations<span class="op">=</span><span class="dv">999</span>, seed<span class="op">=</span><span class="dv">12345</span>)</span>
 <span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -831,7 +849,7 @@ Sports Participation                    0.196     0.014        Yes *
 </div>
 </div>
 </div></div>
-<div class="cell-container"><div class="cell-decorator"><pre>In [12]:</pre></div><div id="a17" class="cell">
+<div class="cell-container"><div class="cell-decorator"><pre>In [20]:</pre></div><div id="a17" class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb17"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Moran scatterplots</span></span>
 <span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a>all_lisa <span class="op">=</span> {<span class="st">"ln_ntl_pc"</span>: lisa_ntl}</span>
 <span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a>all_lisa.update(lisa_cultural)</span>
@@ -871,11 +889,13 @@ Sports Participation                    0.196     0.014        Yes *
 </div>
 </div>
 </div></div>
-</section>
+<div id="a18" class="cell markdown">
 <section id="high-vs-low-development-cultural-profiles" class="level2">
 <h2 class="anchored" data-anchor-id="high-vs-low-development-cultural-profiles">6. High vs Low Development: Cultural Profiles</h2>
 <p>Comparing the average cultural participation of states above and below the median log NTL per capita. This median split provides a non-parametric complement to the continuous correlation analysis, offering an intuitive summary of how cultural profiles differ between more and less economically developed states.</p>
-<div class="cell-container"><div class="cell-decorator"><pre>In [13]:</pre></div><div id="a19" class="cell">
+</section>
+</div>
+<div class="cell-container"><div class="cell-decorator"><pre>In [22]:</pre></div><div id="a19" class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb18"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Split states into high/low development groups</span></span>
 <span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a>median_ntl <span class="op">=</span> gdf[<span class="st">"ln_ntl_pc"</span>].median()</span>
 <span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a>gdf[<span class="st">"dev_group"</span>] <span class="op">=</span> np.where(</span>
@@ -960,7 +980,7 @@ Live Cultural Shows                 U =    175  p = 0.080  .
 Sports Participation                U =    115  p = 0.638   </code></pre>
 </div>
 </div></div>
-</section>
+<div id="88b3af67" class="cell markdown">
 <section id="key-graphs" class="level2">
 <h2 class="anchored" data-anchor-id="key-graphs">7. Key Graphs</h2>
 <p>The two figures below are designed for inclusion in the manuscript. They illustrate the core finding: economic development (proxied by nighttime lights per capita) is <strong>positively</strong> associated with media-based cultural consumption and <strong>negatively</strong> associated with community-based cultural participation.</p>
@@ -968,7 +988,9 @@ Sports Participation                U =    115  p = 0.638   </code></pre>
 <li><strong>Figure 1</strong> shows the scatter-plot relationship for the two key cultural variables.</li>
 <li><strong>Figure 2</strong> compares LISA spatial clusters of economic activity with those of the key cultural variables.</li>
 </ul>
-<div class="cell-container"><div class="cell-decorator"><pre>In [14]:</pre></div><div id="cell-fig-culture-scatter" class="cell">
+</section>
+</div>
+<div class="cell-container"><div class="cell-decorator"><pre>In [24]:</pre></div><div id="cell-fig-culture-scatter" class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb21"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Key variables for the core message</span></span>
 <span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a>key_vars <span class="op">=</span> [<span class="st">"LC_Telecast"</span>, <span class="st">"SC"</span>]</span>
 <span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a>key_labels <span class="op">=</span> {</span>
@@ -1049,7 +1071,7 @@ Figure&nbsp;1: Relationship between nightlight luminosity and cultural participa
 </div>
 </div>
 </div></div>
-<div class="cell-container"><div class="cell-decorator"><pre>In [15]:</pre></div><div id="cell-fig-culture-lisa" class="cell">
+<div class="cell-container"><div class="cell-decorator"><pre>In [25]:</pre></div><div id="cell-fig-culture-lisa" class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb22"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Reproject to Web Mercator for basemap overlay</span></span>
 <span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a>gdf_wm <span class="op">=</span> gdf.to_crs(epsg<span class="op">=</span><span class="dv">3857</span>)</span>
 <span id="cb22-3"><a href="#cb22-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -1119,8 +1141,6 @@ Figure&nbsp;2: LISA cluster maps of cultural participation across 32 Indian stat
 </div>
 </div>
 </div></div>
-</section>
-</section>
      </main>
 <!-- /main column -->  <script id="quarto-html-after-body" type="application/javascript">
   window.document.addEventListener("DOMContentLoaded", function (event) {
