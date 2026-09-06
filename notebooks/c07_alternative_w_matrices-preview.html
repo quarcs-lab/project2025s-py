@@ -346,11 +346,11 @@
     <h2 id="toc-title">Contents</h2>
    
   <ul>
-  <li><a href="#setup" id="toc-setup" class="nav-link active" data-scroll-target="#setup">1. Setup</a></li>
-  <li><a href="#build-the-alternative-weight-matrices" id="toc-build-the-alternative-weight-matrices" class="nav-link" data-scroll-target="#build-the-alternative-weight-matrices">2. Build the alternative weight matrices</a></li>
-  <li><a href="#re-estimate-model-4-under-each-weight-matrix" id="toc-re-estimate-model-4-under-each-weight-matrix" class="nav-link" data-scroll-target="#re-estimate-model-4-under-each-weight-matrix">3. Re-estimate Model 4 under each weight matrix</a></li>
-  <li><a href="#robustness-table" id="toc-robustness-table" class="nav-link" data-scroll-target="#robustness-table">4. Robustness table</a></li>
-  <li><a href="#summary-figure" id="toc-summary-figure" class="nav-link" data-scroll-target="#summary-figure">5. Summary figure</a></li>
+  <li><a href="#setup" id="toc-setup" class="nav-link active" data-scroll-target="#setup"><span class="header-section-number">1</span> 1. Setup</a></li>
+  <li><a href="#build-the-alternative-weight-matrices" id="toc-build-the-alternative-weight-matrices" class="nav-link" data-scroll-target="#build-the-alternative-weight-matrices"><span class="header-section-number">2</span> 2. Build the alternative weight matrices</a></li>
+  <li><a href="#re-estimate-model-4-under-each-weight-matrix" id="toc-re-estimate-model-4-under-each-weight-matrix" class="nav-link" data-scroll-target="#re-estimate-model-4-under-each-weight-matrix"><span class="header-section-number">3</span> 3. Re-estimate Model 4 under each weight matrix</a></li>
+  <li><a href="#robustness-table" id="toc-robustness-table" class="nav-link" data-scroll-target="#robustness-table"><span class="header-section-number">4</span> 4. Robustness table</a></li>
+  <li><a href="#summary-figure" id="toc-summary-figure" class="nav-link" data-scroll-target="#summary-figure"><span class="header-section-number">5</span> 5. Summary figure</a></li>
   </ul>
 </nav>
 </div>
@@ -377,8 +377,8 @@
 <span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>    <span class="cf">pass</span>  <span class="co"># Local environment — packages already installed</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div></div>
 <div id="69d0d77b" class="cell markdown">
-<section id="setup" class="level2">
-<h2 class="anchored" data-anchor-id="setup">1. Setup</h2>
+<section id="setup" class="level2" data-number="1">
+<h2 data-number="1" class="anchored" data-anchor-id="setup"><span class="header-section-number">1</span> 1. Setup</h2>
 </section>
 </div>
 <div class="cell-container"><div class="cell-decorator"><pre>In [5]:</pre></div><div id="ffae75f6" class="cell">
@@ -444,8 +444,8 @@
 </div>
 </div></div>
 <div id="cc5363a1" class="cell markdown">
-<section id="build-the-alternative-weight-matrices" class="level2">
-<h2 class="anchored" data-anchor-id="build-the-alternative-weight-matrices">2. Build the alternative weight matrices</h2>
+<section id="build-the-alternative-weight-matrices" class="level2" data-number="2">
+<h2 data-number="2" class="anchored" data-anchor-id="build-the-alternative-weight-matrices"><span class="header-section-number">2</span> 2. Build the alternative weight matrices</h2>
 <p>All weights are row-standardized. k-NN weights use the same lat/lon centroid basis as the baseline 6NN, so that the 6NN row reproduces Table 1. Contiguity islands (Queen: 1, Rook: 2) are attached to their single nearest neighbor. Inverse-distance weights apply <span class="math inline">\(1/d^{p}\)</span> within a <strong>distance band</strong> — the smallest threshold that leaves no district isolated — with centroid distances measured in a metric projection (EPSG:7755). Banding keeps the weights local and avoids the near-collinearity (every row tending to a global average) that destabilizes dense all-pairs distance weights.</p>
 </section>
 </div>
@@ -495,8 +495,8 @@ Inverse distance squared     mean neighbours = 14.17</code></pre>
 </div>
 </div></div>
 <div id="e20acba1" class="cell markdown">
-<section id="re-estimate-model-4-under-each-weight-matrix" class="level2">
-<h2 class="anchored" data-anchor-id="re-estimate-model-4-under-each-weight-matrix">3. Re-estimate Model 4 under each weight matrix</h2>
+<section id="re-estimate-model-4-under-each-weight-matrix" class="level2" data-number="3">
+<h2 data-number="3" class="anchored" data-anchor-id="re-estimate-model-4-under-each-weight-matrix"><span class="header-section-number">3</span> 3. Re-estimate Model 4 under each weight matrix</h2>
 <p>We reuse the manuscript’s estimation logic: a Spatial Durbin Model via <code>ML_Lag(slx_lags=1)</code>, with Direct/Indirect/Total impacts of initial luminosity computed by the full (LeSage–Pace) decomposition <span class="math inline">\(S_r(W) = (I-\rho W)^{-1}(\beta_r I + \theta_r W)\)</span>, and Monte-Carlo standard errors.</p>
 </section>
 </div>
@@ -589,8 +589,8 @@ Inverse distance squared     done (rho=0.157)</code></pre>
 </div>
 </div></div>
 <div id="d22be3eb" class="cell markdown">
-<section id="robustness-table" class="level2">
-<h2 class="anchored" data-anchor-id="robustness-table">4. Robustness table</h2>
+<section id="robustness-table" class="level2" data-number="4">
+<h2 data-number="4" class="anchored" data-anchor-id="robustness-table"><span class="header-section-number">4</span> 4. Robustness table</h2>
 </section>
 </div>
 <div class="cell-container"><div class="cell-decorator"><pre>In [12]:</pre></div><div class="cell">
@@ -637,7 +637,7 @@ Inverse distance squared     done (rho=0.157)</code></pre>
 <div class="cell-container"><div class="cell-decorator"><pre>In [13]:</pre></div><div id="tbl-altw" class="cell quarto-float quarto-figure quarto-figure-center anchored">
 <figure class="quarto-float quarto-float-tbl figure">
 <figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-altw-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Table&nbsp;1: Model 4 spatial impacts of initial luminosity under alternative spatial weight matrices (full LeSage–Pace method; Monte-Carlo standard errors in parentheses).
+Table&nbsp;1: Model 4 spatial impacts of initial luminosity under alternative spatial weight matrices (full LeSage–Pace method; Monte-Carlo standard errors in parentheses). *** p &lt; 0.01, ** p &lt; 0.05, * p &lt; 0.10.
 </figcaption>
 <div aria-describedby="tbl-altw-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <div class="cell-output cell-output-display cell-output-markdown" data-execution_count="6">
@@ -758,8 +758,8 @@ Table&nbsp;1: Model 4 spatial impacts of initial luminosity under alternative sp
 </div></div>
 </div></div>
 <div id="db114623" class="cell markdown">
-<section id="summary-figure" class="level2">
-<h2 class="anchored" data-anchor-id="summary-figure">5. Summary figure</h2>
+<section id="summary-figure" class="level2" data-number="5">
+<h2 data-number="5" class="anchored" data-anchor-id="summary-figure"><span class="header-section-number">5</span> 5. Summary figure</h2>
 </section>
 </div>
 <div class="cell-container"><div class="cell-decorator"><pre>In [15]:</pre></div><div id="cell-fig-altw" class="cell">

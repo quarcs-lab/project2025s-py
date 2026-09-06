@@ -348,11 +348,11 @@
     <h2 id="toc-title">Contents</h2>
    
   <ul>
-  <li><a href="#setup" id="toc-setup" class="nav-link active" data-scroll-target="#setup">Setup</a></li>
-  <li><a href="#data" id="toc-data" class="nav-link" data-scroll-target="#data">Data</a></li>
-  <li><a href="#spatial-weights-and-lags" id="toc-spatial-weights-and-lags" class="nav-link" data-scroll-target="#spatial-weights-and-lags">Spatial weights and lags</a></li>
-  <li><a href="#spatial-dependence-for-initial-log-luminosity" id="toc-spatial-dependence-for-initial-log-luminosity" class="nav-link" data-scroll-target="#spatial-dependence-for-initial-log-luminosity">Spatial dependence for initial (log) luminosity</a></li>
-  <li><a href="#spatial-dependence-for-luminosity-growth" id="toc-spatial-dependence-for-luminosity-growth" class="nav-link" data-scroll-target="#spatial-dependence-for-luminosity-growth">Spatial dependence for luminosity growth</a></li>
+  <li><a href="#setup" id="toc-setup" class="nav-link active" data-scroll-target="#setup"><span class="header-section-number">1</span> Setup</a></li>
+  <li><a href="#data" id="toc-data" class="nav-link" data-scroll-target="#data"><span class="header-section-number">2</span> Data</a></li>
+  <li><a href="#spatial-weights-and-lags" id="toc-spatial-weights-and-lags" class="nav-link" data-scroll-target="#spatial-weights-and-lags"><span class="header-section-number">3</span> Spatial weights and lags</a></li>
+  <li><a href="#spatial-dependence-for-initial-log-luminosity" id="toc-spatial-dependence-for-initial-log-luminosity" class="nav-link" data-scroll-target="#spatial-dependence-for-initial-log-luminosity"><span class="header-section-number">4</span> Spatial dependence for initial (log) luminosity</a></li>
+  <li><a href="#spatial-dependence-for-luminosity-growth" id="toc-spatial-dependence-for-luminosity-growth" class="nav-link" data-scroll-target="#spatial-dependence-for-luminosity-growth"><span class="header-section-number">5</span> Spatial dependence for luminosity growth</a></li>
   </ul>
 </nav>
 </div>
@@ -365,8 +365,8 @@
 <p>This notebook examines spatial dependence in nighttime luminosity across 520 Indian districts using Local Indicators of Spatial Association (LISA). We apply Local Moran’s I to both the initial level and the growth rate of luminosity per capita, and visualize the results as cluster maps identifying statistically significant spatial clusters (HH, LL) and outliers (HL, LH).</p>
 </div>
 <div id="cell-2" class="cell markdown">
-<section id="setup" class="level2">
-<h2 class="anchored" data-anchor-id="setup">Setup</h2>
+<section id="setup" class="level2" data-number="1">
+<h2 data-number="1" class="anchored" data-anchor-id="setup"><span class="header-section-number">1</span> Setup</h2>
 </section>
 </div>
 <div class="cell-container"><div class="cell-decorator"><pre>In [4]:</pre></div><div id="cell-3" class="cell">
@@ -423,8 +423,8 @@
 <span id="cb2-43"><a href="#cb2-43" aria-hidden="true" tabindex="-1"></a>np.random.seed(RANDOM_SEED)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div></div>
 <div id="cell-5" class="cell markdown">
-<section id="data" class="level2">
-<h2 class="anchored" data-anchor-id="data">Data</h2>
+<section id="data" class="level2" data-number="2">
+<h2 data-number="2" class="anchored" data-anchor-id="data"><span class="header-section-number">2</span> Data</h2>
 <p>We load district geometries and nighttime lights variables from the GeoPackage, which already contains the 520-district sample merged with all analysis variables.</p>
 </section>
 </div>
@@ -945,8 +945,8 @@ Figure&nbsp;1: Spatial distribution of initial luminosity and luminosity growth 
 </div>
 </div></div>
 <div id="cell-11" class="cell markdown">
-<section id="spatial-weights-and-lags" class="level2">
-<h2 class="anchored" data-anchor-id="spatial-weights-and-lags">Spatial weights and lags</h2>
+<section id="spatial-weights-and-lags" class="level2" data-number="3">
+<h2 data-number="3" class="anchored" data-anchor-id="spatial-weights-and-lags"><span class="header-section-number">3</span> Spatial weights and lags</h2>
 <p>We construct a 6 nearest neighbors (6NN) spatial weights matrix from the district geometries and row-normalize it, consistent with the weights used in the main econometric analysis.</p>
 </section>
 </div>
@@ -1001,8 +1001,8 @@ Figure&nbsp;2: Spatial connectivity structure based on six nearest neighbors <br
 <span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>gdf[<span class="st">'Wgrowth'</span>]      <span class="op">=</span> weights.lag_spatial(W, gdf[<span class="st">'growth'</span>])</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div></div>
 <div id="cell-17" class="cell markdown">
-<section id="spatial-dependence-for-initial-log-luminosity" class="level2">
-<h2 class="anchored" data-anchor-id="spatial-dependence-for-initial-log-luminosity">Spatial dependence for initial (log) luminosity</h2>
+<section id="spatial-dependence-for-initial-log-luminosity" class="level2" data-number="4">
+<h2 data-number="4" class="anchored" data-anchor-id="spatial-dependence-for-initial-log-luminosity"><span class="header-section-number">4</span> Spatial dependence for initial (log) luminosity</h2>
 </section>
 </div>
 <div id="cell-18" class="cell markdown">
@@ -1095,8 +1095,8 @@ Figure&nbsp;3: Spatial dependence in the initial level of luminosity <br> Notes:
 </div>
 </div></div>
 <div id="cell-25" class="cell markdown">
-<section id="spatial-dependence-for-luminosity-growth" class="level2">
-<h2 class="anchored" data-anchor-id="spatial-dependence-for-luminosity-growth">Spatial dependence for luminosity growth</h2>
+<section id="spatial-dependence-for-luminosity-growth" class="level2" data-number="5">
+<h2 data-number="5" class="anchored" data-anchor-id="spatial-dependence-for-luminosity-growth"><span class="header-section-number">5</span> Spatial dependence for luminosity growth</h2>
 </section>
 </div>
 <div id="cell-26" class="cell markdown">

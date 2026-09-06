@@ -319,7 +319,7 @@ The table below reports the convergence estimates. Each model column shows the O
 
 ```{code-cell} ipython3
 #| label: tbl-models
-#| tbl-cap: "Unconditional and conditional convergence across districts."
+#| tbl-cap: "Unconditional and conditional convergence across districts. Heteroskedasticity-robust (HC1) standard errors for OLS and Monte-Carlo standard errors for the SDM impacts in parentheses. *** p < 0.01, ** p < 0.05, * p < 0.10."
 from IPython.display import Markdown
 
 cols = ["Model 1", "Model 2", "Model 3", "Model 4"]

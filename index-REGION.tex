@@ -110,6 +110,7 @@
 \bibliographystyle{region}
 
 
+\AtBeginDocument{\setboolean{isfinal}{false}}
 \usepackage{region,hyperref,multirow}
 \definecolor{mypink}{RGB}{219, 48, 122}
 \makeatletter
@@ -157,7 +158,7 @@
 \IfFileExists{xurl.sty}{\usepackage{xurl}}{} % add URL line breaks if available
 \urlstyle{same}
 \hypersetup{
-  pdftitle={Regional growth, convergence, and spatial spillovers in India:},
+  pdftitle={Regional growth, convergence, and spatial spillovers in India: A reproducible view from outer space},
   pdfauthor={Carlos Mendez; Sujana Kabiraj; Jiaqi Li},
   pdfkeywords={Regional convergence, Spatial dependence, Spatial Durbin
 model, Nighttime lights, Reproducible research, India},
@@ -171,14 +172,8 @@ model, Nighttime lights, Reproducible research, India},
 
 
 
-\title{Regional growth, convergence, and spatial spillovers in India:}
-\usepackage{etoolbox}
-\makeatletter
-\providecommand{\subtitle}[1]{% add subtitle to \maketitle
-  \apptocmd{\@title}{\par {\large #1 \par}}{}{}
-}
-\makeatother
-\subtitle{A reproducible view from outer space}
+\title{Regional growth, convergence, and spatial spillovers in India: A
+reproducible view from outer space}
 \author{%
 Carlos Mendez\parnote{Nagoya University, Nagoya, Japan}, 
 Sujana Kabiraj\parnote{Shiv Nadar University, Greater Noida, India}, 
@@ -189,9 +184,9 @@ Jiaqi Li\parnote{Nagoya University, Nagoya, Japan}}
 \renewcommand{\thepage}{\arabic{page}}  % L for Letters, R for Resources, E for Editorial
 \jvol{1} 
 \jnum{1} 
-\jyear{2020} 
+\jyear{2026} 
 \jpages{999--999} 
-\jauthor{MISSING} 
+\jauthor{C. Mendez, S. Kabiraj, J. Li} 
 \received{February 5, 2026} 
 \accepted{} 
 
@@ -234,21 +229,24 @@ Using satellite nighttime light data as a proxy for economic activity,
 Chanda and Kabiraj (2020, World Development) studied regional growth and
 convergence across 520 districts in India. Adopting a reproducible
 open-science approach, this article builds on their work by extending
-their main findings on three fronts. First, we illustrate regional
-convergence patterns using an interactive tool for satellite imagery
-visualization. Second, we assess the degree of spatial dependence in
-their main econometric specification. Third, we employ a spatial Durbin
-model to measure the role of spatial spillovers in the convergence
-process. Our results indicate that spatial spillovers increase the
-estimated speed of regional convergence. In our fully specified model,
-spillovers raise the convergence speed from about 3.0\% to about 5.2\%
-per year, which shortens the half-life of regional disparities from
-roughly 23 to 13 years. We close by illustrating how the same
-reproducible workflow extends beyond economic output, with an
+their main findings on three empirical fronts. First, we illustrate
+regional convergence patterns using an interactive tool for satellite
+imagery visualization. Second, we assess the degree of spatial
+dependence in their main econometric specification. Third, we employ a
+spatial Durbin model to measure the role of spatial spillovers in the
+convergence process. Our results indicate that spatial spillovers
+increase the estimated speed of regional convergence. In our fully
+specified model, spillovers raise the convergence speed from about 3.0\%
+to about 5.2\% per year, which shortens the half-life of regional
+disparities from roughly 23 to 13 years. We close by illustrating how
+the same reproducible workflow extends beyond economic output, with an
 exploratory analysis of how luminosity relates to cultural participation
 across Indian states.
 \end{abstract}
 
+
+\keywords{Regional convergence, Spatial dependence, Spatial Durbin model, Nighttime lights, Reproducible research, India}
+\jel{R11, R12, C21}
 
 \section{Introduction}\label{introduction}
 
@@ -300,9 +298,9 @@ cloud-based computational scripts and notebooks listed in
 Table~\ref{tbl-notebooks}. The five analytical notebooks are written in
 Python and run in Google Colaboratory, so a reader needs no local
 installation and no licensed software: clicking \emph{Run all} downloads
-the data and re-executes the analysis. The sixth, N1, hosts the
-interactive visualization and its Google Earth Engine source code. The
-notebooks, the data, and the manuscript source are in the project
+the data and re-executes the analysis. The remaining notebook, N1, hosts
+the interactive visualization and its Google Earth Engine source code.
+The notebooks, the data, and the manuscript source are in the project
 repository at \url{https://github.com/quarcs-lab/project2025s-py}, and
 their rendered versions are embedded in the online edition at
 \url{https://quarcs-lab.github.io/project2025s-py/}.
@@ -338,7 +336,7 @@ N3. Spatial dependence & Weight matrices, Global Moran's I, and LISA
 cluster maps \\
 N4. Spillover modeling & OLS and spatial Durbin estimates, impacts, and
 convergence speeds \\
-N5. Robustness & Model 4 under seven alternative weight matrices \\
+N5. Robustness & Model 4 under six alternative weight matrices \\
 N6. Spatial culture & Luminosity and cultural participation across
 Indian states \\
 \end{longtable}
@@ -392,10 +390,12 @@ construct both variables for 520 districts in India from data released
 by the National Geophysical Data Center (NGDC). These data record
 observations from the DMSP-OLS satellites over the period from 1996 to
 2010. To mitigate top-coding in brightly lit areas, the NGDC also
-released a radiance-calibrated series for eight years, which combines
-high magnification settings for low-light regions with low magnification
-settings for bright ones. In this article, we use the
-radiance-calibrated series throughout.\footnote{Following
+released a radiance-calibrated series for eight specific years, which
+combines high magnification settings for low-light regions with low
+magnification settings for bright ones. Six of those eight years fall
+inside our 1996--2010 sample window, and they are the dates our dataset
+holds. In this article, we use the radiance-calibrated series
+throughout.\footnote{Following
   \citet{chanda_kabiraj_district_convergence}, our sample consists of
   520 districts (out of a possible 593). There were 593 districts in
   2001, which rose to 640 districts in the 2011 census. To match
@@ -480,8 +480,8 @@ in the spatial models.
 
 The unconditional framework contains no control variables, so it imposes
 a common steady state on every region. That assumption is restrictive,
-because regions differ in geography, in socio-economic conditions, and
-in policy implementation. We therefore add state fixed effects, which
+because regions differ in geography, in socioeconomic conditions, and in
+policy implementation. We therefore add state fixed effects, which
 absorb state-specific institutions and policies. We also add
 geo-climatic controls and district-specific conditions related to
 demographics, human capital, and infrastructure.
@@ -495,7 +495,7 @@ convergence framework.
 Here, the matrix \(\boldsymbol{X_t}\) is an \(N\text{-by-}k\) collection
 of observations on control variables for each district in our sample,
 and it includes the state fixed effects. The vector
-\(\boldsymbol{\alpha}\), with dimensions \(k \times 1\), collects the
+\(\boldsymbol{\alpha}\), with dimensions \(k\text{-by-}1\), collects the
 associated regression coefficients. The conditioning set is adopted
 unchanged from \citet{chanda_kabiraj_district_convergence}. That choice
 is deliberate, because the present analysis extends that study rather
@@ -593,15 +593,15 @@ outliers.\footnote{High-High (HH) indicates a high-value location
 The LISA cluster maps report only the significant locations, typically
 at \(p < 0.05\).
 
-The spatial weights matrix \(\mathbf{W}\) determines which districts are
+The spatial weight matrix \(\mathbf{W}\) determines which districts are
 treated as neighbors, so its specification is central to the analysis.
-We employ a six-nearest-neighbors (6NN) matrix. It sets \(w_{ij} = 1\)
-if district \(j\) is among the six nearest districts to \(i\) by
-centroid distance, and \(w_{ij} = 0\) otherwise.\footnote{Centroid
-  distances are measured in the geographic coordinates of the source
-  file rather than in a projected metric, and rebuilding the matrix from
-  a metric projection leaves 96.4\% of the neighbor links unchanged.}
-Each district therefore has the same number of neighbors, even though
+We employ a six-nearest-neighbor (6NN) matrix. It sets \(w_{ij} = 1\) if
+district \(j\) is among the six nearest districts to \(i\) by centroid
+distance, and \(w_{ij} = 0\) otherwise.\footnote{Centroid distances are
+  measured in the geographic coordinates of the source file rather than
+  in a projected metric, and rebuilding the matrix from a metric
+  projection leaves 96.4\% of the neighbor links unchanged.} Each
+district therefore has the same number of neighbors, even though
 district sizes vary widely across the country. We then row-normalize the
 matrix, as is standard practice, so that each row sums to one. The
 spatial lag \(\mathbf{W} \mathbf{x}\) is then the average value among
@@ -621,7 +621,7 @@ Figure~\ref{fig-altw} and Table~\ref{tbl-altw}, show that the direct and
 total convergence effects do not depend on this choice.
 
 Evidence of significant spatial dependence would justify the use of
-spatial econometric methods. \citet{ertur_koch_spatial_growth} argues
+spatial econometric methods. \citet{ertur_koch_spatial_growth} argue
 that the spatial Durbin model (SDM) accounts for such dependence in the
 convergence process. \citet{fischer_spatial_mrw} derives the same
 specification as the reduced form of a spatially interdependent growth
@@ -663,13 +663,13 @@ The specification captures three components of technological progress:
 \tightlist
 \item
   An exogenous component (\(\Omega_t\)) that represents the common stock
-  of knowledge across regions
+  of knowledge across regions.
 \item
   An embodied component (\(k_{i t}^{\theta} h_{i t}^{\phi}\)) that
-  reflects technology embedded in physical and human capital per worker
+  reflects technology embedded in physical and human capital per worker.
 \item
   A spatial component (\(\prod_{j \neq i}^{N} A_{j t}^{\rho W_{i j}}\))
-  that captures technological interdependence between regions
+  that captures technological interdependence between regions.
 \end{itemize}
 
 The third component is absent from the standard Solow model, and it is
@@ -694,13 +694,13 @@ Equation~\ref{eq-matrix-form-cond} above. The new terms are the spatial
 lags: \(\boldsymbol{W} \boldsymbol{x_{t-1}}\) and
 \(\boldsymbol{W} \boldsymbol{g_t}\) are \(N\text{-by-}1\) vectors of
 neighborhood averages of initial luminosity and of growth, while
-\(\boldsymbol{W} \boldsymbol{X_t}\) is the corresponding \(N \times k\)
-matrix for the control variables. The coefficients \(\beta_2\),
-\(\boldsymbol{\gamma}\) and \(\rho\) measure how strongly each of these
-neighborhood averages enters the growth of a district.\footnote{We
-  denote the spatial autoregressive parameter by \(\rho\) to avoid any
-  confusion with \(\lambda\), which denotes the implied speed of
-  convergence throughout this article.}
+\(\boldsymbol{W} \boldsymbol{X_t}\) is the corresponding
+\(N\text{-by-}k\) matrix for the control variables. The coefficients
+\(\beta_2\), \(\boldsymbol{\gamma}\) and \(\rho\) measure how strongly
+each of these neighborhood averages enters the growth of a
+district.\footnote{We denote the spatial autoregressive parameter by
+  \(\rho\) to avoid any confusion with \(\lambda\), which denotes the
+  implied speed of convergence throughout this article.}
 
 \section{Results}\label{results}
 
@@ -778,11 +778,10 @@ while Uttar Pradesh and Chhattisgarh stand at 55.3\% and 59.9\%
 respectively.\footnote{The figures are relative per capita income for
   2000--01, the census year closest to the start of our study period,
   measured as per capita net state domestic product divided by per
-  capita net national income. They are taken from Table 4 of Sanyal and
-  Arora, ``Relative Economic Performance of Indian States: 1960-61 to
-  2023-24'', Economic Advisory Council to the Prime Minister, Working
-  Paper EAC-PM/WP/31/2024, September 2024.} All three remain among the
-poorest states, but all three brightened noticeably over the period.
+  capita net national income. They are taken from Table 4 of
+  \citet{sanyal_arora_state_performance}, Working Paper
+  EAC-PM/WP/31/2024.} All three remain among the poorest states, but all
+three brightened noticeably over the period.
 
 \begin{figure}
 
@@ -906,11 +905,12 @@ notebook for source code.}
 
 The same analysis applied to luminosity growth rates reveals a pattern
 that is largely the inverse of the initial clusters, as
-Figure~\ref{fig-dependence-growth} shows. Districts that formed HH
-clusters in initial luminosity appear as LL clusters in luminosity
-growth, and the dimmest clusters emerge as HH clusters in growth. That
-inversion is the spatial signature of the convergence process, and it
-motivates the use of spatial econometric methods.
+Figure~\ref{fig-dependence-growth} shows. No district that formed an HH
+cluster in initial luminosity forms one in luminosity growth: some
+appear instead as LL clusters, and most lose significance. Part of the
+initially dimmest cluster, in turn, emerges as an HH cluster in growth.
+That inversion is the spatial signature of the convergence process, and
+it motivates the use of spatial econometric methods.
 
 \begin{figure}[H]
 
@@ -958,7 +958,9 @@ district characteristics and state-level fixed effects.
   >{\raggedright\arraybackslash}p{(\linewidth - 16\tabcolsep) * \real{0.1111}}@{}}
 
 \caption{\label{tbl-models}Unconditional and conditional convergence
-across districts.}
+across districts. Heteroskedasticity-robust (HC1) standard errors for
+OLS and Monte-Carlo standard errors for the SDM impacts in parentheses.
+*** p \textless{} 0.01, ** p \textless{} 0.05, * p \textless{} 0.10.}
 
 \tabularnewline
 
@@ -1163,13 +1165,12 @@ answer.\footnote{In our own case the indirect effect carries the same
 \subsection{Robustness to alternative spatial weight
 matrices}\label{robustness-to-alternative-spatial-weight-matrices}
 
-The spillover results above use a six-nearest-neighbor (6NN) spatial
-weight matrix. To assess their sensitivity to this choice, we
-re-estimate the preferred Model 4 under six alternative specifications
-and compare them with the 6NN baseline. The alternatives are four- and
-eight-nearest neighbors, queen and rook contiguity, and inverse distance
-and inverse-distance-squared, the last two applied within a distance
-band.
+The spillover results above use the 6NN spatial weight matrix defined in
+Section 2. To assess their sensitivity to this choice, we re-estimate
+the preferred Model 4 under six alternative specifications and compare
+them with the 6NN baseline. The alternatives are four- and eight-nearest
+neighbors, queen and rook contiguity, and inverse distance and
+inverse-distance-squared, the last two applied within a distance band.
 
 \begin{figure}[H]
 
@@ -1192,7 +1193,8 @@ confidence intervals. The dashed lines mark the 6NN baseline estimates.}
 
 \caption{\label{tbl-altw}Model 4 spatial impacts of initial luminosity
 under alternative spatial weight matrices (full LeSage--Pace method;
-Monte-Carlo standard errors in parentheses).}
+Monte-Carlo standard errors in parentheses). *** p \textless{} 0.01, **
+p \textless{} 0.05, * p \textless{} 0.10.}
 
 \tabularnewline
 
@@ -1256,8 +1258,8 @@ matter for policy. Under the OLS estimate, a district closes half of the
 gap to its steady state in about 23 years; under the spatial Durbin
 estimate, in about 13 years. Over the fourteen years of our sample, that
 is the difference between closing roughly 34\% and roughly 52\% of the
-initial gap. The first figure describes catch-up over a generation, the
-second catch-up within the horizon over which development programs are
+initial gap. The first figure describes catch-up over a generation; the
+second, catch-up within the horizon over which development programs are
 designed, funded, and evaluated. Under the faster rate, the returns to
 well-targeted support should appear within a normal evaluation window.
 
@@ -1267,7 +1269,7 @@ operate. We find convergence across districts over 1996--2010, whereas
 over a longer period, find divergence. Catch-up visible at the district
 level and absent at the state level is consistent with the district
 being the more informative unit of intervention, which the Aspirational
-Districts Programme of India already assumes.\footnote{The programme was
+Districts Programme of India already assumes.\footnote{The program was
   launched in 2018 to direct additional resources to the least developed
   districts of the country. The two studies also differ in outcome
   variable and period, so the contrast between them is suggestive rather
@@ -1312,7 +1314,7 @@ only at the decennial censuses.\footnote{The dataset we adopt from
   luminosity at the intermediate dates would rest on interpolated
   denominators.} Interpolated denominators touch only the endpoints of a
 long difference, whereas in a panel they would enter every observation,
-and in the time dimension that a panel exists to exploit.
+and would do so in the time dimension that a panel exists to exploit.
 
 What such a panel would be worth is the more interesting question, and
 here two problems compound. The first predates nighttime lights: panel
@@ -1378,8 +1380,8 @@ means.\footnote{The six dimensions are live cultural performance,
   culture} notebook for details and extended analyses.} This part of the
 analysis uses the Consistent and Corrected Nighttime Lights series
 rather than the radiance-calibrated composites used above, because it is
-the product that covers 1992. Given the small sample (N = 32) and the
-leverage that small territories at the extremes of the distribution
+the product that covers 1992. Given the small sample (\(N\) = 32) and
+the leverage that small territories at the extremes of the distribution
 exert on linear correlation measures, we report Spearman rank
 correlations throughout. Figure~\ref{fig-culture-scatter} presents the
 relationship between log nighttime lights per capita and the two
@@ -1410,25 +1412,27 @@ culture} notebook for source code.}
 \end{figure}%
 
 Cultural telecast (TV/media) is positively associated with luminosity,
-with a Spearman rank correlation of 0.370 (\(p\) = 0.037), so more
+with a Spearman rank correlation of 0.370 (\(p = 0.037\)), so more
 luminous states tend to rank higher on that dimension. Socio-cultural
 participation, in contrast, is negatively associated, with a Spearman
-rank correlation of \$-\(0.404 (\)p\$ = 0.022), so less luminous states
-tend to rank higher on it. This suggests that less urbanized regions
-rely more on collective, in-person forms of cultural participation than
-on media infrastructure.
+rank correlation of \(-0.404\) (\(p = 0.022\)), so less luminous states
+tend to rank higher on it. We refer to these two dimensions as
+media-based cultural consumption and community-based participation,
+respectively. This suggests that less urbanized regions rely more on
+collective, in-person forms of cultural participation than on media
+infrastructure.
 
 Figure~\ref{fig-culture-lisa} maps the spatial distribution of the two
-cultural variables through the lens of a LISA analysis. The low-low
-cluster of cultural telecast in the northeast coincides with the low-low
-cluster in the nighttime lights data, whereas the high-high clusters do
-not coincide: cultural telecast forms one in the southern states, and
-community-based participation forms one in the northeast. The remaining
-four cultural dimensions show no statistically significant association
-with luminosity, and these findings rest on a small cross-section of 32
-states observed at a single point in time, so larger datasets covering
-more regions and periods would be needed to establish whether the
-patterns are robust.
+cultural variables through the lens of a LISA analysis. The Low-Low
+cluster of media-based cultural consumption in the northeast coincides
+with the Low-Low cluster in the nighttime lights data, whereas the
+High-High clusters do not coincide: media-based cultural consumption
+forms one in the southern states, and community-based participation
+forms one in the northeast. The remaining four cultural dimensions show
+no statistically significant association with luminosity, and these
+findings rest on a small cross-section of 32 states observed at a single
+point in time, so larger datasets covering more regions and periods
+would be needed to establish whether the patterns are robust.
 
 \begin{figure}[H]
 
@@ -1641,7 +1645,7 @@ publishing framework.\footnote{A single manuscript source generates
   multiple output formats. The HTML version allows readers to engage
   with interactive visualizations, inspect the code of the computational
   notebooks, and re-evaluate the results in light of their source code.}
-The code and the data are hosted in a public Github repository, and we
+The code and the data are hosted in a public GitHub repository, and we
 follow these open-science practices in the hope that other applied
 studies will adopt them. That same workflow allowed us to extend the
 analysis beyond economic output. Relating luminosity to cultural
@@ -1654,14 +1658,12 @@ estimates.
 The most valuable next steps are concrete: re-estimate this
 specification on the higher-resolution VIIRS data, validate luminosity
 against ground measurements in rural and sparsely electrified areas, and
-carry the same spatial framework to questions beyond convergence. None
-of that work requires starting from scratch. A reader can open the
-relevant notebook, substitute data from another country or a later
-period, and re-run the entire analysis in a browser. The convergence
-estimates reported here will eventually be superseded, and the workflow
-that produced them is built to be reused.
+carry the same spatial framework to questions beyond convergence. The
+convergence estimates reported here will eventually be superseded, and
+the workflow that produced them is built to be reused.
 
-\section{Acknowledgments}\label{acknowledgments}
+\section*{Acknowledgments}\label{acknowledgments}
+\addcontentsline{toc}{section}{Acknowledgments}
 
 This research project was supported by JSPS KAKENHI Grant Number
 24K04884. During the preparation of this manuscript, the authors
@@ -1671,11 +1673,13 @@ setup. After using this AI tool, the authors reviewed the outputs,
 confirmed their accuracy, and take full responsibility for the content
 of this publication.
 
-\section{Conflict of Interest}\label{conflict-of-interest}
+\section*{Conflict of interest}\label{conflict-of-interest}
+\addcontentsline{toc}{section}{Conflict of interest}
 
 The authors declare no conflict of interest.
 
-\section{Data and Code Availability}\label{data-and-code-availability}
+\section*{Data and code availability}\label{data-and-code-availability}
+\addcontentsline{toc}{section}{Data and code availability}
 
 All data and computational code used in this study are available in the
 project repository at
@@ -1690,7 +1694,7 @@ and the empirical results, figures, and tables of this article are
 regenerated from the raw data. The computational notebooks are
 implemented entirely in Python. An earlier implementation of the same
 analysis used R and Stata, and the present Python results reproduce it.
-The AIC values differ by a few units because the two packages count
+The AIC values differ by a few units because Stata and Python count
 parameters differently: Stata treats the error variance of the spatial
 model as a free parameter, and its information criterion for the
 fixed-effects regressions uses the rank of the robust covariance matrix,
@@ -1711,7 +1715,7 @@ on it.
 \noindent
 \begin{tabular*}{\textwidth}{ll}
 	\toprule
-	\multirow{2}{19mm}{\includegraphics[width=18mm,height=10mm]{_extensions/region-ersa/REGION/CC-BY-88x31}} & {\small \multirow{2}{328pt}{\textcopyright\  by the authors. Licensee: REGION -- The Journal of ERSA, European Regional Science Association, Louvain-la-Neuve, Belgium. This article is distri-}} \\
+	\multirow{2}{19mm}{\includegraphics[width=18mm,height=10mm]{_extensions/region-ersa/REGION/CC-BY-88x31}} & {\small \multirow{2}{328pt}{\textcopyright\ 2026 by the authors. Licensee: REGION -- The Journal of ERSA, European Regional Science Association, Louvain-la-Neuve, Belgium. This article is distri-}} \\
 	& \\[-1pt]
 	\multicolumn{2}{l}{\small \multirow{2}{\textwidth}{buted under the terms and conditions of the Creative Commons Attri\-bution (CC BY) license (\href{http://creativecommons.org/licenses/by/4.0/}{http://creativecommons.org/licenses/by/4.0/}).}}\\
 	& \\

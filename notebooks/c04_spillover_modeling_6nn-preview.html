@@ -343,10 +343,10 @@
     <h2 id="toc-title">Contents</h2>
    
   <ul>
-  <li><a href="#running-the-analysis-in-python" id="toc-running-the-analysis-in-python" class="nav-link active" data-scroll-target="#running-the-analysis-in-python">Running the analysis in Python</a></li>
-  <li><a href="#main-analysis" id="toc-main-analysis" class="nav-link" data-scroll-target="#main-analysis">3. Main Analysis</a></li>
-  <li><a href="#results-table" id="toc-results-table" class="nav-link" data-scroll-target="#results-table">4. Results Table</a></li>
-  <li><a href="#implied-speed-of-convergence" id="toc-implied-speed-of-convergence" class="nav-link" data-scroll-target="#implied-speed-of-convergence">4.1 Implied speed of convergence</a></li>
+  <li><a href="#running-the-analysis-in-python" id="toc-running-the-analysis-in-python" class="nav-link active" data-scroll-target="#running-the-analysis-in-python"><span class="header-section-number">1</span> Running the analysis in Python</a></li>
+  <li><a href="#main-analysis" id="toc-main-analysis" class="nav-link" data-scroll-target="#main-analysis"><span class="header-section-number">4</span> 3. Main Analysis</a></li>
+  <li><a href="#results-table" id="toc-results-table" class="nav-link" data-scroll-target="#results-table"><span class="header-section-number">5</span> 4. Results Table</a></li>
+  <li><a href="#implied-speed-of-convergence" id="toc-implied-speed-of-convergence" class="nav-link" data-scroll-target="#implied-speed-of-convergence"><span class="header-section-number">5.1</span> 4.1 Implied speed of convergence</a></li>
   </ul>
 </nav>
 </div>
@@ -359,8 +359,8 @@
 <p>This notebook estimates <strong>8 econometric models</strong> to analyze convergence in nighttime light intensity across 520 Indian districts (1996–2010). It compares standard OLS regressions with <strong>Spatial Durbin Models (SDM)</strong> that account for spatial spillovers between neighboring districts. The models follow a 2×2×2 design: OLS vs SDM, unconditional vs conditional, without vs with state fixed effects. Results are presented as four model columns, each estimated by OLS and by SDM. For details on the model design and spatial weights, see the Background &amp; Context section below.</p>
 </div>
 <div id="cell-2" class="cell markdown">
-<section id="running-the-analysis-in-python" class="level2">
-<h2 class="anchored" data-anchor-id="running-the-analysis-in-python">Running the analysis in Python</h2>
+<section id="running-the-analysis-in-python" class="level2" data-number="1">
+<h2 data-number="1" class="anchored" data-anchor-id="running-the-analysis-in-python"><span class="header-section-number">1</span> Running the analysis in Python</h2>
 <p>This notebook runs on the project’s Python environment managed by <a href="https://docs.astral.sh/uv/">uv</a> (the repo-local <code>python3</code> kernel). The spatial econometrics rely on the open-source <a href="https://pysal.org/">PySAL</a> ecosystem:</p>
 <ul>
 <li><strong><code>geopandas</code></strong> — reads the district geometries (<code>india520.geojson</code>) used to build the spatial weights.</li>
@@ -380,8 +380,8 @@
 <span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>    <span class="cf">pass</span>  <span class="co"># Local environment — packages already installed</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div></div>
 <div id="cell-4" class="cell markdown">
-<section id="background-context" class="level2">
-<h2 class="anchored" data-anchor-id="background-context">1. Background &amp; Context</h2>
+<section id="background-context" class="level2" data-number="2">
+<h2 data-number="2" class="anchored" data-anchor-id="background-context"><span class="header-section-number">2</span> 1. Background &amp; Context</h2>
 <ul>
 <li><strong>Research question:</strong> Does nighttime light growth (a proxy for economic activity) converge across Indian districts, and do neighboring districts generate spatial spillovers?</li>
 <li><strong>Dependent variable:</strong> <code>light_growth96_10rcr_cap</code> — growth in per-capita nighttime light intensity (1996–2010).</li>
@@ -392,8 +392,8 @@
 <p><strong>Theoretical framework.</strong> The Spatial Durbin Model (SDM) lets both the dependent variable and the explanatory variables have spatial lags (i.e., influence from neighbors). For the key regressor it follows Ertur &amp; Koch (2007, eq. 7 of the paper):</p>
 <p><span class="math display">\[g_t = \beta_1 x_{t-1} + X_t \alpha + \beta_2 W x_{t-1} + W X_t \gamma + \lambda\, W g_t + \varepsilon.\]</span></p>
 </section>
-<section id="setup" class="level2">
-<h2 class="anchored" data-anchor-id="setup">2. Setup</h2>
+<section id="setup" class="level2" data-number="3">
+<h2 data-number="3" class="anchored" data-anchor-id="setup"><span class="header-section-number">3</span> 2. Setup</h2>
 <p>We load the district variables (<code>india520.dta</code>) and geometries (<code>india520.geojson</code>), build the 6NN row-standardized spatial weights, and prepare the state fixed-effect dummies.</p>
 </section>
 </div>
@@ -608,8 +608,8 @@
 <span id="cb5-130"><a href="#cb5-130" aria-hidden="true" tabindex="-1"></a>    }</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div></div>
 <div id="cell-8" class="cell markdown">
-<section id="main-analysis" class="level2">
-<h2 class="anchored" data-anchor-id="main-analysis">3. Main Analysis</h2>
+<section id="main-analysis" class="level2" data-number="4">
+<h2 data-number="4" class="anchored" data-anchor-id="main-analysis"><span class="header-section-number">4</span> 3. Main Analysis</h2>
 <p>We estimate <strong>four specifications</strong>, each by OLS and by the Spatial Durbin Model (SDM) — eight estimates in a 2×2×2 design:</p>
 <ul>
 <li><strong>Estimator:</strong> OLS vs.&nbsp;SDM</li>
@@ -686,8 +686,8 @@ Model 4: estimated (OLS + SDM), rho=0.199</code></pre>
 </div>
 </div></div>
 <div id="cell-10" class="cell markdown">
-<section id="results-table" class="level2">
-<h2 class="anchored" data-anchor-id="results-table">4. Results Table</h2>
+<section id="results-table" class="level2" data-number="5">
+<h2 data-number="5" class="anchored" data-anchor-id="results-table"><span class="header-section-number">5</span> 4. Results Table</h2>
 <p>The table below reports the convergence estimates. Each model column shows the OLS benchmark beside the SDM. SDM rows give the Direct, Indirect, and Total spatial impacts of initial luminosity, computed with the full (LeSage–Pace) decomposition <span class="math inline">\(S_r(W) = (I-\rho W)^{-1}(\beta_r I + \theta_r W)\)</span>, so that the direct effect carries the own-district share of the spatially lagged regressor, with Monte-Carlo standard errors in parentheses; OLS reports the coefficient as both Direct and Total. Significance stars are derived from z-statistics (<code>***</code> p&lt;0.01, <code>**</code> p&lt;0.05, <code>*</code> p&lt;0.10), and AIC is reported for model comparison.</p>
 </section>
 </div>
@@ -759,7 +759,7 @@ Model 4: estimated (OLS + SDM), rho=0.199</code></pre>
 <div class="cell-container"><div class="cell-decorator"><pre>In [13]:</pre></div><div id="tbl-models" class="cell quarto-float quarto-figure quarto-figure-center anchored">
 <figure class="quarto-float quarto-float-tbl figure">
 <figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-models-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Table&nbsp;1: Unconditional and conditional convergence across districts.
+Table&nbsp;1: Unconditional and conditional convergence across districts. Heteroskedasticity-robust (HC1) standard errors for OLS and Monte-Carlo standard errors for the SDM impacts in parentheses. *** p &lt; 0.01, ** p &lt; 0.05, * p &lt; 0.10.
 </figcaption>
 <div aria-describedby="tbl-models-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <div class="cell-output cell-output-display cell-output-markdown" data-execution_count="6">
@@ -907,8 +907,8 @@ Table&nbsp;1: Unconditional and conditional convergence across districts.
 </div></div>
 </div></div>
 <div id="d00d6580" class="cell markdown">
-<section id="implied-speed-of-convergence" class="level3">
-<h3 class="anchored" data-anchor-id="implied-speed-of-convergence">4.1 Implied speed of convergence</h3>
+<section id="implied-speed-of-convergence" class="level3" data-number="5.1">
+<h3 data-number="5.1" class="anchored" data-anchor-id="implied-speed-of-convergence"><span class="header-section-number">5.1</span> 4.1 Implied speed of convergence</h3>
 <p>The convergence coefficients above translate into an annual <strong>speed of convergence</strong> <span class="math inline">\(\lambda = -\ln(1 + \beta T)/T\)</span> (Barro &amp; Sala-i-Martin), with <span class="math inline">\(T = 14\)</span> years (1996–2010), the dependent variable being the average annual growth rate, and <span class="math inline">\(\beta\)</span> the total effect of initial luminosity; the <strong>half-life</strong> is <span class="math inline">\(\ln(2)/\lambda\)</span>. Comparing the OLS and SDM total effects shows directly how spatial spillovers raise the implied speed and shorten the half-life.</p>
 </section>
 </div>
@@ -988,8 +988,8 @@ Table&nbsp;2: Implied annual speed of convergence and half-life by model, from t
 </div></div>
 <div id="440d1075" class="cell markdown">
 <p>In the preferred Model 4 the implied annual speed of convergence rises from the OLS estimate to the SDM estimate, shortening the half-life accordingly — a direct, quantitative statement of how spatial spillovers accelerate the convergence process.</p>
-<section id="robustness-alternative-spatial-impact-methods" class="level2">
-<h2 class="anchored" data-anchor-id="robustness-alternative-spatial-impact-methods">5. Robustness: alternative spatial-impact methods</h2>
+<section id="robustness-alternative-spatial-impact-methods" class="level2" data-number="6">
+<h2 data-number="6" class="anchored" data-anchor-id="robustness-alternative-spatial-impact-methods"><span class="header-section-number">6</span> 5. Robustness: alternative spatial-impact methods</h2>
 <p>Table 1 reports the spatial impacts using the <strong>full</strong> (LeSage–Pace) method, which builds the average direct, indirect, and total effects from the exact spatial multiplier matrix <span class="math inline">\((I-\rho W)^{-1}\)</span>. Note that <code>spreg</code>’s own <code>spat_impacts</code> output assigns the whole spatially lagged coefficient to the indirect effect, so it does not agree with the decomposition used here; the values below reproduce Stata’s <code>estat impact</code>. As a robustness check, the table below recomputes the impacts of initial luminosity for the preferred Model 4 (conditional + state FE) under three alternative computations of that multiplier:</p>
 <ul>
 <li><strong>full</strong> — exact average of the diagonal of <span class="math inline">\((I-\rho W)^{-1}\)</span> (the main result reported in Table 1).</li>

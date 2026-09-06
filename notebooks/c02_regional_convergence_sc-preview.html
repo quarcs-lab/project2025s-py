@@ -346,11 +346,11 @@
     <h2 id="toc-title">Contents</h2>
    
   <ul>
-  <li><a href="#setup" id="toc-setup" class="nav-link active" data-scroll-target="#setup">Setup</a></li>
-  <li><a href="#data" id="toc-data" class="nav-link" data-scroll-target="#data">Data</a></li>
-  <li><a href="#convergence-regression" id="toc-convergence-regression" class="nav-link" data-scroll-target="#convergence-regression">Convergence regression</a></li>
-  <li><a href="#sigma-convergence" id="toc-sigma-convergence" class="nav-link" data-scroll-target="#sigma-convergence">Sigma convergence</a></li>
-  <li><a href="#convergence-scatterplot" id="toc-convergence-scatterplot" class="nav-link" data-scroll-target="#convergence-scatterplot">Convergence scatterplot</a></li>
+  <li><a href="#setup" id="toc-setup" class="nav-link active" data-scroll-target="#setup"><span class="header-section-number">1</span> Setup</a></li>
+  <li><a href="#data" id="toc-data" class="nav-link" data-scroll-target="#data"><span class="header-section-number">2</span> Data</a></li>
+  <li><a href="#convergence-regression" id="toc-convergence-regression" class="nav-link" data-scroll-target="#convergence-regression"><span class="header-section-number">3</span> Convergence regression</a></li>
+  <li><a href="#sigma-convergence" id="toc-sigma-convergence" class="nav-link" data-scroll-target="#sigma-convergence"><span class="header-section-number">4</span> Sigma convergence</a></li>
+  <li><a href="#convergence-scatterplot" id="toc-convergence-scatterplot" class="nav-link" data-scroll-target="#convergence-scatterplot"><span class="header-section-number">5</span> Convergence scatterplot</a></li>
   </ul>
 </nav>
 </div>
@@ -363,8 +363,8 @@
 <p>This notebook examines absolute <span class="math inline">\(\beta\)</span>-convergence in nighttime luminosity across 520 Indian districts (1996–2010). We regress per capita luminosity growth on initial luminosity levels and visualize the relationship in an annotated scatterplot. This analysis corresponds to the first set of results discussed in the main manuscript.</p>
 </div>
 <div id="cell-2" class="cell markdown">
-<section id="setup" class="level2">
-<h2 class="anchored" data-anchor-id="setup">Setup</h2>
+<section id="setup" class="level2" data-number="1">
+<h2 data-number="1" class="anchored" data-anchor-id="setup"><span class="header-section-number">1</span> Setup</h2>
 </section>
 </div>
 <div class="cell-container"><div class="cell-decorator"><pre>In [4]:</pre></div><div id="cell-3" class="cell">
@@ -387,8 +387,8 @@
 <span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a>warnings.filterwarnings(<span class="st">"ignore"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div></div>
 <div id="cell-5" class="cell markdown">
-<section id="data" class="level2">
-<h2 class="anchored" data-anchor-id="data">Data</h2>
+<section id="data" class="level2" data-number="2">
+<h2 data-number="2" class="anchored" data-anchor-id="data"><span class="header-section-number">2</span> Data</h2>
 <p>We use district-level radiance-calibrated nighttime lights data from the DMSP-OLS satellites, covering 520 districts.</p>
 </section>
 </div>
@@ -410,8 +410,8 @@
 </div>
 </div></div>
 <div id="cell-7" class="cell markdown">
-<section id="convergence-regression" class="level2">
-<h2 class="anchored" data-anchor-id="convergence-regression">Convergence regression</h2>
+<section id="convergence-regression" class="level2" data-number="3">
+<h2 data-number="3" class="anchored" data-anchor-id="convergence-regression"><span class="header-section-number">3</span> Convergence regression</h2>
 <p>A negative slope on initial luminosity indicates <span class="math inline">\(\beta\)</span>-convergence: districts with lower initial luminosity grew faster over the period.</p>
 </section>
 </div>
@@ -472,8 +472,8 @@ Implied half-life:              29.7 years</code></pre>
 </div>
 </div></div>
 <div id="3bc565c0" class="cell markdown">
-<section id="sigma-convergence" class="level2">
-<h2 class="anchored" data-anchor-id="sigma-convergence">Sigma convergence</h2>
+<section id="sigma-convergence" class="level2" data-number="4">
+<h2 data-number="4" class="anchored" data-anchor-id="sigma-convergence"><span class="header-section-number">4</span> Sigma convergence</h2>
 <p><span class="math inline">\(\beta\)</span>-convergence is necessary but not sufficient for a fall in the cross-district dispersion of luminosity. We therefore check <span class="math inline">\(\sigma\)</span>-convergence directly, comparing the standard deviation of log per-capita luminosity at the two endpoints. The 2010 value is reconstructed from the 1996 level and the average annual growth rate, which is how the dependent variable is defined.</p>
 </section>
 </div>
@@ -491,8 +491,8 @@ Change:                                -0.1481 (-13.5%)</code></pre>
 </div>
 </div></div>
 <div id="cell-14" class="cell markdown">
-<section id="convergence-scatterplot" class="level2">
-<h2 class="anchored" data-anchor-id="convergence-scatterplot">Convergence scatterplot</h2>
+<section id="convergence-scatterplot" class="level2" data-number="5">
+<h2 data-number="5" class="anchored" data-anchor-id="convergence-scatterplot"><span class="header-section-number">5</span> Convergence scatterplot</h2>
 <p>The scatterplot below visualizes the convergence relationship. Outlier districts are labeled to highlight cases that deviate notably from the overall trend—either bright districts that declined or dim districts that grew unusually fast.</p>
 </section>
 </div>

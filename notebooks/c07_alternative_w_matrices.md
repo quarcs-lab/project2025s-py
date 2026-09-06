@@ -225,7 +225,7 @@ for name, w in WMATS:
 
 ```{code-cell} ipython3
 #| label: tbl-altw
-#| tbl-cap: "Model 4 spatial impacts of initial luminosity under alternative spatial weight matrices (full LeSage–Pace method; Monte-Carlo standard errors in parentheses)."
+#| tbl-cap: "Model 4 spatial impacts of initial luminosity under alternative spatial weight matrices (full LeSage–Pace method; Monte-Carlo standard errors in parentheses). *** p < 0.01, ** p < 0.05, * p < 0.10."
 from IPython.display import Markdown
 
 

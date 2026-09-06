@@ -29,9 +29,19 @@ format:
     docstatus: review  # Options: review, final, uncorrected
     output-file: index-REGION
     notebook-links: false
+    # region.sty runs \ExecuteOptions{final} before \ProcessOptions, so
+    # `docstatus: review` leaves isfinal true and the title page stacks the
+    # final-version banner (volume, page range and a placeholder DOI) on top of
+    # "for review only". \AtBeginDocument is required because Quarto emits this
+    # include before \usepackage{region}. Delete when switching to `final`.
+    include-in-header:
+      text: |
+        \AtBeginDocument{\setboolean{isfinal}{false}}
 
   # Main HTML format for GitHub Pages
   html:
+    number-sections: true
+
     # Table of Contents
     toc: true
     toc-depth: 3
@@ -66,10 +76,14 @@ format:
     format-links: true
 
   docx:
+    number-sections: true
     notebook-links: false
 
   # Standard PDF (distinct from REGION format)
   pdf:
+    header-includes:
+      - '\providecommand{\keywords}[1]{\par\vspace{3mm}\noindent\textbf{Key words: }#1\par\vspace{3mm}}'
+      - '\providecommand{\jel}[1]{\par\vspace{3mm}\noindent\textbf{JEL classification: }#1\par\vspace{3mm}}'
     documentclass: scrartcl
     papersize: letter
     number-sections: true
