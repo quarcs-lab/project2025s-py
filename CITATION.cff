@@ -1,0 +1,76 @@
+# Machine-readable citation metadata for this repository.
+#
+# SINGLE SOURCE OF TRUTH: the author block in index.qmd (lines 4-23) is
+# authoritative for names, affiliations and ORCIDs. This file and README.md are
+# hand-synced mirrors. If a byline changes, change index.qmd first, then mirror
+# it here.
+#
+# The article was accepted by REGION on September 19, 2026. The journal has not
+# yet assigned a volume, issue, page range or OJS number, and the OJS number is
+# what generates the DOI. Those fields are OMITTED below rather than filled with
+# placeholders. See "When the journal assigns" at the bottom of this file.
+
+cff-version: 1.2.0
+message: "If you use this repository, its data or its code, please cite the peer-reviewed article listed under preferred-citation."
+title: "Replication materials for 'Regional growth, convergence, and spatial spillovers in India: A reproducible view from outer space'"
+abstract: "Reproducible research compendium for a study of regional growth and convergence across 520 Indian districts between 1996 and 2010, using DMSP-OLS satellite nighttime lights as a proxy for economic activity. The repository holds the Quarto manuscript source, six computational Python notebooks, the district-level data and spatial weights matrix, the uv-locked software environment, and the rendered HTML, PDF and DOCX outputs. Every figure and table in the article is regenerated from the raw data by the notebooks."
+type: software
+license: CC-BY-4.0
+repository-code: "https://github.com/quarcs-lab/project2025s-py"
+url: "https://quarcs-lab.github.io/project2025s-py/"
+date-released: "2026-09-20"
+
+keywords:
+  - Regional convergence
+  - Spatial dependence
+  - Spatial Durbin model
+  - Nighttime lights
+  - Reproducible research
+  - India
+
+authors:
+  - family-names: Mendez
+    given-names: Carlos
+    affiliation: "Nagoya University"
+    orcid: "https://orcid.org/0000-0001-7978-2815"
+    email: "carlosmendez777@gmail.com"
+  - family-names: Kabiraj
+    given-names: Sujana
+    affiliation: "Shiv Nadar University"
+  - family-names: Li
+    given-names: Jiaqi
+    affiliation: "Nagoya University"
+
+contact:
+  - family-names: Mendez
+    given-names: Carlos
+    affiliation: "Nagoya University"
+    email: "carlosmendez777@gmail.com"
+
+preferred-citation:
+  type: article
+  title: "Regional growth, convergence, and spatial spillovers in India: A reproducible view from outer space"
+  authors:
+    - family-names: Mendez
+      given-names: Carlos
+      affiliation: "Nagoya University"
+      orcid: "https://orcid.org/0000-0001-7978-2815"
+    - family-names: Kabiraj
+      given-names: Sujana
+      affiliation: "Shiv Nadar University"
+    - family-names: Li
+      given-names: Jiaqi
+      affiliation: "Nagoya University"
+  journal: "REGION: The Journal of ERSA"
+  issn: "2409-5370"
+  year: 2026
+  status: in-press
+  notes: "Accepted for publication on September 19, 2026 (manuscript 676). The journal has not yet assigned a volume, issue, page range or DOI."
+
+# When the journal assigns volume, issue, pages and the OJS number:
+#   1. delete `status: in-press` and the `notes:` line above;
+#   2. add `volume:`, `issue:`, `start:`, `end:`;
+#   3. add `doi:` built as 10.18335/region.v<volume>i<issue>.<ojsnum>
+#      (see _extensions/region-ersa/REGION/partials/title.tex line 35);
+#   4. mirror the same values into index.qmd (jvol, jnum, jpages, ojsnum)
+#      and into the README citation block.

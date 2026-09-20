@@ -9,8 +9,9 @@
 #
 #   Response1.tex is deliberately NOT edited. It stays the master so that
 #   audit-scratch/verify/check_quotes.py can keep comparing its quotes against the real
-#   index.qmd. The redactions below are applied to a copy at build time, exactly the way
-#   scripts/clean-render.sh blinds the manuscript.
+#   index.qmd. The redactions below are applied to a copy at build time, so the master is
+#   never edited. (scripts/clean-render.sh has no blinding logic; the manuscript is blinded
+#   by the prepare-region-submission skill, on a throwaway index-blind.qmd.)
 #
 #   The replacement wording matches the blind manuscript sentence for sentence, so a
 #   referee comparing the response against the PDF in front of them sees the same text.

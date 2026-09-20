@@ -1,6 +1,8 @@
-# Spatial Convergence of Nighttime Lights in India (1996--2010)
+# Regional Growth, Convergence, and Spatial Spillovers in India
 
 **A reproducible research project** analyzing regional economic convergence across 520 Indian districts using satellite nighttime light data and spatial econometric methods.
+
+> **Status: accepted for publication.** *REGION --- The Journal of ERSA* accepted this article on September 19, 2026 (manuscript 676). The journal has not yet assigned a volume, issue, page range or DOI; this README, [`CITATION.cff`](CITATION.cff) and the manuscript front matter will be updated when it does.
 
 | Resource | Link |
 | -------- | ---- |
@@ -8,14 +10,19 @@
 | Standard PDF | [`index.pdf`](index.pdf) |
 | REGION journal PDF | [`index-REGION.pdf`](index-REGION.pdf) |
 | Repository | [github.com/quarcs-lab/project2025s-py](https://github.com/quarcs-lab/project2025s-py) |
+| Journal | [REGION --- The Journal of ERSA](https://region.ersa.org/) --- ISSN 2409-5370 |
+| How to cite | [`CITATION.cff`](CITATION.cff) |
 
 ---
 
 ## Project status
 
-All computational notebooks are now **Python**: `c02` (regional convergence) was translated from R and `c04` (spillover modeling) from Stata, while `c01`, `c03`, `c05`, and `c06` were already Python. The Google Earth Engine app remains JavaScript.
+**Accepted at REGION.** The manuscript was accepted on September 19, 2026 after one round of review (R1). The version published here is the accepted version; the journal's typeset version of record will carry a volume, issue, pages and DOI once assigned.
+
+All computational notebooks are **Python**: `c02` (regional convergence) was translated from R and `c04` (spillover modeling) from Stata; `c01`, `c03`, `c06`, and `c07` were written in Python. The Google Earth Engine app remains JavaScript.
 
 - **Spatial Durbin impacts** in `c04` are reported with the **full (LeSage–Pace)** method, which builds the direct, indirect, and total effects from the exact spatial multiplier matrix $(I-\rho W)^{-1}$. The notebook also includes a **simple / full / power** robustness comparison for the preferred specification.
+- **Robustness to the spatial weights** is established in `c07`, which re-estimates the preferred Model 4 under seven definitions of the neighborhood.
 - **Reproducible pipeline:** Python dependencies are managed with [uv](https://docs.astral.sh/uv/); running `bash scripts/clean-render.sh` regenerates every output (interactive HTML, standard PDF, REGION journal PDF, and DOCX) from `index.qmd` and the notebooks.
 
 ---
@@ -68,7 +75,7 @@ This project asks three questions about India's 520 administrative districts bet
 
 - Districts exhibit **beta-convergence** --- initially dimmer districts grew faster
 - Strong **spatial clustering** exists (Moran's I = 0.73 for initial levels, 0.60 for growth)
-- **Spatial spillovers accelerate convergence** --- in the preferred model the implied annual speed rises from ~3% (OLS) to ~5% (spatial Durbin); the SDM total effect is ~48% larger than OLS (up to 64% in Model 3)
+- **Spatial spillovers accelerate convergence** --- in the preferred model (Model 4) the implied annual speed rises from about 3.0% (OLS) to about 5.2% (spatial Durbin), shortening the half-life of regional disparities from roughly 23 years to 13; the SDM total effect is about 51% larger in magnitude than OLS (67% in Model 3, whose spillover estimate is statistically indistinguishable from Model 4's)
 
 ---
 
@@ -115,9 +122,7 @@ That's it. Step 2 reads `pyproject.toml` and `uv.lock` to install the exact same
 
 ### Editor setup (optional)
 
-VS Code settings are **not tracked** because they contain machine-specific paths. The whole `.vscode/` directory is gitignored, so a fresh clone has no template to copy; point your editor at `.venv/bin/python` and enable the Jupytext extension by hand.
-
-This configures the Python interpreter and Jupytext extension to use the project's virtual environment. The template uses `${workspaceFolder}`, which VS Code resolves to your local project path automatically.
+VS Code settings are **not tracked** because they contain machine-specific paths. The whole `.vscode/` directory is gitignored, so a fresh clone has no template to copy. Point your editor at `.venv/bin/python` and enable the Jupytext extension by hand.
 
 ---
 
@@ -136,7 +141,12 @@ project2025s-py/
 │   ├── c03_spatial_dependence_lisa.ipynb   # N3: LISA cluster maps (Python)
 │   ├── c03_spatial_dependence_lisa.md      #     ↔ MyST Markdown (editable)
 │   ├── c04_spillover_modeling_6nn.ipynb    # N4: Spatial Durbin Models (Python)
-│   └── c04_spillover_modeling_6nn.md       #     ↔ MyST Markdown (editable)
+│   ├── c04_spillover_modeling_6nn.md       #     ↔ MyST Markdown (editable)
+│   ├── c07_alternative_w_matrices.ipynb    # N5: Robustness, 7 weight matrices
+│   ├── c07_alternative_w_matrices.md       #     ↔ MyST Markdown (editable)
+│   ├── c06_spatial_culture.ipynb           # N6: Luminosity and culture (no .md pair)
+│   ├── c05_spatial_culture.ipynb           # Supplementary; superseded by c06
+│   └── c05_spatial_culture.md              #     ↔ MyST Markdown (editable)
 │
 ├── data/                      # Data (raw inputs + generated weights matrix)
 │   ├── india520.dta           #   Main dataset: 520 districts, 1996-2010
@@ -153,7 +163,8 @@ project2025s-py/
 │
 ├── _quarto.yml                # Quarto project configuration
 ├── _extensions/               # REGION journal LaTeX template
-├── docs/                      # Documentation (troubleshooting guides)
+├── docs/                      # Local only (gitignored): troubleshooting notes,
+│                           #   cover letters, response-to-referees report
 ├── references.bib             # Bibliography
 │
 ├── pyproject.toml             # Python dependencies (source of truth)
@@ -167,13 +178,9 @@ project2025s-py/
 ├── index-REGION.pdf           # Output: REGION journal PDF (A4)
 ├── index.docx                 # Output: Microsoft Word
 │
-├── .vscode/
-│   └── settings.json.template # VS Code settings template (copy to settings.json)
-│
-├── legacy/                    # Immutable archive + frozen submission bundles
-│   ├── (original project snapshot)
-│   └── submission-YYYYMMDD/   # Self-contained journal submission bundles
-├── log/                       # Session progress logs
+├── legacy/                    # Local only (gitignored): original snapshot and
+│   └── submission-YYYYMMDD/   #   frozen journal submission bundles
+├── log/                       # Local only (gitignored): session progress logs
 ├── CLAUDE.md                  # AI assistant guidelines
 └── README.md                  # This file
 ```
@@ -286,6 +293,9 @@ Jupyter notebooks (`.ipynb`) are JSON files --- functional but hard to read and 
 | `c02_regional_convergence_sc.ipynb` | `c02_regional_convergence_sc.md` | Python |
 | `c03_spatial_dependence_lisa.ipynb` | `c03_spatial_dependence_lisa.md` | Python |
 | `c04_spillover_modeling_6nn.ipynb` | `c04_spillover_modeling_6nn.md` | Python |
+| `c05_spatial_culture.ipynb` | `c05_spatial_culture.md` | Python (supplementary; superseded by `c06`) |
+| `c06_spatial_culture.ipynb` | --- (no Jupytext pair) | Python |
+| `c07_alternative_w_matrices.ipynb` | `c07_alternative_w_matrices.md` | Python |
 
 **What does a MyST Markdown file look like?**
 
@@ -451,6 +461,8 @@ legacy/submission-YYYYMMDD/
 
 **How to create a bundle:** invoke the `/prepare-region-submission` skill. It runs nine phases end to end: preflight checks, author-config load, anonymization audit of `index.qmd`, full manuscript render, standalone HTML generation, bundle assembly with figure-path flattening and case-sensitive filename fixes, cover letter and README generation from templates, and a three-gate verification (standalone LaTeX must compile with `lualatex` + `bibtex`, a recursive blindness grep must return zero matches outside `CoverLetter.md`, and the PDF metadata must not contain author names). The skill stops at verification and leaves the git commit to the user.
 
+> **Note:** `legacy/` is gitignored, so submission bundles exist only on the author's machine and are never published to this repository.
+
 **Author metadata** used by the cover letter lives in [`.claude/author-config.yml`](.claude/author-config.yml). The skill reads it at invocation time and prompts interactively for any missing fields.
 
 ---
@@ -514,20 +526,38 @@ Under the following terms:
 
 ## Citation
 
+**The article** (accepted; volume, pages and DOI pending):
+
 ```bibtex
-@article{mendez2026spatial,
+@article{mendez2026region,
   author  = {Mendez, Carlos and Kabiraj, Sujana and Li, Jiaqi},
-  title   = {Spatial Convergence of Nighttime Lights in India (1996--2010)},
+  title   = {Regional Growth, Convergence, and Spatial Spillovers in {India}: A Reproducible View from Outer Space},
+  journal = {REGION: The Journal of ERSA},
   year    = {2026},
-  url     = {https://github.com/quarcs-lab/project2025s-py}
+  issn    = {2409-5370},
+  note    = {Accepted for publication September 19, 2026; volume, issue, pages and DOI not yet assigned}
 }
 ```
+
+**The replication materials:**
+
+```bibtex
+@misc{mendez2026repo,
+  author       = {Mendez, Carlos and Kabiraj, Sujana and Li, Jiaqi},
+  title        = {Replication Materials for Regional Growth, Convergence, and Spatial Spillovers in {India}},
+  year         = {2026},
+  howpublished = {\url{https://github.com/quarcs-lab/project2025s-py}},
+  note         = {Version of September 20, 2026}
+}
+```
+
+Machine-readable metadata for both is in [`CITATION.cff`](CITATION.cff).
 
 ---
 
 ## Authors
 
-- **Carlos Mendez** (Corresponding) --- Nagoya University --- <carlosmendez777@gmail.com>
+- **Carlos Mendez** (Corresponding) --- Nagoya University --- <carlosmendez777@gmail.com> --- [ORCID 0000-0001-7978-2815](https://orcid.org/0000-0001-7978-2815)
 - **Sujana Kabiraj** --- Shiv Nadar University
 - **Jiaqi Li** --- Nagoya University
 
@@ -540,4 +570,4 @@ Under the following terms:
 
 ---
 
-**Last updated:** August 26, 2026
+**Last updated:** September 20, 2026

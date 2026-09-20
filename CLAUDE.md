@@ -41,8 +41,10 @@ The `./log/` directory preserves context across sessions (chat sessions can die 
 
 ## Project Context
 
-- **Title:** Spatial Convergence Analysis of Nighttime Lights in India (1996-2010)
+- **Title:** Regional growth, convergence, and spatial spillovers in India: A reproducible view from outer space
 - **Authors:** Carlos Mendez, Sujana Kabiraj, Jiaqi Li
+- **Status:** Accepted by REGION -- The Journal of ERSA on 2026-09-19 (manuscript 676). Volume, issue, pages and the OJS number that generates the DOI are not yet assigned; `jvol`, `jnum`, `ojsnum` stay commented in `index.qmd` until they are.
+- **Citation metadata:** the `index.qmd` front matter is authoritative for the byline. `CITATION.cff` and `README.md` are hand-synced mirrors; update `index.qmd` first.
 - **Tools:** Quarto, Python, Claude Code (all computational notebooks are Python; original R/Stata sources retained in `archive/` and `legacy/*.zip` for provenance)
 - **Python Package Manager:** [uv](https://docs.astral.sh/uv/)
 - **Goal:** Reproducible research using Quarto's single-source publishing paradigm

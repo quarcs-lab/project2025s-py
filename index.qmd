@@ -44,7 +44,7 @@ bibliography: references.bib
 
 # REGION journal metadata
 received: "February 5, 2026"
-accepted: ""  # Leave blank until accepted
+accepted: "September 19, 2026"
 jauthor: "C. Mendez, S. Kabiraj, J. Li"
 
 # JEL classification codes (optional but recommended for economics journals)
@@ -56,10 +56,16 @@ jel:
 # Year of the copyright notice printed by the REGION template
 jyear: 2026
 
-# Journal-assigned at acceptance; keep commented until then
+# Journal-assigned at acceptance. As of 2026-09-20 REGION has not issued a
+# volume, issue or OJS number, so jvol/jnum/ojsnum stay commented and
+# partials/title.tex falls back to its defaults: "Volume 1, Number 1" on the
+# title page and in the running foot, and the placeholder DOI
+# 10.18335/region.v??i??.???. That is intentional -- the journal overwrites
+# them at typesetting. jpages is the measured page count of this final build,
+# and _quarto.yml resets the page counter to 1 to match it.
 # jvol: 11
 # jnum: 1
-# jpages: "1-30"
+jpages: "1--26"
 # ojsnum: 456  # Assigned by journal for DOI generation
 ---
 

@@ -26,17 +26,24 @@ format:
   # REGION journal PDF (uses extension template)
   region-ersa/REGION-pdf:
     keep-tex: true
-    docstatus: review  # Options: review, final, uncorrected
+    docstatus: final  # Options: review, final, uncorrected
     output-file: index-REGION
     notebook-links: false
-    # region.sty runs \ExecuteOptions{final} before \ProcessOptions, so
-    # `docstatus: review` leaves isfinal true and the title page stacks the
-    # final-version banner (volume, page range and a placeholder DOI) on top of
-    # "for review only". \AtBeginDocument is required because Quarto emits this
-    # include before \usepackage{region}. Delete when switching to `final`.
+    # Production build (accepted 2026-09-19). `docstatus` is emitted as a global
+    # class option, so region.sty sees `final`: isfinal stays true and isreview
+    # is never set. That drops \linenumbers and the "for review only" banner,
+    # restores the byline and the running head, and turns on the citation line,
+    # the DOI and the Received/Accepted dates.
+    #
+    # partials/title.tex emits an unconditional \setcounter{page}{999} in the
+    # preamble -- the journal's own page-range placeholder, which is why the
+    # review PDF was numbered 999-1024. The hook below fires at \begin{document},
+    # after the whole preamble and before \maketitle, so it wins and the
+    # production PDF is numbered from 1. \AtBeginDocument is also required
+    # because Quarto emits this include *before* \usepackage{region}.
     include-in-header:
       text: |
-        \AtBeginDocument{\setboolean{isfinal}{false}}
+        \AtBeginDocument{\setcounter{page}{1}}
 
   # Main HTML format for GitHub Pages
   html:
